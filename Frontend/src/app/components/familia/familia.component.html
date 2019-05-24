@@ -1,0 +1,373 @@
+<label class="mt-5"></label>
+<form class="forma mt-5">
+
+  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#familia">
+    <i class="fas fa-plus-circle"></i>--- Nueva Familia
+  </button>
+
+  <table widht="1490px" class="table mt-5 col-sm-12">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Hijo</th>
+        <th scope="col">Encargado</th>
+        <th scope="col">Padre</th>
+        <th scope="col">Madre</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let familia of familiaService.familias; index as i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{ familia.nombreHijo1 }}</td>
+        <td>{{ familia.nombreEncargado }}</td>
+        <td>{{ familia.nombrePadre }}</td>
+        <td>{{ familia.nombreMadre }}</td>
+        <td>
+          <a (click)="editFamilia(familia)" data-toggle="modal" data-target="#familia"><i class="fas fa-edit"></i></a>
+
+          <a (click)="deleteFamilia(familia._id)"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="modal fade" id="familia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.familiaService.selectedFamilia._id ? 'Nueva Familia' : 'Actualizar Familia'}}</h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-content">
+                    <form #familiaForm="ngForm" class="was-validated" (ngSubmit)="addFamilia(familiaForm)"
+                      autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="familiaService.selectedFamilia._id">
+
+                      <label class="col-sm-12 bg-primary p-2" style="color:white; text-align: center;">Nombre
+                        Familia</label>
+
+                      <div class="form-group row mt-3">
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="text" class="form-control" name="nombre_familia" #nombre_familia="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombre_familia" required>
+                          <i class="fas fa-users fa-2x mx-3" aria-hidden="true"></i>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="hijo1" #hijo1="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.hijo1" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombreHijo1" #nombreHijo1="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombreHijo1">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="hijo2" #hijo2="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.hijo2">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombreHijo2" #nombreHijo2="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombreHijo2">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="hijo3" #hijo3="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.hijo3">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombreHijo3" #nombreHijo3="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombreHijo3">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="hijo4" #hijo4="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.hijo4">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombreHijo4" #nombreHijo4="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombreHijo4">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="hijo5" #hijo5="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.hijo5">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombreHijo5" #nombreHijo5="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombreHijo5">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="encargado" #encargado="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.encargado" placeholder="encargado" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombreEncargado" #nombreEncargado="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombreEncargado">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="padre" #padre="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.padre" placeholder="padre">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombrePadre" #nombrePadre="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombrePadre">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="madre" #madre="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.madre">
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <div class="inputWithIcon inputIconBg col-sm-12">
+                          <input type="hidden" class="form-control" name="nombreMadre" #nombreMadre="ngModel"
+                            [(ngModel)]="familiaService.selectedFamilia.nombreMadre">
+                        </div>
+                      </div>
+
+                      <label class="col-sm-12 bg-primary p-2" style="color:white;">Borrar los buscadores despues de
+                        asignar los roles de la familia para evitar posibles inconvenientes.</label>
+
+                      <div class="form-group row mt-3">
+                        <label class="col-sm-3 col-form-label">Hijo:</label>
+                        <div class="inputWithIcon inputIconBg col-sm-7">
+                          <input type="text" class="form-control" name="filterHijo1" placeholder="Buscar hijo"
+                            [(ngModel)]="filterHijo1">
+                          <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterHijo1">
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarHijo1(persona)"
+                                class="agregar fas fa-user-check"></button> </li>
+                          </ul>
+                        </div>
+                        <div class="col-sm-1 py-2 px-1">
+                          <button type="button" class="btn btn-dark" (click)="mostrarHijoII()">+</button>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="mostrarHijo2">
+                        <div class="col-sm-3 py-2 pl-5">
+                          <button type="button" class="btn btn-dark" (click)="ocultarHijoII()">-</button>
+                        </div>
+                        <div class="inputWithIcon inputIconBg col-sm-7">
+                          <input type="text" class="form-control" name="filterHijo2" placeholder="Buscar hijo "
+                            [(ngModel)]="filterHijo2">
+                          <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterHijo2">"
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarHijo2(persona)"
+                                class="agregar fas fa-user-check"></button> </li>
+                          </ul>
+                        </div>
+                        <div class="col-sm-1 py-2 px-1">
+                          <button type="button" class="btn btn-dark" (click)="mostrarHijoIII()">+</button>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="mostrarHijo3">
+                        <div class="col-sm-3 py-2 pl-5">
+                          <button type="button" class="btn btn-dark" (click)="ocultarHijoIII()">-</button>
+                        </div>
+                        <div class="inputWithIcon inputIconBg col-sm-7">
+                          <input type="text" class="form-control" name="filterHijo3" placeholder="Buscar hijo"
+                            [(ngModel)]="filterHijo3">
+                          <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterHijo3">
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarHijo3(persona)"
+                                class="agregar fas fa-user-check"></button> </li>
+                          </ul>
+                        </div>
+                        <div class="col-sm-1 py-2 px-1">
+                          <button type="button" class="btn btn-dark" (click)="mostrarHijoIV()">+</button>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="mostrarHijo4">
+                        <div class="col-sm-3 py-2 pl-5">
+                          <button type="button" class="btn btn-dark" (click)="ocultarHijoIV()">-</button>
+                        </div>
+                        <div class="inputWithIcon inputIconBg col-sm-7">
+                          <input type="text" class="form-control" name="filterHijo4" placeholder="Buscar hijo"
+                            [(ngModel)]="filterHijo4">
+                          <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterHijo4">
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarHijo4(persona)"
+                                class="agregar fas fa-user-check"></button> </li>
+                          </ul>
+                        </div>
+                        <div class="col-sm-1 py-2 px-1">
+                          <button type="button" class="btn btn-dark" (click)="mostrarHijoV()">+</button>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="mostrarHijo5">
+                        <div class="col-sm-3 py-2 pl-5">
+                          <button type="button" class="btn btn-dark" (click)="ocultarHijoV()">-</button>
+                        </div>
+                        <div class="inputWithIcon inputIconBg col-sm-7">
+                          <input type="text" class="form-control" name="filterHijo5" placeholder="Buscar hijo"
+                            [(ngModel)]="filterHijo5">
+                          <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterHijo5">
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarHijo5(persona)"
+                                class="agregar fas fa-user-check"></button> </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3">
+                        <label class="col-sm-3 col-form-label">Encargado:</label>
+                        <div class="inputWithIcon inputIconBg col-sm-8">
+                          <input type="text" class="form-control" name="filterEncargado" placeholder="Buscar encargado"
+                            [(ngModel)]="filterEncargado">
+                          <i class="fas fa-restroom fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterEncargado">
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarEncargado(persona)"
+                                class="agregar fas fa-user-check"></button></li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3">
+                        <label class="col-sm-3 col-form-label">Padre:</label>
+                        <div class="inputWithIcon inputIconBg col-sm-8">
+                          <input type="text" class="form-control" name="filterPadre" placeholder="Buscar padre"
+                            [(ngModel)]="filterPadre">
+                          <i class="fas fa-male fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterPadre">
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarPadre(persona)"
+                                class="agregar fas fa-user-check"></button></li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3">
+                        <label class="col-sm-3 col-form-label">Madre:</label>
+                        <div class="inputWithIcon inputIconBg col-sm-8">
+                          <input type="text" class="form-control" name="filterMadre" placeholder="Buscar madre"
+                            [(ngModel)]="filterMadre">
+                          <i class="fas fa-female fa-2x mx-3" aria-hidden="true"></i>
+
+                          <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"
+                              *ngFor="let persona of personaService.personas | filter:filterMadre">
+                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}
+                              <button type="button" (click)="seleccionarMadre(persona)"
+                                class="agregar fas fa-user-check"></button></li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="form-group row center mt-3 mx-5">
+                        <div class="mx-5">
+                          <div class="mx-5">
+                            <div class="mx-5">
+                              <button type="submit" class="btn btn-dark botonGuardar  mx-5"><i
+                                  class="fas fa-save"></i>--- Guardar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </div>
+</form>

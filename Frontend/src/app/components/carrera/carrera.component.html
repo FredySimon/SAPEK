@@ -1,0 +1,178 @@
+<label class="mt-5"></label>
+<form class="forma mt-5">
+
+  <!-- Button trigger modal -->
+  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#carrera">
+    <i class="fas fa-plus-circle"></i>--- Nueva Carrera
+  </button>
+
+  <table class="table mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Carrera</th>
+        <th scope="col">Código</th>
+        <th scope="col">Tiempo de vida</th>
+        <th scope="col">Descripción</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let carrera of carreraService.carreras; index as i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{ carrera.nombre_carrera }}</td>
+        <td>{{ carrera.codigo }}</td>
+        <td>{{ carrera.inicio }} - {{ carrera.final }}</td>
+        <td>{{ carrera.descripcion }}</td>
+        <td>
+          <a (click)="editCarrera(carrera)" data-toggle="modal" data-target="#carrera"><i class="fas fa-edit"></i></a>
+
+          <a (click)="deleteCarrera(carrera._id)"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <!-- Modal -->
+        <div class="modal fade" id="carrera" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.carreraService.selectedCarrera._id ? 'Nueva Carrera' : 'Actualizar Carrera'}}</h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-content">
+                    <form class="was-validated" #carreraForm="ngForm" (ngSubmit)="addCarrera(carreraForm)"
+                      autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="carreraService.selectedCarrera._id">
+
+                      <div class="card">
+                        <label class="col-sm-1"></label>
+                        <label class="bg-primary p-2" style="color:white;">No sepermiten registros duplicados</label>
+
+                        <div class="form-group row mt-3 ">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Nombre Carrera:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="nombre_carrera" #nombre_carrera="ngModel"
+                              [(ngModel)]="carreraService.selectedCarrera.nombre_carrera" required pattern="[A-Z 0-9]+">
+                            <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Nombre carrera obligatorio.
+                            </div>
+                            <div class="invalid-feedback">
+                              Todo en mayusculas.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3 ">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Código:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="codigo" #codigo="ngModel"
+                              [(ngModel)]="carreraService.selectedCarrera.codigo" required pattern="[A-Z0-9]+">
+                            <i class="fas fa-code fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Codigo carrera obligatorio.
+                            </div>
+                            <div class="invalid-feedback">
+                              Todo en mayusculas.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3 ">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Fecha Inicio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }" name="inicio"
+                              #inicio="ngModel" [(ngModel)]="carreraService.selectedCarrera.inicio" required>
+                            <i class="fas fa-calendar-check fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Tiempo obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3 ">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Fecha Final:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }" name="final"
+                              #final="ngModel" [(ngModel)]="carreraService.selectedCarrera.final" required>
+                            <i class="fas fa-calendar-times fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Tiempo obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Descripción:</label>
+                          <div class="textareaWithIcon textareaIconBg col-sm-7">
+
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descripcion"
+                              #descripcion="ngModel"
+                              [(ngModel)]="carreraService.selectedCarrera.descripcion"></textarea>
+
+
+                            <i class="fas fa-comments fa-3x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Todo en mayusculas.
+                            </div>
+                            <div class="valid-feedback">
+                              Descripción no obligatorio.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row center mt-3 mx-5">
+                        <div class="mx-5">
+                          <div class="mx-5">
+                            <div class="mx-5">
+                              <button type="submit" class="btn btn-dark botonGuardar  mx-5"><i class="fas fa-save"></i>--- Guardar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

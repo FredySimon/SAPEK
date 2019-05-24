@@ -1,0 +1,185 @@
+<label class="mt-5"></label>
+<form class="forma mt-5">
+
+  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#red">
+    <i class="fas fa-plus-circle"></i>--- Nueva Red De Estudio
+  </button>
+
+  <table class="table mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Red</th>
+        <th scope="col">Curso</th>
+        <th scope="col">Fecha Inicio</th>
+        <th scope="col">Fecha Final</th>
+        <th scope="col">Observaciones</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let red of redService.redes; index as i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{ red.nombre_red }}</td>
+        <td>{{ red.nombre_curso }}</td>
+        <td>{{ red.fecha_inicio }}</td>
+        <td>{{ red.fecha_final }}</td>
+        <td>{{ red.observaciones }}</td>
+        <td>
+          <a (click)="editRed(red)" data-toggle="modal" data-target="#red"><i class="fas fa-edit"></i></a>
+
+          <a (click)="deleteRed(red._id)"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="red" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.redService.selectedRed._id ? 'Nueva Red De Estuio' : 'Actualizar Red De Estuio'}}</h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-content">
+                    <form class="was-validated" #redForm="ngForm" (ngSubmit)="addRed(redForm)" autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="redService.selectedRed._id">
+
+                      <div class="card">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-12 bg-primary p-2" style="color:white;">Borrar el buscador despues de
+                            asignar el curso de la red de estudio para evitar posibles inconvenientes.</label>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-3 col-form-label">Nombre Red:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-8">
+                            <input type="text" class="form-control" name="nombre_red" #nombre_red="ngModel"
+                              [(ngModel)]="redService.selectedRed.nombre_red" required pattern="[A-Z 0-9]+">
+                            <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Nombre de red obligatorio.
+                            </div>
+                            <div class="invalid-feedback">
+                              Todo en mayusculas.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="curso" #curso="ngModel"
+                              [(ngModel)]="redService.selectedRed.curso" requerid>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                            <div class="inputWithIcon inputIconBg col-sm-12">
+                              <input type="hidden" class="form-control" name="nombre_curso" #nombre_curso="ngModel"
+                                [(ngModel)]="redService.selectedRed.nombre_curso" requerid>
+                            </div>
+                          </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-3 col-form-label">Curso:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-8">
+                            <input type="text" class="form-control" name="filterCurso" placeholder="Buscar curso"
+                              [(ngModel)]="filterCurso">
+                            <i class="fas fa-chalkboard-teacher fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let curso of cursoService.cursos | curso:filterCurso">
+                                {{ curso.nombre_curso }}
+                                <button type="button" (click)="seleccionarCurso(curso)"
+                                  class="agregar fas fa-chalkboard-teacher"></button>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-3 col-form-label">Fecha Inicio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-8">
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }"
+                              name="fecha_inicio" #fecha_inicio="ngModel"
+                              [(ngModel)]="redService.selectedRed.fecha_inicio" required>
+                            <i class="fas fa-calendar-week fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Fecha inicio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-3 col-form-label">Fecha Final:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-8">
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }"
+                              name="fecha_final" #fecha_final="ngModel" [(ngModel)]="redService.selectedRed.fecha_final"
+                              required>
+                            <i class="fas fa-calendar-week fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Fecha final obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-3 col-form-label">Observaciones:</label>
+                          <div class="textareaWithIcon textareaIconBg col-sm-8">
+
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                              name="observaciones" #observaciones="ngModel"
+                              [(ngModel)]="redService.selectedRed.observaciones" requerid></textarea>
+
+
+                            <i class="fas fa-comments fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="valid-feedback">
+                              Observaciones no obligatorio.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row center mt-3 mx-5">
+                          <div class="mx-5">
+                            <div class="mx-5">
+                              <div class="mx-5">
+                                <button type="submit" class="btn btn-dark botonGuardar  mx-5"><i class="fas fa-save"></i>--- Guardar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
