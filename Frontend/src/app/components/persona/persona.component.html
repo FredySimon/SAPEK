@@ -3,49 +3,48 @@
 
   <!-- Button trigger modal -->
   <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#persona">
-      <i class="fas fa-plus-circle"></i>--- Nueva Persona
-    </button>
-    
-    <table class="table mt-5">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Primer nombre</th>
-            <th scope="col">Primer Apellido</th>
-            <th scope="col">Genero</th>
-            <th scope="col">Estado Civil</th>
-            <th scope="col">Correo electronico</th>
-            <th scope="col">Religion</th>
-            <th scope="col">Celular</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let persona of personaService.personas; index as i">
-            <th scope="row">{{i+1}}</th>
-            <td>{{ persona.primer_nombre }}</td>
-            <td>{{ persona.primer_apellido }}</td>
-            <td>{{ persona.genero }}</td>
-            <td>{{ persona.estado_civil }}</td>
-            <td>{{ persona.correo_electronico1 }}</td>
-            <td>{{ persona.religion }}</td>
-            <td>{{ persona.celular }}</td>
-            <td>
-              <a (click)="editPersona(persona)" data-toggle="modal" data-target="#persona"><i
-                  class="fas fa-edit"></i></a>
+    <i class="fas fa-plus-circle"></i>--- Nueva Persona
+  </button>
 
-              <a (click)="deletePersona(persona._id)"><i class="fas fa-trash-alt"></i></a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <table class="table mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Primer nombre</th>
+        <th scope="col">Primer Apellido</th>
+        <th scope="col">Genero</th>
+        <th scope="col">Estado Civil</th>
+        <th scope="col">Correo electronico</th>
+        <th scope="col">Religion</th>
+        <th scope="col">Celular</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let persona of personaService.personas; index as i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{ persona.primer_nombre }}</td>
+        <td>{{ persona.primer_apellido }}</td>
+        <td>{{ persona.genero }}</td>
+        <td>{{ persona.estado_civil }}</td>
+        <td>{{ persona.correo_electronico.correo_electronico1 }}</td>
+        <td>{{ persona.religion }}</td>
+        <td>{{ persona.telefonos.celular }}</td>
+        <td>
+          <a (click)="editPersona(persona)" data-toggle="modal" data-target="#persona"><i class="fas fa-edit"></i></a>
+
+          <a (click)="deletePersona(persona._id)"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <div class="container">
     <div class="row">
       <div class="col s12">
-        
+
         <!-- Modal -->
         <div class="modal fade" id="persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true" >
+          aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -69,7 +68,7 @@
                         <label class="bg-primary p-2" style="color:white;">Genero y estado de persona:</label>
 
                         <div class="form-group row mt-3">
-                            <label class="col-sm-1"></label>
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label py-3">Genero:</label>
                           <div name="genero" class="inputWithIcon inputIconBg col-sm-7">
                             <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="genero"
@@ -89,8 +88,9 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Estado Civil:</label>
-                          <div name="estado_civil" class="inputWithIcon inputIconBg col-sm-8">
+                          <div name="estado_civil" class="inputWithIcon inputIconBg col-sm-7">
                             <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="estado_civil"
                               id="estado_civil" #estado_civil="ngModel"
                               [(ngModel)]="personaService.selectedPersona.estado_civil" required>
@@ -116,8 +116,9 @@
                         <label class="bg-primary p-2" style="color:white;">Información personal:</label>
 
                         <div class="form-group row mt-3 ">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Primer Nombre:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="primer_nombre" #primer_nombre="ngModel"
                               [(ngModel)]="personaService.selectedPersona.primer_nombre" required pattern="[A-Z0-9]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
@@ -135,8 +136,9 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Segundo Nombre:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="segundo_nombre" #segundo_nombre="ngModel"
                               [(ngModel)]="personaService.selectedPersona.segundo_nombre" pattern="[A-Z0-9]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
@@ -153,8 +155,9 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Primer apellido:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="primer_apellido" #primer_apellido="ngModel"
                               [(ngModel)]="personaService.selectedPersona.primer_apellido" required pattern="[A-Z0-9]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
@@ -171,8 +174,9 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Segundo apellido:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="segundo_apellido" #segundo_apellido="ngModel"
                               [(ngModel)]="personaService.selectedPersona.segundo_apellido" pattern="[A-Z0-9]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
@@ -190,8 +194,9 @@
 
                         <div class="form-group row mt-3"
                           *ngIf="personaService.selectedPersona.genero  !== '' && personaService.selectedPersona.genero !== 'HOMBRE' && personaService.selectedPersona.estado_civil !== '' && personaService.selectedPersona.estado_civil !== 'SOLTERO (A)' && personaService.selectedPersona.estado_civil !== 'DIVORCIADO (A)' && personaService.selectedPersona.estado_civil !== 'OTRO'">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Apellido conyugal:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="apellido_conyugal"
                               #apellido_conyugal="ngModel"
                               [(ngModel)]="personaService.selectedPersona.apellido_conyugal" pattern="[A-Z0-9]+">
@@ -209,10 +214,11 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Fecha nacimiento:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
-                            <input type="text" id="fecha_nacimiento" bsDatepicker 
-                              [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue'}" 
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" id="fecha_nacimiento" bsDatepicker
+                              [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue'}"
                               class="form-control" name="fecha_nacimiento" #fecha_nacimiento="ngModel"
                               [(ngModel)]="personaService.selectedPersona.fecha_nacimiento" required>
                             <i class="fas fa-calendar-week fa-2x mx-3" aria-hidden="true"></i>
@@ -225,9 +231,10 @@
                           </div>
                         </div>
 
-                        <div class="form-group row mt-3">
+                        <div class="form-group row mt-3">}
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Religion:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <select class="custom-select mr-sm-2" id="religion" name="religion" #religion="ngModel"
                               [(ngModel)]="personaService.selectedPersona.religion" required>
                               <option>CATOLICO</option>
@@ -246,9 +253,25 @@
                           </div>
                         </div>
 
+                        <!-- <div class="form-group row mt-3">
+                            <label class="col-sm-1"></label>
+                            <label class="col-sm-3 col-form-label">Correos:</label>
+                            <div class="inputWithIcon inputIconBg col-sm-6">
+                              <form id="correo">
+                                  <input type="email" class="form-control" name="correo"
+                                  [(ngModel)]="correo" >
+                                <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
+                              </form>  
+                            </div>
+                            <div class="col-sm-1 py-1 px-1">
+                                <button type="buttom" form="correo" class="btn btn-dark" (click)="addCorreo() && resetCorreo(correo)">+</button>
+                            </div>
+                        </div> -->
+
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Correo Electronico:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="email" class="form-control" name="correo_electronico1"
                               #correo_electronico1="ngModel"
                               [(ngModel)]="personaService.selectedPersona.correo_electronico1" required>
@@ -260,16 +283,17 @@
                               Hecho.
                             </div>
                           </div>
-                          <div class="col-sm-1 py-2 px-1">
+                          <div class="col-sm-1 py-1 px-1">
                             <button type="button" class="btn btn-dark" (click)="mostrarCorreoII()">+</button>
                           </div>
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarCorreo2">
-                          <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
                             <button type="button" class="btn btn-dark" (click)="ocultarCorreoII()">-</button>
                           </div>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="email" class="form-control" name="correo_electronico2"
                               #correo_electronico2="ngModel"
                               [(ngModel)]="personaService.selectedPersona.correo_electronico2">
@@ -281,16 +305,17 @@
                               Adicional no obligatorio.
                             </div>
                           </div>
-                          <div class="col-sm-1 py-2 px-1">
+                          <div class="col-sm-1 py-1 px-1">
                             <button type="button" class="btn btn-dark" (click)="mostrarCorreoIII()">+</button>
                           </div>
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarCorreo3">
-                          <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
                             <button type="button" class="btn btn-dark" (click)="ocultarCorreoIII()">-</button>
                           </div>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="email" class="form-control" name="correo_electronico3"
                               #correo_electronico3="ngModel"
                               [(ngModel)]="personaService.selectedPersona.correo_electronico3">
@@ -302,16 +327,17 @@
                               Adicional no obligatorio.
                             </div>
                           </div>
-                          <div class="col-sm-1 py-2 px-1">
+                          <div class="col-sm-1 py-1 px-1">
                             <button type="button" class="btn btn-dark" (click)="mostrarCorreoIV()">+</button>
                           </div>
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarCorreo4">
-                          <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
                             <button type="button" class="btn btn-dark" (click)="ocultarCorreoIV()">-</button>
                           </div>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="email" class="form-control" name="correo_electronico4"
                               #correo_electronico3="ngModel"
                               [(ngModel)]="personaService.selectedPersona.correo_electronico4">
@@ -323,16 +349,17 @@
                               Adicional no obligatorio.
                             </div>
                           </div>
-                          <div class="col-sm-1 py-2 px-1">
+                          <div class="col-sm-1 py-1 px-1">
                             <button type="button" class="btn btn-dark" (click)="mostrarCorreoV()">+</button>
                           </div>
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarCorreo5">
-                          <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
                             <button type="button" class="btn btn-dark" (click)="ocultarCorreoV()">-</button>
                           </div>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="email" class="form-control" name="correo_electronico5"
                               #correo_electronico5="ngModel"
                               [(ngModel)]="personaService.selectedPersona.correo_electronico5">
@@ -352,11 +379,12 @@
                         <label class="bg-primary p-2" style="color:white;">Ubicación de residencia:</label>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Departamento:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <select class="custom-select mr-sm-2" id="departamento" name="departamento"
-                              #departamento="ngModel" [(ngModel)]="personaService.selectedPersona.departamento"
-                              required>
+                              #departamento="ngModel" [(ngModel)]="personaService.selectedPersona.departamento" required
+                              #departamento (keyup)="0">
                               <option *ngFor="let departamento of departamentos">{{departamento}}</option>
                             </select>
                             <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
@@ -370,10 +398,11 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Municipio:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
-                            <select class="custom-select mr-sm-2" id="municipio" name="municipio"
-                              #municipio="ngModel" [(ngModel)]="personaService.selectedPersona.municipio" required>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required #municipio (keyup)="0">
                               <option *ngFor="let municipio of municipios">{{municipio}}</option>
                             </select>
                             <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
@@ -386,13 +415,13 @@
                           </div>
                         </div>
 
-
-
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Zona:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="zona" #zona="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.zona" required pattern="[0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.zona" required pattern="[0-9]+" #zona
+                              (keyup)="0">
                             <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Zona obligatorio.
@@ -407,10 +436,12 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Avenida:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="avenida" #avenida="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.avenida" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.avenida" pattern="[A-Z 0-9]+" #avenida
+                              (keyup)="0">
                             <i class="fas fa-road fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -425,10 +456,12 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Calle:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="calle" #calle="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.calle" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.calle" pattern="[A-Z 0-9]+" #calle
+                              (keyup)="0">
                             <i class="fas fa-road fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -443,16 +476,15 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Numero casa:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="noCasa" #noCasa="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.noCasa" required pattern="[0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.noCasa" required pattern="[0-9-]+"
+                              minlength="5" maxlength="5" #noCasa (keyup)="0">
                             <i class="fas fa-home fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Numero de casa obligatorio.
-                            </div>
-                            <div class="invalid-feedback">
-                              Solo el numero final sin "00-".
                             </div>
                             <div class="valid-feedback">
                               Hecho.
@@ -472,10 +504,12 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas1">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Colonia:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="colonia" #colonia="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.colonia" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.colonia" pattern="[A-Z 0-9]+" #colonia
+                              (keyup)="0">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -490,8 +524,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas1">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Boulevard:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="boulevard" #boulevard="ngModel"
                               [(ngModel)]="personaService.selectedPersona.boulevard" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -508,8 +543,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas1">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Lote:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="lote" #lote="ngModel"
                               [(ngModel)]="personaService.selectedPersona.lote" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -526,8 +562,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas1">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Residenciales:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="residenciales" #residenciales="ngModel"
                               [(ngModel)]="personaService.selectedPersona.residenciales" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -544,8 +581,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas1">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Diagonal:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="diagonal" #diagonal="ngModel"
                               [(ngModel)]="personaService.selectedPersona.diagonal" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -562,8 +600,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas1">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Calzada:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="calzada" #calzada="ngModel"
                               [(ngModel)]="personaService.selectedPersona.calzada" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -580,8 +619,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas1">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Ruta:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="ruta" #ruta="ngModel"
                               [(ngModel)]="personaService.selectedPersona.ruta" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -609,8 +649,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas2">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Manzana:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="manzana" #manzana="ngModel"
                               [(ngModel)]="personaService.selectedPersona.manzana" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -627,8 +668,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas2">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Cuadra:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="cuadra" #cuadra="ngModel"
                               [(ngModel)]="personaService.selectedPersona.cuadra" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -645,8 +687,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas2">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Sector:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="sector" #sector="ngModel"
                               [(ngModel)]="personaService.selectedPersona.sector" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -663,8 +706,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas2">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Edificio:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="edificio" #edificio="ngModel"
                               [(ngModel)]="personaService.selectedPersona.edificio" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -681,8 +725,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas2">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Nivel:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="nivel" #nivel="ngModel"
                               [(ngModel)]="personaService.selectedPersona.nivel" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -710,8 +755,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Apartamento:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="apartamento" #apartamento="ngModel"
                               [(ngModel)]="personaService.selectedPersona.apartamento" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -728,8 +774,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Kilometro:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="kilometro" #kilometro="ngModel"
                               [(ngModel)]="personaService.selectedPersona.kilometro" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -746,8 +793,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Carretera:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="carretera" #carretera="ngModel"
                               [(ngModel)]="personaService.selectedPersona.carretera" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -764,8 +812,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Aldea:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="aldea" #aldea="ngModel"
                               [(ngModel)]="personaService.selectedPersona.aldea" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -782,8 +831,9 @@
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarMas3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Especificación:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="otra_direccion" #otra_direccion="ngModel"
                               [(ngModel)]="personaService.selectedPersona.otra_direccion" pattern="[A-Z 0-9]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
@@ -799,6 +849,13 @@
                           </div>
                         </div>
 
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <p>Dirección:
+                            {{ calle.value + ' calle' + ' ' + avenida.value + ' av.' + ' ' + noCasa.value + ' ' + 'zona ' + zona.value + ' ' + municipio.value + ' ' + departamento.value }}
+                          </p>
+                        </div>
+
                       </div>
 
                       <div class="card">
@@ -806,8 +863,9 @@
                         <label class="bg-primary p-2" style="color:white;">Contacto:</label>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Celular:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="celular" #celular="ngModel"
                               [(ngModel)]="personaService.selectedPersona.celular" required
                               pattern="^[2|3|4|5|6|7]\d{7}$">
@@ -825,8 +883,9 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Telefono:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-8">
+                          <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="casa" #casa="ngModel"
                               [(ngModel)]="personaService.selectedPersona.casa" pattern="^[2|3|4|5|6|7]\d{7}$">
                             <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
@@ -840,8 +899,9 @@
                         </div>
 
                         <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Otro:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="text" class="form-control" name="otro1" #otro1="ngModel"
                               [(ngModel)]="personaService.selectedPersona.otro1" pattern="^[2|3|4|5|6|7]\d{7}$">
                             <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
@@ -852,16 +912,17 @@
                               Otro numero no obligatorio.
                             </div>
                           </div>
-                          <div class="col-sm-1 py-2 px-1">
-                              <button type="button" class="btn btn-dark" (click)="mostrarOtroI()">+</button>
-                            </div>
+                          <div class="col-sm-1 py-1 px-1">
+                            <button type="button" class="btn btn-dark" (click)="mostrarOtroI()">+</button>
+                          </div>
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarOtro1">
-                            <div class="col-sm-3 py-2 pl-5">
-                                <button type="button" class="btn btn-dark" (click)="ocultarOtroI()">-</button>
-                              </div>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
+                            <button type="button" class="btn btn-dark" (click)="ocultarOtroI()">-</button>
+                          </div>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="text" class="form-control" name="otro2" #otro2="ngModel"
                               [(ngModel)]="personaService.selectedPersona.otro2" pattern="^[2|3|4|5|6|7]\d{7}$">
                             <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
@@ -872,16 +933,17 @@
                               Otro numero no obligatorio.
                             </div>
                           </div>
-                          <div class="col-sm-1 py-2 px-1">
-                              <button type="button" class="btn btn-dark" (click)="mostrarOtroII()">+</button>
-                            </div>
+                          <div class="col-sm-1 py-1 px-1">
+                            <button type="button" class="btn btn-dark" (click)="mostrarOtroII()">+</button>
+                          </div>
                         </div>
 
                         <div class="form-group row mt-3" *ngIf="mostrarOtro2">
-                            <div class="col-sm-3 py-2 pl-5">
-                                <button type="button" class="btn btn-dark" (click)="ocultarOtroII()">-</button>
-                              </div>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
+                            <button type="button" class="btn btn-dark" (click)="ocultarOtroII()">-</button>
+                          </div>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="text" class="form-control" name="otro3" #otro3="ngModel"
                               [(ngModel)]="personaService.selectedPersona.otro3" pattern="^[2|3|4|5|6|7]\d{7}$">
                             <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
@@ -896,15 +958,13 @@
 
                       </div>
 
-                      <div class="form-group row center mt-3 mx-5">
-                          <div class="mx-5">
-                            <div class="mx-5">
-                              <div class="mx-5">
-                                <button type="submit" class="btn btn-dark botonGuardar  mx-5"><i class="fas fa-save"></i>--- Guardar</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="form-group row center">
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
 
                     </form>
                   </div>
@@ -917,3 +977,9 @@
     </div>
   </div>
 </form>
+
+<script language="javascript">
+  function fAgrega() {
+    document.getElementById("Text2").value = document.getElementById("Text1").value;
+  }
+</script>

@@ -21,6 +21,9 @@ app.use('/api/carreras', require('./routes/carrera.routes'))
 app.use('/api/cursos', require('./routes/curso.routes'))
 app.use('/api/redes', require('./routes/red.routes'))
 app.use('/api/instructores', require('./routes/instructor.routes'))
+app.use('/api/asignacionCarreras', require('./routes/asignacionCarreras.routes'))
+app.use('/api/asignacionCursos', require('./routes/asignacionCursos.routes'))
+app.use('/api/asignacionRed', require('./routes/asignacionRed.routes'))
 
 //Iniciando el servidor
 app.listen(app.get('port'), () => {

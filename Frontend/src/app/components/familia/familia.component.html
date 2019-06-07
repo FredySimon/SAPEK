@@ -59,8 +59,9 @@
                         Familia</label>
 
                       <div class="form-group row mt-3">
-                        <div class="inputWithIcon inputIconBg col-sm-12">
-                          <input type="text" class="form-control" name="nombre_familia" #nombre_familia="ngModel"
+                          <label class="col-sm-1"></label>
+                        <div class="inputWithIcon inputIconBg col-sm-10">
+                          <input type="readonly" class="form-control" name="nombre_familia" #nombre_familia="ngModel"
                             [(ngModel)]="familiaService.selectedFamilia.nombre_familia" required>
                           <i class="fas fa-users fa-2x mx-3" aria-hidden="true"></i>
                         </div>
@@ -178,12 +179,12 @@
                         </div>
                       </div>
 
-                      <label class="col-sm-12 bg-primary p-2" style="color:white;">Borrar los buscadores despues de
-                        asignar los roles de la familia para evitar posibles inconvenientes.</label>
+                      <label class="col-sm-12 bg-primary p-2" style="color:white;">Integrantes de la Familia.</label>
 
                       <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                         <label class="col-sm-3 col-form-label">Hijo:</label>
-                        <div class="inputWithIcon inputIconBg col-sm-7">
+                        <div class="inputWithIcon inputIconBg col-sm-6">
                           <input type="text" class="form-control" name="filterHijo1" placeholder="Buscar hijo"
                             [(ngModel)]="filterHijo1">
                           <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
@@ -197,39 +198,41 @@
                                 class="agregar fas fa-user-check"></button> </li>
                           </ul>
                         </div>
-                        <div class="col-sm-1 py-2 px-1">
+                        <div class="col-sm-1 py-1 px-1">
                           <button type="button" class="btn btn-dark" (click)="mostrarHijoII()">+</button>
                         </div>
                       </div>
 
                       <div class="form-group row mt-3" *ngIf="mostrarHijo2">
-                        <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                        <div class="col-sm-2 py-1 pl-5">
                           <button type="button" class="btn btn-dark" (click)="ocultarHijoII()">-</button>
                         </div>
-                        <div class="inputWithIcon inputIconBg col-sm-7">
+                        <div class="inputWithIcon inputIconBg col-sm-6">
                           <input type="text" class="form-control" name="filterHijo2" placeholder="Buscar hijo "
                             [(ngModel)]="filterHijo2">
                           <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
 
                           <ul class="list-group">
                             <li class="list-group-item list-group-item-primary"
-                              *ngFor="let persona of personaService.personas | filter:filterHijo2">"
+                              *ngFor="let persona of personaService.personas | filter:filterHijo2">
                               {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
                               {{ persona.segundo_apellido }}
                               <button type="button" (click)="seleccionarHijo2(persona)"
                                 class="agregar fas fa-user-check"></button> </li>
                           </ul>
                         </div>
-                        <div class="col-sm-1 py-2 px-1">
+                        <div class="col-sm-1 py-1 px-1">
                           <button type="button" class="btn btn-dark" (click)="mostrarHijoIII()">+</button>
                         </div>
                       </div>
 
                       <div class="form-group row mt-3" *ngIf="mostrarHijo3">
-                        <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                        <div class="col-sm-2 py-1 pl-5">
                           <button type="button" class="btn btn-dark" (click)="ocultarHijoIII()">-</button>
                         </div>
-                        <div class="inputWithIcon inputIconBg col-sm-7">
+                        <div class="inputWithIcon inputIconBg col-sm-6">
                           <input type="text" class="form-control" name="filterHijo3" placeholder="Buscar hijo"
                             [(ngModel)]="filterHijo3">
                           <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
@@ -243,16 +246,17 @@
                                 class="agregar fas fa-user-check"></button> </li>
                           </ul>
                         </div>
-                        <div class="col-sm-1 py-2 px-1">
+                        <div class="col-sm-1 py-1 px-1">
                           <button type="button" class="btn btn-dark" (click)="mostrarHijoIV()">+</button>
                         </div>
                       </div>
 
                       <div class="form-group row mt-3" *ngIf="mostrarHijo4">
-                        <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                        <div class="col-sm-2 py-1 pl-5">
                           <button type="button" class="btn btn-dark" (click)="ocultarHijoIV()">-</button>
                         </div>
-                        <div class="inputWithIcon inputIconBg col-sm-7">
+                        <div class="inputWithIcon inputIconBg col-sm-6">
                           <input type="text" class="form-control" name="filterHijo4" placeholder="Buscar hijo"
                             [(ngModel)]="filterHijo4">
                           <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
@@ -266,16 +270,17 @@
                                 class="agregar fas fa-user-check"></button> </li>
                           </ul>
                         </div>
-                        <div class="col-sm-1 py-2 px-1">
+                        <div class="col-sm-1 py-1 px-1">
                           <button type="button" class="btn btn-dark" (click)="mostrarHijoV()">+</button>
                         </div>
                       </div>
 
                       <div class="form-group row mt-3" *ngIf="mostrarHijo5">
-                        <div class="col-sm-3 py-2 pl-5">
+                          <label class="col-sm-2"></label>
+                        <div class="col-sm-2 py-1 pl-5">
                           <button type="button" class="btn btn-dark" (click)="ocultarHijoV()">-</button>
                         </div>
-                        <div class="inputWithIcon inputIconBg col-sm-7">
+                        <div class="inputWithIcon inputIconBg col-sm-6">
                           <input type="text" class="form-control" name="filterHijo5" placeholder="Buscar hijo"
                             [(ngModel)]="filterHijo5">
                           <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
@@ -289,11 +294,15 @@
                                 class="agregar fas fa-user-check"></button> </li>
                           </ul>
                         </div>
+                        <div class="col-sm-1 py-1 px-1">
+
+                          </div>
                       </div>
 
                       <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                         <label class="col-sm-3 col-form-label">Encargado:</label>
-                        <div class="inputWithIcon inputIconBg col-sm-8">
+                        <div class="inputWithIcon inputIconBg col-sm-7">
                           <input type="text" class="form-control" name="filterEncargado" placeholder="Buscar encargado"
                             [(ngModel)]="filterEncargado">
                           <i class="fas fa-restroom fa-2x mx-3" aria-hidden="true"></i>
@@ -310,8 +319,9 @@
                       </div>
 
                       <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                         <label class="col-sm-3 col-form-label">Padre:</label>
-                        <div class="inputWithIcon inputIconBg col-sm-8">
+                        <div class="inputWithIcon inputIconBg col-sm-7">
                           <input type="text" class="form-control" name="filterPadre" placeholder="Buscar padre"
                             [(ngModel)]="filterPadre">
                           <i class="fas fa-male fa-2x mx-3" aria-hidden="true"></i>
@@ -328,8 +338,9 @@
                       </div>
 
                       <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
                         <label class="col-sm-3 col-form-label">Madre:</label>
-                        <div class="inputWithIcon inputIconBg col-sm-8">
+                        <div class="inputWithIcon inputIconBg col-sm-7">
                           <input type="text" class="form-control" name="filterMadre" placeholder="Buscar madre"
                             [(ngModel)]="filterMadre">
                           <i class="fas fa-female fa-2x mx-3" aria-hidden="true"></i>
@@ -345,16 +356,10 @@
                         </div>
                       </div>
 
-                      <div class="form-group row center mt-3 mx-5">
-                        <div class="mx-5">
-                          <div class="mx-5">
-                            <div class="mx-5">
-                              <button type="submit" class="btn btn-dark botonGuardar  mx-5"><i
-                                  class="fas fa-save"></i>--- Guardar</button>
-                            </div>
+                      <div class="form-group row center">
+                          <label class="col-sm-2"></label>
+                                  <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i class="fas fa-save"></i><p></p></button>
                           </div>
-                        </div>
-                      </div>
 
                     </form>
                   </div>

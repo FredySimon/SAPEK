@@ -19,6 +19,8 @@ personaCtrl.createPersona = async (req, res) => {
         fecha_nacimiento: req.body.fecha_nacimiento,
         religion: req.body.religion,
 
+        correo:req.body.correo,
+
         correo_electronico: {
             correo_electronico1: req.body.correo_electronico1,
             correo_electronico2: req.body.correo_electronico2,

@@ -9,15 +9,23 @@ redCtrl.getRedes = async (req, res) => {
 redCtrl.createRed = async (req, res) => {
     const red = new Red({
         nombre_red: req.body.nombre_red,
-        curso: req.body.curso,
-        nombre_curso: req.body.nombre_curso,
+        carrera: req.body.carrera,
+        nombre_carrera: req.body.nombre_carrera,
         fecha_inicio: req.body.fecha_inicio,
-        fecha_final: req.body.fecha_final,
-        observaciones: req.body.observaciones,
+        fecha_final: req.body.fecha_final,   
     });
-    await red.save();
-    res.json({'status': 'Red guardada.'}); 
+
+    await red.save((err, redStored)=>{
+        if(err){
+            res.status(500).send({message: 'Duplicado.'});  
+        }else{
+            if(redStored){
+                res.status(200).send({ red: redStored});
+            }
+    };   
+})
 }
+
 
 redCtrl.getRed = async (req, res) => {
     const red = await Red.findById(req.params.id);
@@ -28,11 +36,10 @@ redCtrl.editRed = async (req, res) => {
     const { id } = req.params;
     const red = {
         nombre_red: req.body.nombre_red,
-        curso: req.body.curso,
-        nombre_curso: req.body.nombre_curso,
+        carrera: req.body.carrera,
+        nombre_carrera: req.body.nombre_carrera,
         fecha_inicio: req.body.fecha_inicio,
-        fecha_final: req.body.fecha_final,
-        observaciones: req.body.observaciones,
+        fecha_final: req.body.fecha_final, 
     };
     await Red.findByIdAndUpdate(id, {$set: red}, {new: true});
     res.json({status: 'Red actualizada.'})

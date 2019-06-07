@@ -10,7 +10,6 @@ cursoCtrl.createCurso = async (req, res) => {
     const curso = new Curso({
         codigo_curso: req.body.codigo_curso,
         nombre_curso: req.body.nombre_curso,
-        descripcion: req.body.descripcion,
     });
 
     await curso.save();
@@ -27,7 +26,6 @@ cursoCtrl.editCurso = async (req, res) => {
     const curso = {
         codigo_curso: req.body.codigo_curso,
         nombre_curso: req.body.nombre_curso,
-        descripcion: req.body.descripcion,
     };
     await Curso.findByIdAndUpdate(id, {$set: curso}, {new: true});
     res.json({status: 'Curso actualizado.'})
@@ -35,7 +33,7 @@ cursoCtrl.editCurso = async (req, res) => {
 
 cursoCtrl.deleteCurso = async (req, res) => {
     await Curso.findByIdAndRemove(req.params.id);
-    res.json({status: 'Curso eliinado.'})
+    res.json({status: 'Curso eliminado.'})
 }
 
 module.exports = cursoCtrl;

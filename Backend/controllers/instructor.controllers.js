@@ -13,8 +13,9 @@ instructorCtrl.createInstructor = async (req, res) =>{
         nombre_persona: req.body.nombre_persona,
         profesion: req.body.profesion,
     });
-    await instructor.save();
-    res.json({'status': 'Instructor guardado'})
+        await instructor.save();
+        res.json({'status': 'Instructor guardado'})
+
 }
 
 instructorCtrl.getInstructor = async (req, res) => {

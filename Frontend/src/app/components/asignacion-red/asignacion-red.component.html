@@ -1,0 +1,179 @@
+<label class="mt-5"></label>
+<form class="forma mt-5">
+
+  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#asignacion">
+    <i class="fas fa-plus-circle"></i>--- Asignar Cursos
+  </button>
+
+  <table class="table mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Red De Estudio</th>
+        <th scope="col">Cursos</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let asignacionRed of asignacionRedService.asignacionesRed; index as i">
+        <th scope="row">{{i+1}}</th>
+        <td>
+          <p> {{ asignacionRed.redDeEstucio.nombre_red }} </p>
+          <p> {{ asignacionRed.redDeEstucio.fecha_inicio }} <span style="color: red;"> A </span>
+            {{ asignacionRed.redDeEstucio.fecha_final }}</p>
+        </td>
+        <td>
+          {{ asignacionRed.cursos }}
+        </td>
+        <td>
+          <a (click)="editAsignacionRed(asignacionRed)" data-toggle="modal" data-target="#asignacion"><i
+              class="fas fa-edit"></i></a>
+
+          <a (click)="deleteASignacionRed(asignacionRed._id)"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="asignacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.asignacionRedService.selectedAsignacionRed._id ? 'Nueva Asignacion De Cursos A Red' : 'Actualizar Asignacion De Cursos A Red'}}
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-content">
+                    <form class="was-validated" #asignacionRedForm="ngForm"
+                      (ngSubmit)="AddAsignacionRed(asignacionRedForm)" autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel"
+                        [(ngModel)]="asignacionRedService.selectedAsignacionRed._id">
+
+                      <div class="card">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-12 bg-primary p-2" style="color:white;"></label>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="red" #red="ngModel"
+                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.red" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="nombre_red" #nombre_red="ngModel"
+                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.nombre_red" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="fecha_inicio" #fecha_inicio="ngModel"
+                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.fecha_inicio" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="fecha_final" #fecha_final="ngModel"
+                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.fecha_final" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Red De Estudio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="filterRed" placeholder="Buscar red de estudio"
+                              [(ngModel)]="filterRed">
+                            <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let red of redService.redes | red:filterRed">
+                                {{ red.nombre_red }}
+                                <button type="button" (click)="seleccionarRed(red)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Buscar Cursos:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="filterCurso" placeholder="Buscar curso"
+                              [(ngModel)]="filterCurso">
+                            <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let curso of cursoService.cursos | carrera:filterCurso">
+                                {{ curso.nombre_curso }}
+                                <button type="button" (click)="pasarCurso(curso)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <pre class="code-preview form-control"
+                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.cursos" name="cursos"
+                              #cursos="ngModel">cursos: {{ cursoArray | json }}</pre>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Asignar Curso:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" [(ngModel)]="cursoInput" name="curso" readonly>
+                            <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+
+                            <button type="button" class="btn mb-2"
+                              tooltip="Remover."
+                              *ngFor="let curso of cursoArray" placement="top" style="background: gray; color: white" (click)="quitarCurso(curso)">
+                              {{curso}}
+                            </button>
+
+                          </div>
+                          <div class="col-sm-1 py-1 px-1">
+                            <button type="button" class="btn btn-dark" (click)="seleccionarCurso()">+</button>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="form-group row center">
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

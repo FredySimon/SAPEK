@@ -1,0 +1,579 @@
+<label class="mt-5"></label>
+<form class="forma mt-5">
+
+  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#asignacion">
+    <i class="fas fa-plus-circle"></i>--- Asignar
+  </button>
+
+  <div class="row">
+    <div class="col-sm-6" style="padding-left: 60px">
+      <table class="table mt-5">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Jornada</th>
+            <th scope="col">Seccion</th>
+            <th scope="col">Grado</th>
+            <th scope="col">Carrera</th>
+            <th scope="col">Codigo Carrera</th>
+            <th scope="col">Instructores</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let asignacionCarreras of asignacionCarrerasService.asignacionesCarreras; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{ asignacionCarreras.jornada }}</td>
+            <td>{{ asignacionCarreras.seccion }}</td>
+            <td>{{ asignacionCarreras.grado }}</td>
+            <td>{{ asignacionCarreras.carrera_asignada.nombre_carrera }}</td>
+            <td>{{ asignacionCarreras.carrera_asignada.codigo_carrera }}</td>
+            <td>
+              <P>{{ asignacionCarreras.instructores.instructorI.nombre_instructor }}</P>
+              <!-- <P>{{ asignacionCarreras.instructores.instructorII.nombre_instructor1 }}</P>
+              <P>{{ asignacionCarreras.instructores.instructorIII.nombre_instructor2 }}</P> -->
+            </td>
+            <td>
+              <a (click)="editAsignacionCarreras(asignacionCarreras)" data-toggle="modal" data-target="#asignacion"><i
+                  class="fas fa-edit"></i></a>
+
+              <a (click)="deleteAsignacionCarreras(asignacionCarreras._id)"><i class="fas fa-trash-alt"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-6" style="padding-left: 300px">
+      <table class="table mt-5">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Jornada</th>
+            <th scope="col">Curso</th>
+            <th scope="col">Codigo Curso</th>
+            <th scope="col">Instructores</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let asignacionCursos of asignacionCursosService.asignacionesCursos; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{ asignacionCursos.jornada }}</td>
+            <td>{{ asignacionCursos.curso_asignado.nombre_curso }}</td>
+            <td>{{ asignacionCursos.curso_asignado.codigo_curso }}</td>
+            <td>
+              <P>{{ asignacionCursos.instructores.instructorI.nombre_instructor }}</P>
+              <!-- <P>{{ asignacionCursos.instructores.instructorII.nombre_instructor1 }}</P>
+              <P>{{ asignacionCursos.instructores.instructorIII.nombre_instructor2 }}</P> -->
+            </td>
+            <td>
+              <a (click)="editAsignacionCursos(asignacionCursos)" data-toggle="modal" data-target="#asignacion"><i
+                  class="fas fa-edit"></i></a>
+
+              <a (click)="deleteAsignacionCursos(asignacionCursos._id)"><i class="fas fa-trash-alt"></i></a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="asignacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+              <label class="col-sm-12 bg-primary p-2" style="color:white;"></label>
+
+              <div class="containar pt-2 pb-2" style="padding-left: 200px">
+                <div class="custom-control custom-radio d-inline-block px-5">
+                  <button type="button" class="btn btn-outline-primary" (click)="moCarrera()">Carrera</button>
+                </div>
+                <div class="custom-control custom-radio d-inline-block px-5">
+                  <button type="button" class="btn btn-outline-primary" (click)="moCurso()">Curso</button>
+                </div>
+                <button type="button" class="close px-3" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <label class="col-sm-12 bg-primary p-2" style="color:white;"></label>
+
+              <div class="modal-header" *ngIf="asignarCarrera">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.asignacionCarrerasService.selectedAsignacionCarreras._id ? 'Nueva Asignación de Carrera' : 'Actualizar asignación de Carrera' }}
+                </h5>
+                
+              </div>
+
+              <div class="modal-header" *ngIf="asignarCurso">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.asignacionCursosService.selectedAsignacionCursos._id ? 'Nueva Asignación de Curso' : 'Actualizar asignación de Curso' }}
+                </h5>
+
+              </div>
+
+              <div class="modal-body" *ngIf="asignarCarrera">
+                <div class="card">
+                  <div class="card-content">
+                    <form class="was-validated" #asignacionCarrerasForm="ngForm"
+                      (ngSubmit)="addAsignacionCarreras(asignacionCarrerasForm)" autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel"
+                        [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras._id">
+
+                      <div class="card">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-12 bg-primary p-2" style="color:white;"></label>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Jornada:</label>
+                          <div name="jornada" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="jornada"
+                              id="jornada" #jornada="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.jornada" required>
+                              <option>MATUTINA</option>
+                              <option>VESPERTINA</option>
+                            </select>
+                            <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Jornada obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Sección:</label>
+                          <div name="seccion" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="seccion"
+                              id="seccion" #seccion="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.seccion" required>
+                              <option>A</option>
+                              <option>B</option>
+                              <option>C</option>
+                              <option>D</option>
+                              <option>E</option>
+                              <option>F</option>
+                              <option>G</option>
+                              <option>H</option>
+                            </select>
+                            <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Sección obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3 ">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Grado:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="grado" #grado="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.grado" required
+                              pattern="[A-Z 0-9]+">
+                            <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Grado carrera obligatorio.
+                            </div>
+                            <div class="invalid-feedback">
+                              Todo en mayusculas.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="carrera" #carrera="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.carrera" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="nombre_carrera" #nombre_carrera="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.nombre_carrera"
+                              required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="codigo_carrera" #codigo_carrera="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.codigo_carrera"
+                              required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Carrera:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="filterCarrera" placeholder="Buscar carrera"
+                              [(ngModel)]="filterCarrera">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let carrera of carreraService.carreras | curso:filterCarrera">
+                                {{ carrera.nombre_carrera }}
+                                <button type="button" (click)="seleccionarCarrera(carrera)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="instructor" #instructor="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.instructor" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="nombre_instructor"
+                              #nombre_instructor="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.nombre_instructor"
+                              required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="instructor1" #instructor1="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.instructor1">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="nombre_instructor1"
+                              #nombre_instructor1="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.nombre_instructor1">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="instructor2" #instructor2="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.instructor2">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="nombre_instructor2"
+                              #nombre_instructor2="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.nombre_instructor2">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Instructor:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
+                            <input type="text" class="form-control" name="filterInstructor"
+                              placeholder="Buscar instructor" [(ngModel)]="filterInstructor">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let instructor of instructorService.instructores | instructor:filterInstructor">
+                                {{ instructor.nombre_persona }}
+                                <button type="button" (click)="seleccionarInstructor(instructor)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                          <div class="col-sm-1 py-1 px-1">
+                            <button type="button" class="btn btn-dark" (click)="mostrarInstructorII()">+</button>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" *ngIf="mostrarInstructor2">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
+                            <button type="button" class="btn btn-dark" (click)="ocultarInstructorII()">-</button>
+                          </div>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
+                            <input type="text" class="form-control" name="filterInstructor1"
+                              placeholder="Buscar instructor" [(ngModel)]="filterInstructor1">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let instructor of instructorService.instructores | instructor:filterInstructor1">
+                                {{ instructor.nombre_persona }}
+                                <button type="button" (click)="seleccionarInstructor1(instructor)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                          <div class="col-sm-1 py-1 px-1">
+                            <button type="button" class="btn btn-dark" (click)="mostrarInstructorIII()">+</button>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" *ngIf="mostrarInstructor3">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
+                            <button type="button" class="btn btn-dark" (click)="ocultarInstructorIII()">-</button>
+                          </div>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
+                            <input type="text" class="form-control" name="filterInstructor2"
+                              placeholder="Buscar instructor" [(ngModel)]="filterInstructor2">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let instructor of instructorService.instructores | instructor:filterInstructor2">
+                                {{ instructor.nombre_persona }}
+                                <button type="button" (click)="seleccionarInstructor2(instructor)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                          <div class="col-sm-1 py-1 px-1">
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row center">
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-body" *ngIf="asignarCurso">
+                <div class="card">
+                  <div class="card-content">
+                    <form class="was-validated" #asignacionCursosForm="ngForm"
+                      (ngSubmit)="addAsignacionCursos(asignacionCursosForm)" autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel"
+                        [(ngModel)]="asignacionCursosService.selectedAsignacionCursos._id">
+
+                      <div class="card">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-12 bg-primary p-2" style="color:white;"></label>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Jornada:</label>
+                          <div name="jornada" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="jornada"
+                              id="jornada" #jornada="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.jornada" required>
+                              <option>MATUTINA</option>
+                              <option>VESPERTINA</option>
+                            </select>
+                            <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Jornada obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="curso" #curso="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.curso" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="nombre_curso" #nombre_curso="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.nombre_curso" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="text" class="form-control" name="codigo_curso" #curso="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.codigo_curso" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Curso:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="filterCurso" placeholder="Buscar curso"
+                              [(ngModel)]="filterCurso">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let curso of cursoService.cursos | carrera:filterCurso">
+                                {{ curso.nombre_curso }}
+                                <button type="button" (click)="seleccionarCurso(curso)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="instructor" #instructor="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.instructor" required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="nombre_instructor"
+                              #nombre_instructor="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.nombre_instructor"
+                              required>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="instructor1" #instructor1="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.instructor1">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="nombre_instructor1"
+                              #nombre_instructor1="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.nombre_instructor1">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="instructor2" #instructor2="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.instructor2">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <input type="hidden" class="form-control" name="nombre_instructor2"
+                              #nombre_instructor2="ngModel"
+                              [(ngModel)]="asignacionCursosService.selectedAsignacionCursos.nombre_instructor2">
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Instructor:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
+                            <input type="text" class="form-control" name="filterInstructorI"
+                              placeholder="Buscar instructor" [(ngModel)]="filterInstructorI">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let instructor of instructorService.instructores | instructor:filterInstructorI">
+                                {{ instructor.nombre_persona }}
+                                <button type="button" (click)="seleccionarInstructorI(instructor)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                          <div class="col-sm-1 py-1 px-1">
+                            <button type="button" class="btn btn-dark" (click)="mostrarInstruc2()">+</button>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" *ngIf="mostrarInstructorDos">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
+                            <button type="button" class="btn btn-dark" (click)="ocultarInstruc2()">-</button>
+                          </div>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
+                            <input type="text" class="form-control" name="filterInstructorII"
+                              placeholder="Buscar instructor" [(ngModel)]="filterInstructorII">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let instructor of instructorService.instructores | instructor:filterInstructorII">
+                                {{ instructor.nombre_persona }}
+                                <button type="button" (click)="seleccionarInstructorII(instructor)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                          <div class="col-sm-1 py-1 px-1">
+                            <button type="button" class="btn btn-dark" (click)="mostrarInstruc3()">+</button>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" *ngIf="mostrarInstructorTres">
+                          <label class="col-sm-2"></label>
+                          <div class="col-sm-2 py-1 pl-5">
+                            <button type="button" class="btn btn-dark" (click)="ocultarInstruc3()">-</button>
+                          </div>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
+                            <input type="text" class="form-control" name="filterInstructorIII"
+                              placeholder="Buscar instructor" [(ngModel)]="filterInstructorIII">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+
+                            <ul class="list-group">
+                              <li class="list-group-item list-group-item-primary"
+                                *ngFor="let instructor of instructorService.instructores | instructor:filterInstructorIII">
+                                {{ instructor.nombre_persona }}
+                                <button type="button" (click)="seleccionarInstructorIII(instructor)"
+                                  class="agregar fas fa-user-plus"></button>
+                            </ul>
+                          </div>
+                          <div class="col-sm-1 py-1 px-1">
+
+                          </div>
+                        </div> 
+                      </div>
+
+                      <div class="form-group row center">
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</form>

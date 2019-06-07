@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { InicioComponent } from './components/inicio/inicio.component';
 import { PersonaComponent } from './components/persona/persona.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -19,13 +18,21 @@ import { InstructorComponent } from './components/instructor/instructor.componen
 import { CursoComponent } from './components/curso/curso.component';
 import { RedComponent } from './components/red/red.component';
 import { CursoPipe } from './pipes/curso.pipe';
+import { AsignacionCarrerasComponent } from './components/asignacion-carreras/asignacion-carreras.component';
+import { InstructorPipe } from './pipes/instructor.pipe';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { CarreraPipe } from './pipes/carrera.pipe';
+import { RedPipe } from './pipes/red.pipe';
+import { AsignacionRedComponent } from './components/asignacion-red/asignacion-red.component';
+import { SortableModule } from 'ngx-bootstrap/sortable';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InicioComponent,
     PersonaComponent,
     NavBarComponent,
     NotFoundComponent,
@@ -37,6 +44,11 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     CursoComponent,
     RedComponent,
     CursoPipe,
+    AsignacionCarrerasComponent,
+    InstructorPipe,
+    CarreraPipe,
+    RedPipe,
+    AsignacionRedComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +58,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     BrowserAnimationsModule, 
     ToastrModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    TypeaheadModule.forRoot(),
+    ButtonsModule.forRoot(),
+    SortableModule.forRoot(),
+    TooltipModule.forRoot(),
     ],
   providers: [],
   bootstrap: [AppComponent]

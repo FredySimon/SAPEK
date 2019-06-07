@@ -10,7 +10,7 @@ export class CursoPipe implements PipeTransform {
    if(arg.length < 3) return value;
    const resultPosts = [];
    for(const post of value){
-     if(post.nombre_curso.toLowerCase().indexOf(arg.toLowerCase()) > -1){
+     if(post.nombre_carrera.toLowerCase().indexOf(arg.toLowerCase()) > -1){
        resultPosts.push(post);
      }
    };

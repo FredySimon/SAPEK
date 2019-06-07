@@ -13,12 +13,14 @@ const PersonaSchema = new Schema({
     fecha_nacimiento: { type: Date, required: true },
     religion: { type: String, required: true },
 
+    correo:{type: Array, required: true},
+
     correo_electronico: {
-        correo_electronico1: { type: String, required: true },
-        correo_electronico2: { type: String, required: false },
-        correo_electronico3: { type: String, required: false },
-        correo_electronico4: { type: String, required: false },
-        correo_electronico5: { type: String, required: false },
+        correo_electronico1: { type: String, required: true, match: /.+\@.+\..+/ },
+        correo_electronico2: { type: String, required: false, match: /.+\@.+\..+/ },
+        correo_electronico3: { type: String, required: false, match: /.+\@.+\..+/ },
+        correo_electronico4: { type: String, required: false, match: /.+\@.+\..+/ },
+        correo_electronico5: { type: String, required: false, match: /.+\@.+\..+/ },
     },
 
     direccion: {

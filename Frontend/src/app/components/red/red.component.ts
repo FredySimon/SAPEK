@@ -4,8 +4,8 @@ import { NgForm } from '@angular/forms';
 import { Red } from 'src/app/models/red';
 import { ToastrService } from 'ngx-toastr';
 
-import { CursoService } from '../../services/curso.service';
-import { Curso } from 'src/app/models/curso';
+import { CarreraService } from '../../services/carrera.service';
+import { Carrera } from 'src/app/models/carrera';
 
 @Component({
   selector: 'app-red',
@@ -15,19 +15,19 @@ import { Curso } from 'src/app/models/curso';
 export class RedComponent implements OnInit {
 
   constructor(  private redService: RedService,
-                private cursoService: CursoService,
+                private carreraService: CarreraService,
                 private toastr: ToastrService) { }
 
                 @ViewChild('btnClose') btnClose: ElementRef;
 
                 private redes: Red[];
-                private cursos: Curso[];
+                private carreras: Carrera[];
 
-                filterCurso = '';
+                filterCarrera = '';
 
   ngOnInit() {
     this.getRedes();
-    this.getCursos();
+    this.getCarreras();
   }
 
   addRed(form: NgForm){
@@ -88,19 +88,20 @@ export class RedComponent implements OnInit {
     }
   }
 
-  getCursos(){
-    this.cursoService.getCursos()
+  getCarreras(){
+    this.carreraService.getCarreras()
     .subscribe(res => {
-      this.cursoService.cursos = res as Curso[]
+      this.carreraService.carreras = res as Carrera[]
       console.log(res);
     })
   }
 
-  seleccionarCurso(curso: Curso){
-    let idCurso:string = curso._id;
-    let nombre:string = curso.nombre_curso;
-    this.redService.selectedRed.curso = idCurso;
-    this.redService.selectedRed.nombre_curso = nombre;
+  seleccionarCarrera(carrera: Carrera){
+    let idCarrera:string = carrera._id;
+    let nombreCarrera:string = carrera.nombre_carrera;
+
+    this.redService.selectedRed.carrera = idCarrera;
+    this.redService.selectedRed.nombre_carrera = nombreCarrera;
   }
 
 }

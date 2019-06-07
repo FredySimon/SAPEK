@@ -13,11 +13,14 @@ export class Persona {
                     apellido_conyugal='',
                     fecha_nacimiento= '',
                     religion='',
+
                     correo_electronico1='',
                     correo_electronico2='',
                     correo_electronico3='',
                     correo_electronico4='',
                     correo_electronico5='',
+
+                    correo = [],
                     
                     departamento='',
                     municipio='',
@@ -62,6 +65,9 @@ export class Persona {
                         this.apellido_conyugal = apellido_conyugal;
                         this.fecha_nacimiento = fecha_nacimiento;
                         this.religion = religion;
+
+                        this.correo = correo;
+
                         this.correo_electronico1 = correo_electronico1;
                         this.correo_electronico2 = correo_electronico2;
                         this.correo_electronico3 = correo_electronico3;
@@ -112,11 +118,14 @@ export class Persona {
     apellido_conyugal :string;
     fecha_nacimiento :string;
     religion :string;
+
     correo_electronico1 :string;
     correo_electronico2 :string;
     correo_electronico3 :string;
     correo_electronico4 :string;
     correo_electronico5 :string;
+
+    correo: Array<any>;
     
     departamento :string;
     municipio :string;
@@ -148,7 +157,9 @@ export class Persona {
     casa :string;
     otro1 :string;
     otro2 :string;
-    otro3 :string;}
+    otro3 :string;
+
+}
 
 
 

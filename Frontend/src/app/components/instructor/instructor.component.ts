@@ -100,9 +100,17 @@ filterPersona = '';
     let idPersona:string = persona._id;
     let nombre:string= persona.primer_nombre;
     let apellido:string= persona.primer_apellido;
-    console.log(idPersona);
     this.instructorService.selectedInstructor.persona = idPersona;
     this.instructorService.selectedInstructor.nombre_persona = apellido + '_' + nombre;
+    this.toastr.success('Agregada')
+  }
+
+  generarCodigo(){
+   var A = Math.round(Math.random()*200)
+   var B = ' - INS'
+ 
+console.log(A + B)
+    this.instructorService.selectedInstructor.codigo_profesor = A + B;
   }
 
 }
