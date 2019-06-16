@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const url = 'mongodb://localhost/SAPEK';
 
 mongoose.connect(url)

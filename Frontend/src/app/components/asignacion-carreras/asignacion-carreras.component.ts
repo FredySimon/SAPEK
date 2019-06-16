@@ -15,8 +15,7 @@ import { Carrera } from 'src/app/models/carrera';
 
 import { InstructorService } from '../../services/instructor.service';
 import { Intructor } from 'src/app/models/intructor';
-import { callbackify } from 'util';
-import { ValueSansProvider } from '@angular/core/src/di/provider';
+
 
 @Component({
   selector: 'app-asignacion-carreras',
@@ -191,15 +190,6 @@ export class AsignacionCarrerasComponent implements OnInit {
       this.cursoService.cursos = res as Curso[]
       console.log(res);
     })
-  }
-
-  seleccionarCarrera(carrera: Carrera){
-    let idCarrera:string = carrera._id;
-    let nombre_carrera:string = carrera.nombre_carrera;
-    let codigo_carrera:string = carrera.codigo;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.carrera = idCarrera;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.nombre_carrera = nombre_carrera;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.codigo_carrera = codigo_carrera;
   }
 
   seleccionarCurso(curso: Curso){

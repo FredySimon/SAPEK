@@ -7,6 +7,13 @@ import { ToastrService } from 'ngx-toastr';
 import { CarreraService } from '../../services/carrera.service';
 import { Carrera } from 'src/app/models/carrera';
 
+import { AsignacionCarrerasService } from '../../services/asignacion-carreras.service';
+import { AsignacionCarreras } from 'src/app/models/asignacion-carreras';
+
+import { CursoService } from '../../services/curso.service';
+import { Curso } from 'src/app/models/curso';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 @Component({
   selector: 'app-red',
   templateUrl: './red.component.html',
@@ -14,20 +21,31 @@ import { Carrera } from 'src/app/models/carrera';
 })
 export class RedComponent implements OnInit {
 
+  cursoArray = [];
+  cursoInput: string = "";
+
   constructor(  private redService: RedService,
                 private carreraService: CarreraService,
+                private asignacionCarrerasService: AsignacionCarrerasService,
+                private cursoService: CursoService,
                 private toastr: ToastrService) { }
 
                 @ViewChild('btnClose') btnClose: ElementRef;
 
                 private redes: Red[];
                 private carreras: Carrera[];
+                private asignacionesCarreras: AsignacionCarreras[];
+                private cursos: Curso[]
 
                 filterCarrera = '';
+                filter_asignacion_carreras ='';
+                filterCurso = '';
 
   ngOnInit() {
     this.getRedes();
     this.getCarreras();
+    this.getAsignacionesCarreras();
+    this.getCursos();
   }
 
   addRed(form: NgForm){
@@ -96,12 +114,69 @@ export class RedComponent implements OnInit {
     })
   }
 
-  seleccionarCarrera(carrera: Carrera){
-    let idCarrera:string = carrera._id;
-    let nombreCarrera:string = carrera.nombre_carrera;
+  getAsignacionesCarreras(){
+    this.asignacionCarrerasService.getAsignacionesCarreras()
+    .subscribe(res => {
+      this.asignacionCarrerasService.asignacionesCarreras = res as AsignacionCarreras[]
+      console.log(res);
+    })
+  }
 
-    this.redService.selectedRed.carrera = idCarrera;
-    this.redService.selectedRed.nombre_carrera = nombreCarrera;
+  seleccionarAsignacionCarreras(asignacionCarreras: AsignacionCarreras){
+    let jornada:string = asignacionCarreras.jornada
+    let seccion:string = asignacionCarreras.seccion
+    let grado:string = asignacionCarreras.grado
+
+    this.redService.selectedRed.jornada = jornada
+    this.redService.selectedRed.seccion = seccion
+    this.redService.selectedRed.grado = grado
+  }
+
+  getCursos() {
+    this.cursoService.getCursos()
+      .subscribe(res => {
+        this.cursoService.cursos = res as Curso[]
+        console.log(res);
+      })
+  }
+
+  pasarCurso(curso: Curso) {
+    this.cursoInput = curso.nombre_curso
+  }
+
+  seleccionarCurso() {
+    if (this.cursoInput !== "") {
+      if (this.cursoArray.length < 20) {
+        if (this.cursoArray.indexOf(this.cursoInput) > -1) {
+          this.toastr.error('Curso duplicado')
+        } else {
+          this.cursoArray.push(this.cursoInput)
+          this.redService.selectedRed.cursos.push(this.cursoInput);
+          this.toastr.success('Agregado')
+          this.cursoInput = ""
+          console.log(this.cursoArray)
+          console.log(this.redService.selectedRed.cursos)
+        }
+
+      } else {
+        this.toastr.error('Máximo 20 cursos.')
+      }
+    } else {
+      this.toastr.error('Ingrse un curso.')
+    }
+  }
+
+  quitarCurso(curso: any) {
+    const cursos = this.cursoArray.indexOf(curso);
+    const curss = this.redService.selectedRed.cursos.indexOf(curso)
+
+    if (cursos >= 0 && curss >= 0) {
+      this.cursoArray.splice(cursos, 1)
+      this.redService.selectedRed.cursos.splice(curss, 1)
+      console.log(this.cursoArray)
+      console.log(this.redService.selectedRed.cursos)
+      this.toastr.warning('Curso removido')
+    }
   }
 
 }

@@ -1,33 +1,44 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
 
-  <!-- Button trigger modal -->
   <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#carrera">
     <i class="fas fa-plus-circle"></i>--- Nueva Carrera
   </button>
 
+  <div class="form-group row mt-3">
+    <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+      <input type="text" class="form-control" name="filter_carrera" placeholder="Buscar carrera"
+        [(ngModel)]="filter_carrera">
+      <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+    </div>
+  </div>
+
   <table class="table mt-5">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Nombre Carrera</th>
         <th scope="col">Código</th>
         <th scope="col">Tiempo de vida</th>
-        <th scope="col">Descripción</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let carrera of carreraService.carreras; index as i">
-        <th scope="row">{{i+1}}</th>
-        <td>{{ carrera.nombre_carrera }}</td>
-        <td>{{ carrera.codigo }}</td>
-        <td>{{ carrera.inicio }} - {{ carrera.final }}</td>
-        <td>{{ carrera.descripcion }}</td>
-        <td>
+      <tr *ngFor="let carrera of carreraService.carreras | carrera:filter_carrera">
+        <td align="center">
+          <h6>{{ carrera.nombre_carrera }}</h6>
+        </td>
+        <td align="center">
+          <h6>{{ carrera.codigo }}</h6>
+        </td>
+        <td align="center">
+          <h6>{{ carrera.inicio }} - {{ carrera.final }}</h6>
+        </td>
+        <td align="center">
           <a (click)="editCarrera(carrera)" data-toggle="modal" data-target="#carrera"><i class="fas fa-edit"></i></a>
 
           <a (click)="deleteCarrera(carrera._id)"><i class="fas fa-trash-alt"></i></a>
+
+          <a (click)="getCarrera(carrera)" data-toggle="modal" data-target="#detalle"><i class="fas fa-eye"></i></a>
         </td>
       </tr>
     </tbody>
@@ -37,7 +48,6 @@
     <div class="row">
       <div class="col s12">
 
-        <!-- Modal -->
         <div class="modal fade" id="carrera" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -63,7 +73,7 @@
                         <label class="bg-primary p-2" style="color:white;">No sepermiten registros duplicados</label>
 
                         <div class="form-group row mt-3 ">
-                            <label class="col-sm-1"></label>
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Nombre Carrera:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="nombre_carrera" #nombre_carrera="ngModel"
@@ -82,7 +92,7 @@
                         </div>
 
                         <div class="form-group row mt-3 ">
-                            <label class="col-sm-1"></label>
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Código:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="codigo" #codigo="ngModel"
@@ -101,7 +111,7 @@
                         </div>
 
                         <div class="form-group row mt-3 ">
-                            <label class="col-sm-1"></label>
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Fecha Inicio:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" bsDatepicker
@@ -118,7 +128,7 @@
                         </div>
 
                         <div class="form-group row mt-3 ">
-                            <label class="col-sm-1"></label>
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Fecha Final:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" bsDatepicker
@@ -133,34 +143,80 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="form-group row mt-3">
-                            <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Descripción:</label>
-                          <div class="textareaWithIcon textareaIconBg col-sm-7">
-
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descripcion"
-                              #descripcion="ngModel"
-                              [(ngModel)]="carreraService.selectedCarrera.descripcion"></textarea>
-
-
-                            <i class="fas fa-comments fa-3x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback">
-                              Todo en mayusculas.
-                            </div>
-                            <div class="valid-feedback">
-                              Descripción no obligatorio.
-                            </div>
-                          </div>
-                        </div>
                       </div>
 
                       <div class="form-group row center">
-                          <label class="col-sm-2"></label>
-                                  <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i class="fas fa-save"></i><p></p></button>
-                          </div>
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
 
                     </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Carrera
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="card mb-3" style="max-width: 800px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4 my-auto">
+                      <img
+                        src="https://mundouniversitario2016.files.wordpress.com/2016/05/iconos-de-educacion_23-2147501091.jpg?w=626&h=400&crop=1"
+                        class="card-img px-1">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <div class="p-3 clearfix">
+                          <div class="bg-dark col-md-9 float-left card-title d-inline-block border border-dark">
+                              <h3 style="color: white">{{ nombre_carrera_detalle }}</h3>
+                          </div>
+
+                            <div class="card-title d-inline-block bg-white col-md-3 float-right border border-dark" >
+                                <h3 class="text-center" style="color: black;"> {{ codigo_detalle }}</h3>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p class="card-text" style="color: black">{{ inicio_detalle }} <span
+                                style="color: red">A</span> {{ final_detalle }} </p>
+                          </div>
+                          <div class="col-md-12">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-restroom"></span>
+                                Tiempo de vida de carrera:</small></p>
+                          </div>
+                        </div>
+
+                        <label class="col-sm-12 bg-primary py-2" style="color:white;"></label>
+
+
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

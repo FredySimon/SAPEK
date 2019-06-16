@@ -1,0 +1,435 @@
+<label class="mt-5"></label>
+<form class="forma mt-5">
+
+  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#inscripcion">
+    <i class="fas fa-plus-circle"></i>--- Nueva Inscripción
+  </button>
+
+  <div class="form-group row mt-3">
+      <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+          <input type="text" class="form-control" name="filter_inscripcion" placeholder="Buscar red de estudio"
+          [(ngModel)]="filter_inscripcion" >
+          <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+      </div>
+    </div> 
+
+  <table widht="1490px" class="table mt-5 col-sm-12">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Estudiante</th>
+        <th scope="col">Unidad Academica</th>
+        <th scope="col">Cuota Mensual</th>
+        <th scope="col">Jornada</th>
+        <th scope="col">Grado</th>
+        <th scope="col">Carrera</th>
+        <th scope="col">Sección</th>
+        <th scope="col">Curso</th>
+        
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inscripcion of inscripcionService.inscripciones | inscripcion:filter_inscripcion">
+        <td>{{ inscripcion.estudiante }}</td>
+        <td>{{ inscripcion.unidad_academica }}</td>
+        <td>{{ inscripcion.cuota_mensual }}</td>
+        <td>{{ inscripcion.jornada }}</td>
+        <td>{{ inscripcion.grado }}</td>
+        <td>{{ inscripcion.carrera }}</td>
+        <td>{{ inscripcion.seccion }}</td>
+        <td>{{ inscripcion.curso }}</td> 
+        <td>
+          <a (click)="editInscripcion(inscripcion)" data-toggle="modal" data-target="#inscripcion"><i
+              class="fas fa-edit"></i></a>
+
+          <a (click)="deleteInscripcion(inscripcion._id)"><i class="fas fa-trash-alt"></i></a>
+
+          <a (click)="getInscripcion(inscripcion)" data-toggle="modal" data-target="#detalle"><i
+              class="fas fa-eye"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="modal fade" id="inscripcion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.inscripcionService.selectedInscripcion._id ? 'Nueva Inscripción' : 'Actualizar Inscripción'}}
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-content">
+                    <form #inscripcionForm="ngForm" class="was-validated" (ngSubmit)="addInscripcion(inscripcionForm)"
+                      autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel"
+                        [(ngModel)]="inscripcionService.selectedInscripcion._id">
+
+                      <label class="col-sm-12 bg-primary p-2" style="color:white; text-align: center;"></label>
+
+                      <div class="form-group row mt-3">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Estudiante:</label>
+                        <div name="estudiante" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="estudiante"
+                            id="estudiante" #estudiante="ngModel"
+                            [(ngModel)]="inscripcionService.selectedInscripcion.estudiante" required>
+                            <option value="" disabled></option>
+                            <option *ngFor="let persona of personaService.personas">{{ persona.primer_nombre }}
+                              {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}</option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Estudiante obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Unidad Academica:</label>
+                        <div name="unidad_academica" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="unidad_academica"
+                            id="unidad_academica" #unidad_academica="ngModel"
+                            [(ngModel)]="inscripcionService.selectedInscripcion.unidad_academica" required>
+                            <option value="" disabled></option>
+                            <option *ngFor="let unidad of unidadService.unidades">{{ unidad.nombre_unidad }} </option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Unidad Academica obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3 ">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label">Cuota Mensual:</label>
+                        <div class="inputWithIcon inputIconBg col-sm-7">
+                          <input type="text" class="form-control" name="cuota_mensual" #cuota_mensual="ngModel"
+                            [(ngModel)]="inscripcionService.selectedInscripcion.cuota_mensual" required
+                            pattern="[0-9]+">
+                          <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Cuota Mensual obligatorio.
+                          </div>
+                          <div class="invalid-feedback">
+                            Todo en números.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3"
+                        *ngIf="inscripcionService.selectedInscripcion.unidad_academica !== '' && inscripcionService.selectedInscripcion.unidad_academica == 'CENTRO EDUCATIVO TECNICO LABORAL KINAL'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Grado:</label>
+                        <div name="grado" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="grado" id="grado"
+                            #grado="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.grado" required>
+                            <option value="" disabled></option>
+                            <option>PRIMERO</option>
+                            <option>SEGUNDO</option>
+                            <option>TERCERO</option>
+                            <option>CUARTO</option>
+                            <option>QUINTO</option>
+                            <option>SEXTO</option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Grado obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="this.inscripcionService.selectedInscripcion.grado === 'CUARTO'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Jornada:</label>
+                        <div name="jornada" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="jornada"
+                            id="jornada" #jornada="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.jornada"
+                            required>
+                            <option value="" disabled></option>
+                            <option>MATUTINA</option>
+                            <option>VESPERTINA</option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Jornada obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="this.inscripcionService.selectedInscripcion.grado === 'QUINTO'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Jornada:</label>
+                        <div name="jornada" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="jornada"
+                            id="jornada" #jornada="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.jornada"
+                            required>
+                            <option value="" disabled></option>
+                            <option>MATUTINA</option>
+                            <option>VESPERTINA</option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Jornada obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="this.inscripcionService.selectedInscripcion.grado === 'SEXTO'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Jornada:</label>
+                        <div name="jornada" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="jornada"
+                            id="jornada" #jornada="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.jornada"
+                            required>
+                            <option value="" disabled></option>
+                            <option>MATUTINA</option>
+                            <option>VESPERTINA</option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Jornada obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3"
+                        *ngIf="inscripcionService.selectedInscripcion.grado !== '' && inscripcionService.selectedInscripcion.grado == 'CUARTO'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Carrera:</label>
+                        <div name="carrera" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="carrera"
+                            id="carrera" #carrera="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.carrera"
+                            required>
+                            <option value="" disabled></option>
+                            <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }}
+                            </option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Carrera obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3"
+                        *ngIf="inscripcionService.selectedInscripcion.grado !== '' && inscripcionService.selectedInscripcion.grado == 'QUINTO'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Carrera:</label>
+                        <div name="carrera" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="carrera"
+                            id="carrera" #carrera="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.carrera"
+                            required>
+                            <option value="" disabled></option>
+                            <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }}
+                            </option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Carrera obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3"
+                        *ngIf="inscripcionService.selectedInscripcion.grado !== '' && inscripcionService.selectedInscripcion.grado == 'SEXTO'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Carrera:</label>
+                        <div name="carrera" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="carrera"
+                            id="carrera" #carrera="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.carrera"
+                            required>
+                            <option value="" disabled></option>
+                            <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }}
+                            </option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Carrera obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" *ngIf="inscripcionService.selectedInscripcion.unidad_academica === 'CENTRO EDUCATIVO TECNICO LABORAL KINAL'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Sección:</label>
+                        <div name="seccion" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="seccion"
+                            id="seccion" #seccion="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.seccion"
+                            required>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                            <option>E</option>
+                            <option>F</option>
+                            <option>G</option>
+                            <option>H</option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Genero obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3"
+                        *ngIf="inscripcionService.selectedInscripcion.unidad_academica !== '' && inscripcionService.selectedInscripcion.unidad_academica == 'ESCUELA TECNICA SUPERIOR'">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label py-3">Curso:</label>
+                        <div name="curso" class="inputWithIcon inputIconBg col-sm-7">
+                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="curso" id="curso"
+                            #curso="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.curso" required>
+                            <option value="" disabled></option>
+                            <option *ngFor="let curso of cursoService.cursos">{{ curso.nombre_curso }} </option>
+                          </select>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Curso obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row center">
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Inscripción
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4 my-auto">
+                      <img src="https://i2.wp.com/graformar.com.ar/wp-content/uploads/inscripcion.png?fit=256%2C256"
+                        class="card-img">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ estudiante_detalle }} :</h5>
+
+                        <p class="card-text"><small class="text-muted">Unidad academica:</small></p>
+                        <p class="card-text bg-secondary p-2" style="color: white">{{ unidad_academca_detalle }}</p>
+
+                        <div class="row pb-2">
+                          <div class="col-md-6">
+                              <p class="card-text"><small class="text-muted">Jornada:</small></p>
+                              <p class="card-text" style="color: blue">{{ jornada_detalle }}</p>
+                          </div>
+                          <div class="col-md-6">
+                              <p class="card-text"><small class="text-muted">Cuota:</small></p>
+                              <p class="card-text" style="color: blue">{{ cuota_mensual_detalle }}</p>
+                          </div>
+                        </div>
+
+                        <label class="col-sm-12 bg-primary py-2" style="color:white;"></label>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                              <p class="card-text"><small class="text-muted">Grado:</small></p>
+                              <p class="card-text" style="color: black">{{ grado_detalle }}</p>
+                          </div>
+                          <div class="col-md-6">
+                              <p class="card-text"><small class="text-muted">Carrera:</small></p>
+                              <p class="card-text" style="color: black">{{ carrera_detalle }}</p>
+                          </div>
+                        </div>
+
+                        <p class="card-text"><small class="text-muted">Sección:</small></p>
+                        <p class="card-text" style="color: black">{{ seccion_detalle }}</p>
+
+                        <p class="card-text"><small class="text-muted">Curso:</small></p>
+                        <p class="card-text" style="color: black">{{ curso_detalle }}</p>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

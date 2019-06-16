@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router(); 
-
-//Controllador
 const unidadCtrl = require('../controllers/unidad.controllers');
 
 router.get('/', unidadCtrl.getUnidades);

@@ -20,11 +20,11 @@
       <tr *ngFor="let red of redService.redes; index as i">
         <th scope="row">{{i+1}}</th>
         <td>{{ red.nombre_red }}</td>
-        <td>{{ red.nombre_carrera }}</td>
+        <td>{{ red.carrera }}</td>
         <td>{{ red.fecha_inicio }}</td>
         <td>{{ red.fecha_final }}</td>
         <td>
-          <a (click)="editRed(red)" data-toggle="modal" data-target="#red"><i class="fas fa-edit"></i></a>
+          <a (click)="editRed(red)" data-toggle="modal" data-target="#redEdit"><i class="fas fa-edit"></i></a>
 
           <a (click)="deleteRed(red._id)"><i class="fas fa-trash-alt"></i></a>
         </td>
@@ -78,34 +78,24 @@
                           </div>
                         </div>
 
-                        <div class="form-group row mt-3" hidden>
-                          <div class="inputWithIcon inputIconBg col-sm-12">
-                            <input type="text" class="form-control" name="carrera" #carrera="ngModel"
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Carrera:</label>
+                          <div name="carrera" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="carrera" name="carrera"
+                               #carrera="ngModel"
                               [(ngModel)]="redService.selectedRed.carrera" required>
-                          </div>
-                        </div> 
+                              <option value="" disabled></option>
+                              <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }} </option>
 
-                        <div class="form-group row mt-3" hidden>
-                            <div class="inputWithIcon inputIconBg col-sm-12">
-                              <input type="text" class="form-control" name="nombre_carrera" #nombre_carrera="ngModel"
-                                [(ngModel)]="redService.selectedRed.nombre_carrera" required>
+                            </select>
+                            <i class="fas fa-network-wired  fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Carrera obligatorio.
                             </div>
-                          </div> 
-
-                          <div class="form-group row mt-3">
-                            <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Carrera:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
-                              <input type="text" class="form-control" name="filterCarrera" placeholder="Buscar carrera"
-                              [(ngModel)]="filterCarrera" >
-                              <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
-    
-                              <ul class="list-group">
-                                  <li class="list-group-item list-group-item-primary"
-                                    *ngFor="let carrera of carreraService.carreras | curso:filterCarrera">
-                                    {{ carrera.nombre_carrera }} 
-                                    <button type="button" (click)="seleccionarCarrera(carrera)" class="agregar fas fa-user-plus"></button>
-                                </ul>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
                           </div>
                         </div>
 
@@ -162,4 +152,218 @@
       </div>
     </div>
   </div>
+
+   <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="redEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.redService.selectedRed._id ? 'Nueva Red De Estudio' : 'Actualizar Red De Estudio'}}</h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-content">
+                    <form class="was-validated" #redForm="ngForm" (ngSubmit)="addRed(redForm)" autocomplete="off">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="redService.selectedRed._id">
+
+                      <div class="card">
+                        <label class="col-sm-1"></label>
+                        <label class="col-sm-12 bg-primary p-2" style="color:white;"></label>
+
+                        <div class="form-group row mt-3">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Nombre Red:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="nombre_red" #nombre_red="ngModel"
+                              [(ngModel)]="redService.selectedRed.nombre_red" required pattern="[A-Z 0-9]+">
+                            <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Nombre de red obligatorio.
+                            </div>
+                            <div class="invalid-feedback">
+                              Todo en mayusculas.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Carrera:</label>
+                          <div name="carrera" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="carrera" name="carrera"
+                               #carrera="ngModel"
+                              [(ngModel)]="redService.selectedRed.carrera" required>
+                              <option value="" disabled></option>
+                              <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }} </option>
+
+                            </select>
+                            <i class="fas fa-network-wired  fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Carrera obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Fecha Inicio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }"
+                              name="fecha_inicio" #fecha_inicio="ngModel"
+                              [(ngModel)]="redService.selectedRed.fecha_inicio" required>
+                            <i class="fas fa-calendar-week fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Fecha inicio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                            <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Fecha Final:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }"
+                              name="fecha_final" #fecha_final="ngModel" [(ngModel)]="redService.selectedRed.fecha_final"
+                              required>
+                            <i class="fas fa-calendar-week fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Fecha final obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3" hidden>
+                          <label class="col-sm-1"></label>
+                        <div class="inputWithIcon inputIconBg col-sm-10">
+                          <input type="text" readoonly class="form-control" name="jornada" #jornada="ngModel"
+                          [(ngModel)]="redService.selectedRed.jornada">
+                          <i class="fas fa-users fa-2x mx-3" aria-hidden="true"></i>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mt-3" hidden>
+                        <label class="col-sm-1"></label>
+                      <div class="inputWithIcon inputIconBg col-sm-10">
+                        <input type="text" readoonly class="form-control" name="seccion" #seccion="ngModel"
+                        [(ngModel)]="redService.selectedRed.seccion" >
+                        <i class="fas fa-users fa-2x mx-3" aria-hidden="true"></i>
+                      </div>
+                    </div>
+
+                    <div class="form-group row mt-3" hidden>
+                      <label class="col-sm-1"></label>
+                    <div class="inputWithIcon inputIconBg col-sm-10">
+                      <input type="text" readoonly class="form-control" name="grado" #grado="ngModel"
+                      [(ngModel)]="redService.selectedRed.grado" >
+                      <i class="fas fa-users fa-2x mx-3" aria-hidden="true"></i>
+                    </div>
+                  </div>
+
+                  <div class="form-group row mt-3">
+                    <label class="col-sm-1"></label>
+                  <label class="col-sm-3 col-form-label">Asignación:</label>
+                  <div class="inputWithIcon inputIconBg col-sm-7">
+                    <input type="text" class="form-control" name="filter_asignacion_carreras" placeholder="Buscar asignacion"
+                      [(ngModel)]="filter_asignacion_carreras">
+                    <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
+
+                    <ul class="list-group">
+                      <li class="list-group-item list-group-item-primary"
+                        *ngFor="let asignacionCarreras of asignacionCarrerasService.asignacionesCarreras | asignacionCarreras:filter_asignacion_carreras">
+                        {{ asignacionCarreras.nombre_carrera }} 
+                        <button type="button" (click)="seleccionarAsignacionCarreras(asignacionCarreras)"
+                          class="agregar fas fa-user-check"></button> </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="form-group row mt-3">
+                  <label class="col-sm-1"></label>
+                  <label class="col-sm-3 col-form-label">Buscar Cursos:</label>
+                  <div class="inputWithIcon inputIconBg col-sm-7">
+                    <input type="text" class="form-control" name="filterCurso" placeholder="Buscar curso"
+                      [(ngModel)]="filterCurso">
+                    <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+
+                    <ul class="list-group">
+                      <li class="list-group-item list-group-item-primary"
+                        *ngFor="let curso of cursoService.cursos | carrera:filterCurso">
+                        {{ curso.nombre_curso }}
+                        <button type="button" (click)="pasarCurso(curso)"
+                          class="agregar fas fa-user-plus"></button>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="form-group row mt-3" hidden>
+                  <div class="inputWithIcon inputIconBg col-sm-12">
+                    <pre class="code-preview form-control"
+                      [(ngModel)]="redService.selectedRed.cursos" name="cursos"
+                      #cursos="ngModel">cursos: {{ cursoArray | json }}</pre>
+                  </div>
+                </div>
+
+                <div class="form-group row mt-3">
+                  <label class="col-sm-1"></label>
+                  <label class="col-sm-3 col-form-label">Asignar Curso:</label>
+                  <div class="inputWithIcon inputIconBg col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="cursoInput" name="curso" readonly>
+                    <i class="fas fa-book fa-2x mx-3" aria-hidden="true"></i>
+
+                    <button type="button" class="btn mb-2" tooltip="Remover." *ngFor="let curso of cursoArray"
+                      placement="top" style="background: gray; color: white" (click)="quitarCurso(curso)">
+                      {{curso}}
+                    </button>
+
+                  </div>
+                  <div class="col-sm-1 py-1 px-1">
+                    <button type="button" class="btn btn-dark" (click)="seleccionarCurso()">+</button>
+                  </div>
+                </div>
+
+                
+
+
+
+                      </div>
+
+                      <div class="form-group row center">
+                        <label class="col-sm-2"></label>
+                                <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i class="fas fa-save"></i><p></p></button>
+                        </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
 </form>

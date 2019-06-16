@@ -29,6 +29,16 @@ import { RedPipe } from './pipes/red.pipe';
 import { AsignacionRedComponent } from './components/asignacion-red/asignacion-red.component';
 import { SortableModule } from 'ngx-bootstrap/sortable';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SidebarModule } from '@syncfusion/ej2-angular-navigations';
+import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { InscripcionComponent } from './components/inscripcion/inscripcion.component';
+import { AsignacionRedPipe } from './pipes/asignacion-red.pipe';
+import { InscripcionPipe } from './pipes/inscripcion.pipe';
+import { PersonaPipe } from './pipes/persona.pipe';
+import { AsignacionCarrerasPipe } from './pipes/asignacion-carreras.pipe';
+import { UsuarioComponent } from './components/usuario/usuario.component';
+import { UsuarioPipe } from './pipes/usuario.pipe';
+import { FamiliaPipe } from './pipes/familia.pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +59,14 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     CarreraPipe,
     RedPipe,
     AsignacionRedComponent,
+    InscripcionComponent,
+    AsignacionRedPipe,
+    InscripcionPipe,
+    PersonaPipe,
+    AsignacionCarrerasPipe,
+    UsuarioComponent,
+    UsuarioPipe,
+    FamiliaPipe,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +80,9 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     ButtonsModule.forRoot(),
     SortableModule.forRoot(),
     TooltipModule.forRoot(),
+    SidebarModule, 
+    ButtonModule, 
+    RadioButtonModule, 
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,7 +15,6 @@
             <th scope="col">Seccion</th>
             <th scope="col">Grado</th>
             <th scope="col">Carrera</th>
-            <th scope="col">Codigo Carrera</th>
             <th scope="col">Instructores</th>
             <th scope="col"></th>
           </tr>
@@ -26,8 +25,7 @@
             <td>{{ asignacionCarreras.jornada }}</td>
             <td>{{ asignacionCarreras.seccion }}</td>
             <td>{{ asignacionCarreras.grado }}</td>
-            <td>{{ asignacionCarreras.carrera_asignada.nombre_carrera }}</td>
-            <td>{{ asignacionCarreras.carrera_asignada.codigo_carrera }}</td>
+            <td>{{ asignacionCarreras.nombre_carrera }}</td>
             <td>
               <P>{{ asignacionCarreras.instructores.instructorI.nombre_instructor }}</P>
               <!-- <P>{{ asignacionCarreras.instructores.instructorII.nombre_instructor1 }}</P>
@@ -198,44 +196,24 @@
                           </div>
                         </div>
 
-                        <div class="form-group row mt-3" hidden>
-                          <div class="inputWithIcon inputIconBg col-sm-12">
-                            <input type="text" class="form-control" name="carrera" #carrera="ngModel"
-                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.carrera" required>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" hidden>
-                          <div class="inputWithIcon inputIconBg col-sm-12">
-                            <input type="hidden" class="form-control" name="nombre_carrera" #nombre_carrera="ngModel"
-                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.nombre_carrera"
-                              required>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" hidden>
-                          <div class="inputWithIcon inputIconBg col-sm-12">
-                            <input type="hidden" class="form-control" name="codigo_carrera" #codigo_carrera="ngModel"
-                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.codigo_carrera"
-                              required>
-                          </div>
-                        </div>
-
                         <div class="form-group row mt-3">
                           <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Carrera:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="text" class="form-control" name="filterCarrera" placeholder="Buscar carrera"
-                              [(ngModel)]="filterCarrera">
-                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+                          <label class="col-sm-3 col-form-label py-3">Carrera:</label>
+                          <div name="carrera" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="nombre_carrera" name="nombre_carrera"
+                               #nombre_carrera="ngModel"
+                              [(ngModel)]="asignacionCarrerasService.selectedAsignacionCarreras.nombre_carrera" required>
+                              <option value="" disabled></option>
+                              <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }} </option>
 
-                            <ul class="list-group">
-                              <li class="list-group-item list-group-item-primary"
-                                *ngFor="let carrera of carreraService.carreras | curso:filterCarrera">
-                                {{ carrera.nombre_carrera }}
-                                <button type="button" (click)="seleccionarCarrera(carrera)"
-                                  class="agregar fas fa-user-plus"></button>
-                            </ul>
+                            </select>
+                            <i class="fas fa-network-wired  fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Carrera obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
                           </div>
                         </div>
 

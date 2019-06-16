@@ -1,48 +1,68 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
 
-  <!-- Button trigger modal -->
   <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#persona">
     <i class="fas fa-plus-circle"></i>--- Nueva Persona
   </button>
 
+  <div class="form-group row mt-3">
+    <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+      <input type="text" class="form-control" name="filter_persona" placeholder="Buscar persona"
+        [(ngModel)]="filter_persona">
+      <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+    </div>
+  </div>
+
   <table class="table mt-5">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Primer nombre</th>
-        <th scope="col">Primer Apellido</th>
+        <th scope="col">Nombre</th>
         <th scope="col">Genero</th>
         <th scope="col">Estado Civil</th>
-        <th scope="col">Correo electronico</th>
+        <th scope="col">Correos</th>
         <th scope="col">Religion</th>
         <th scope="col">Celular</th>
+        <th scope="col">Dirección</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let persona of personaService.personas; index as i">
-        <th scope="row">{{i+1}}</th>
-        <td>{{ persona.primer_nombre }}</td>
-        <td>{{ persona.primer_apellido }}</td>
-        <td>{{ persona.genero }}</td>
-        <td>{{ persona.estado_civil }}</td>
-        <td>{{ persona.correo_electronico.correo_electronico1 }}</td>
-        <td>{{ persona.religion }}</td>
-        <td>{{ persona.telefonos.celular }}</td>
-        <td>
-          <a (click)="editPersona(persona)" data-toggle="modal" data-target="#persona"><i class="fas fa-edit"></i></a>
+      <tr *ngFor="let persona of personaService.personas | persona:filter_persona">
+        <td align="center" style="vertical-align:middle;">
+          <h6>{{ persona.primer_nombre }} {{ persona.primer_apellido }}</h6>
+        </td>
+        <td align="center" style="vertical-align:middle;">
+          <h6>{{ persona.genero }}</h6>
+        </td>
+        <td align="center" style="vertical-align:middle;">
+          <h6>{{ persona.estado_civil }}</h6>
+        </td>
+        <td align="center" style="vertical-align:middle;">
+          <h6>{{ persona.correos }}</h6>
+        </td>
+        <td align="center" style="vertical-align:middle;">{{ persona.religion }}</td>
+        <td align="center" style="vertical-align:middle;">{{ persona.celulares }}</td>
+        <td align="center" style="vertical-align:middle;">
+          <p>{{ persona.direccion.departamento }}</p>
+          <p>{{ persona.direccion.municipio }}</p>
+          <p>Zona {{ persona.direccion.zona }}</p>
+        </td>
+        <td align="center" style="vertical-align:middle;">
+          <!-- <a (click)="editPersona(persona)" data-toggle="modal" data-target="#persona"><i class="fas fa-edit"></i></a> -->
 
           <a (click)="deletePersona(persona._id)"><i class="fas fa-trash-alt"></i></a>
+
+          <a (click)="getPersona(persona)" data-toggle="modal" data-target="#detalle"><i class="fas fa-eye"></i></a>
+
         </td>
       </tr>
     </tbody>
   </table>
+
   <div class="container">
     <div class="row">
       <div class="col s12">
 
-        <!-- Modal -->
         <div class="modal fade" id="persona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -120,7 +140,8 @@
                           <label class="col-sm-3 col-form-label">Primer Nombre:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="primer_nombre" #primer_nombre="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.primer_nombre" required pattern="[A-Z0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.primer_nombre" required
+                              pattern="[A-ZÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Primer nombre obligatorio.
@@ -140,7 +161,7 @@
                           <label class="col-sm-3 col-form-label">Segundo Nombre:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="segundo_nombre" #segundo_nombre="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.segundo_nombre" pattern="[A-Z0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.segundo_nombre" pattern="[A-ZÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -159,7 +180,8 @@
                           <label class="col-sm-3 col-form-label">Primer apellido:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="primer_apellido" #primer_apellido="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.primer_apellido" required pattern="[A-Z0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.primer_apellido" required
+                              pattern="[A-ZÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Primer apellido obligatorio.
@@ -178,7 +200,7 @@
                           <label class="col-sm-3 col-form-label">Segundo apellido:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="segundo_apellido" #segundo_apellido="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.segundo_apellido" pattern="[A-Z0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.segundo_apellido" pattern="[A-ZÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -199,7 +221,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="apellido_conyugal"
                               #apellido_conyugal="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.apellido_conyugal" pattern="[A-Z0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.apellido_conyugal" pattern="[A-ZÁÉÍÓÚÑ]+">
                             <i class="fas fa-ring fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -231,7 +253,7 @@
                           </div>
                         </div>
 
-                        <div class="form-group row mt-3">}
+                        <div class="form-group row mt-3">
                           <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Religion:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
@@ -249,126 +271,6 @@
                             </div>
                             <div class="valid-feedback">
                               Hecho.
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- <div class="form-group row mt-3">
-                            <label class="col-sm-1"></label>
-                            <label class="col-sm-3 col-form-label">Correos:</label>
-                            <div class="inputWithIcon inputIconBg col-sm-6">
-                              <form id="correo">
-                                  <input type="email" class="form-control" name="correo"
-                                  [(ngModel)]="correo" >
-                                <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
-                              </form>  
-                            </div>
-                            <div class="col-sm-1 py-1 px-1">
-                                <button type="buttom" form="correo" class="btn btn-dark" (click)="addCorreo() && resetCorreo(correo)">+</button>
-                            </div>
-                        </div> -->
-
-                        <div class="form-group row mt-3">
-                          <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Correo Electronico:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="email" class="form-control" name="correo_electronico1"
-                              #correo_electronico1="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.correo_electronico1" required>
-                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback">
-                              Correo electronico obligatorio.
-                            </div>
-                            <div class="valid-feedback">
-                              Hecho.
-                            </div>
-                          </div>
-                          <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="mostrarCorreoII()">+</button>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" *ngIf="mostrarCorreo2">
-                          <label class="col-sm-2"></label>
-                          <div class="col-sm-2 py-1 pl-5">
-                            <button type="button" class="btn btn-dark" (click)="ocultarCorreoII()">-</button>
-                          </div>
-                          <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="email" class="form-control" name="correo_electronico2"
-                              #correo_electronico2="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.correo_electronico2">
-                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="valid-feedback">
-                              Hecho.
-                            </div>
-                            <div class="valid-feedback">
-                              Adicional no obligatorio.
-                            </div>
-                          </div>
-                          <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="mostrarCorreoIII()">+</button>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" *ngIf="mostrarCorreo3">
-                          <label class="col-sm-2"></label>
-                          <div class="col-sm-2 py-1 pl-5">
-                            <button type="button" class="btn btn-dark" (click)="ocultarCorreoIII()">-</button>
-                          </div>
-                          <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="email" class="form-control" name="correo_electronico3"
-                              #correo_electronico3="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.correo_electronico3">
-                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="valid-feedback">
-                              Hecho.
-                            </div>
-                            <div class="valid-feedback">
-                              Adicional no obligatorio.
-                            </div>
-                          </div>
-                          <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="mostrarCorreoIV()">+</button>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" *ngIf="mostrarCorreo4">
-                          <label class="col-sm-2"></label>
-                          <div class="col-sm-2 py-1 pl-5">
-                            <button type="button" class="btn btn-dark" (click)="ocultarCorreoIV()">-</button>
-                          </div>
-                          <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="email" class="form-control" name="correo_electronico4"
-                              #correo_electronico3="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.correo_electronico4">
-                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="valid-feedback">
-                              Hecho.
-                            </div>
-                            <div class="valid-feedback">
-                              Adicional no obligatorio.
-                            </div>
-                          </div>
-                          <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="mostrarCorreoV()">+</button>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" *ngIf="mostrarCorreo5">
-                          <label class="col-sm-2"></label>
-                          <div class="col-sm-2 py-1 pl-5">
-                            <button type="button" class="btn btn-dark" (click)="ocultarCorreoV()">-</button>
-                          </div>
-                          <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="email" class="form-control" name="correo_electronico5"
-                              #correo_electronico5="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.correo_electronico5">
-                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="valid-feedback">
-                              Hecho.
-                            </div>
-                            <div class="valid-feedback">
-                              Adicional no obligatorio.
                             </div>
                           </div>
                         </div>
@@ -397,13 +299,431 @@
                           </div>
                         </div>
 
-                        <div class="form-group row mt-3">
+                        <div class="form-group row mt-3" *ngIf="personaService.selectedPersona.departamento === ''">
                           <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Municipio:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.municipio" required #municipio (keyup)="0">
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
                               <option *ngFor="let municipio of municipios">{{municipio}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'ALTA VERAPAZ'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let alta of altaVerapaz">{{alta}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'BAJA VERAPAZ'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let baja of bajaVerapaz">{{baja}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'CHIMALTENANGO'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let chima of chimaltenango">{{chima}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'CHIQUIMULA'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let chiqui of chiquimula">{{chiqui}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'EL PROGRESO'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let prog of elProgreso">{{prog}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'ESCUINTLA'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let escu of escuintla">{{escu}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'GUATEMALA'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let guate of guatemala">{{guate}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'HUEHUETENANGO'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let huehue of huehuetenango">{{huehue}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'IZABAL'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let iza of izabal">{{iza}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'JALAPA'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let jala of jalapa">{{jala}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'JUTIAPA'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let juti of jutiapa">{{juti}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'PETÉN'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let pet of peten">{{pet}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'QUETZALTENANGO'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let qutzal of quetzaltenango">{{qutzal}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'QUICHÉ'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let quich of quiche">{{quich}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'RETALHULEU'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let reta of retalhuleu">{{reta}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'SACATEPÉQUEZ'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let sacate of sacatepequez">{{sacate}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'SAN MARCOS'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let marco of sanMarcos">{{marco}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'SANTA ROSA'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let rosa of santaRosa">{{rosa}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'SOLOLÁ'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let solo of solola">{{solo}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'SUCHITEPÉQUEZ'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let suchi of suchitepequez">{{suchi}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'TOTONICAPÁN'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let toto of totonicapan">{{toto}}</option>
+                            </select>
+                            <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Municipio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3"
+                          *ngIf="personaService.selectedPersona.departamento === 'ZACAPA'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Municipio:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="municipio" name="municipio" #municipio="ngModel"
+                              [(ngModel)]="personaService.selectedPersona.municipio" required>
+                              <option *ngFor="let zaca of zacdpa">{{zaca}}</option>
                             </select>
                             <i class="fas fa-globe-americas fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
@@ -440,8 +760,8 @@
                           <label class="col-sm-3 col-form-label">Avenida:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="avenida" #avenida="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.avenida" pattern="[A-Z 0-9]+" #avenida
-                              (keyup)="0">
+                              [(ngModel)]="personaService.selectedPersona.avenida"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+" #avenida (keyup)="0">
                             <i class="fas fa-road fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -460,7 +780,7 @@
                           <label class="col-sm-3 col-form-label">Calle:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="calle" #calle="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.calle" pattern="[A-Z 0-9]+" #calle
+                              [(ngModel)]="personaService.selectedPersona.calle" pattern="[A-Z 0-9 '']+" #calle
                               (keyup)="0">
                             <i class="fas fa-road fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
@@ -480,11 +800,11 @@
                           <label class="col-sm-3 col-form-label">Numero casa:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="noCasa" #noCasa="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.noCasa" required pattern="[0-9-]+"
-                              minlength="5" maxlength="5" #noCasa (keyup)="0">
+                              [(ngModel)]="personaService.selectedPersona.noCasa" pattern="[0-9-]+" minlength="5"
+                              maxlength="5" #noCasa (keyup)="0">
                             <i class="fas fa-home fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
-                              Numero de casa obligatorio.
+                              00-00
                             </div>
                             <div class="valid-feedback">
                               Hecho.
@@ -508,8 +828,8 @@
                           <label class="col-sm-3 col-form-label">Colonia:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="colonia" #colonia="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.colonia" pattern="[A-Z 0-9]+" #colonia
-                              (keyup)="0">
+                              [(ngModel)]="personaService.selectedPersona.colonia"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+" #colonia (keyup)="0">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -528,7 +848,8 @@
                           <label class="col-sm-3 col-form-label">Boulevard:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="boulevard" #boulevard="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.boulevard" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.boulevard"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -547,7 +868,7 @@
                           <label class="col-sm-3 col-form-label">Lote:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="lote" #lote="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.lote" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.lote" pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -566,7 +887,8 @@
                           <label class="col-sm-3 col-form-label">Residenciales:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="residenciales" #residenciales="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.residenciales" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.residenciales"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -585,7 +907,8 @@
                           <label class="col-sm-3 col-form-label">Diagonal:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="diagonal" #diagonal="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.diagonal" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.diagonal"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -604,7 +927,8 @@
                           <label class="col-sm-3 col-form-label">Calzada:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="calzada" #calzada="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.calzada" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.calzada"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -623,7 +947,7 @@
                           <label class="col-sm-3 col-form-label">Ruta:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="ruta" #ruta="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.ruta" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.ruta" pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -653,7 +977,8 @@
                           <label class="col-sm-3 col-form-label">Manzana:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="manzana" #manzana="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.manzana" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.manzana"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -672,7 +997,8 @@
                           <label class="col-sm-3 col-form-label">Cuadra:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="cuadra" #cuadra="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.cuadra" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.cuadra"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -691,7 +1017,8 @@
                           <label class="col-sm-3 col-form-label">Sector:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="sector" #sector="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.sector" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.sector"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -710,7 +1037,8 @@
                           <label class="col-sm-3 col-form-label">Edificio:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="edificio" #edificio="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.edificio" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.edificio"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -729,7 +1057,8 @@
                           <label class="col-sm-3 col-form-label">Nivel:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="nivel" #nivel="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.nivel" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.nivel"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -759,7 +1088,8 @@
                           <label class="col-sm-3 col-form-label">Apartamento:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="apartamento" #apartamento="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.apartamento" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.apartamento"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -778,7 +1108,8 @@
                           <label class="col-sm-3 col-form-label">Kilometro:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="kilometro" #kilometro="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.kilometro" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.kilometro"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -797,7 +1128,8 @@
                           <label class="col-sm-3 col-form-label">Carretera:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="carretera" #carretera="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.carretera" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.carretera"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -816,7 +1148,8 @@
                           <label class="col-sm-3 col-form-label">Aldea:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="aldea" #aldea="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.aldea" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.aldea"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -835,7 +1168,8 @@
                           <label class="col-sm-3 col-form-label">Especificación:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="otra_direccion" #otra_direccion="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.otra_direccion" pattern="[A-Z 0-9]+">
+                              [(ngModel)]="personaService.selectedPersona.otra_direccion"
+                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -852,7 +1186,7 @@
                         <div class="form-group row mt-3">
                           <label class="col-sm-1"></label>
                           <p>Dirección:
-                            {{ calle.value + ' calle' + ' ' + avenida.value + ' av.' + ' ' + noCasa.value + ' ' + 'zona ' + zona.value + ' ' + municipio.value + ' ' + departamento.value }}
+                            {{ calle.value + ' calle' + ' ' + avenida.value + ' av.' + ' ' + noCasa.value + ' ' + 'zona ' + zona.value + ' ' + departamento.value }}
                           </p>
                         </div>
 
@@ -862,97 +1196,55 @@
                         <label class="col-sm-1"></label>
                         <label class="bg-primary p-2" style="color:white;">Contacto:</label>
 
-                        <div class="form-group row mt-3">
-                          <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Celular:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="text" class="form-control" name="celular" #celular="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.celular" required
-                              pattern="^[2|3|4|5|6|7]\d{7}$">
-                            <i class="fas fa-mobile-alt fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback">
-                              Numero de celular obligatorio.
-                            </div>
-                            <div class="invalid-feedback" for="tel">
-                              Numero de celular (8 dígitos comenzando por 2, 3, 4, 5, 6 o 7)
-                            </div>
-                            <div class="valid-feedback">
-                              Hecho.
-                            </div>
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <pre class="code-preview form-control" [(ngModel)]="personaService.selectedPersona.correos"
+                              name="correos" #correos="ngModel">correos: {{ correoArray | json }}</pre>
                           </div>
                         </div>
 
                         <div class="form-group row mt-3">
                           <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Telefono:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="text" class="form-control" name="casa" #casa="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.casa" pattern="^[2|3|4|5|6|7]\d{7}$">
-                            <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback" for="tel">
-                              Numero de telefono (8 dígitos comenzando por 2, 3, 4, 5, 6 o 7)
-                            </div>
-                            <div class="valid-feedback">
-                              Numero de telefono no obligatorio.
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3">
-                          <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Otro:</label>
+                          <label class="col-sm-3 col-form-label">Correos:</label>
                           <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="text" class="form-control" name="otro1" #otro1="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.otro1" pattern="^[2|3|4|5|6|7]\d{7}$">
-                            <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback" for="tel">
-                              Otro numero (8 dígitos comenzando por 2, 3, 4, 5, 6 o 7)
-                            </div>
-                            <div class="valid-feedback">
-                              Otro numero no obligatorio.
-                            </div>
+                            <input type="text" name="correoInput" [(ngModel)]="correoInput">
+                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
+
+                            <button type="button" class="btn mb-2" tooltip="Remover." *ngFor="let correo of correoArray"
+                              placement="top" style="background: gray; color: white" (click)="quitarCorreo(correo)">
+                              {{correo}}
+                            </button>
+
                           </div>
                           <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="mostrarOtroI()">+</button>
+                            <button type="button" class="btn btn-dark" (click)="seleccionarCorreo()">+</button>
                           </div>
                         </div>
 
-                        <div class="form-group row mt-3" *ngIf="mostrarOtro1">
-                          <label class="col-sm-2"></label>
-                          <div class="col-sm-2 py-1 pl-5">
-                            <button type="button" class="btn btn-dark" (click)="ocultarOtroI()">-</button>
+                        <div class="form-group row mt-3" hidden>
+                          <div class="inputWithIcon inputIconBg col-sm-12">
+                            <pre class="code-preview form-control"
+                              [(ngModel)]="personaService.selectedPersona.celulares" name="celulares"
+                              #celulares="ngModel">celulares: {{ celularArray | json }}</pre>
                           </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Celulares:</label>
                           <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="text" class="form-control" name="otro2" #otro2="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.otro2" pattern="^[2|3|4|5|6|7]\d{7}$">
-                            <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback" for="tel">
-                              Otro numero (8 dígitos comenzando por 2, 3, 4, 5, 6 o 7)
-                            </div>
-                            <div class="valid-feedback">
-                              Otro numero no obligatorio.
-                            </div>
+                            <input type="number" name="celularInput" [(ngModel)]="celularInput">
+                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
+
+                            <button type="button" class="btn mb-2" tooltip="Remover."
+                              *ngFor="let celular of celularArray" placement="top"
+                              style="background: gray; color: white" (click)="quitarCelular(celular)">
+                              {{celular}}
+                            </button>
+
                           </div>
                           <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="mostrarOtroII()">+</button>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" *ngIf="mostrarOtro2">
-                          <label class="col-sm-2"></label>
-                          <div class="col-sm-2 py-1 pl-5">
-                            <button type="button" class="btn btn-dark" (click)="ocultarOtroII()">-</button>
-                          </div>
-                          <div class="inputWithIcon inputIconBg col-sm-6">
-                            <input type="text" class="form-control" name="otro3" #otro3="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.otro3" pattern="^[2|3|4|5|6|7]\d{7}$">
-                            <i class="fas fa-phone fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback" for="tel">
-                              Otro numero (8 dígitos comenzando por 2, 3, 4, 5, 6 o 7)
-                            </div>
-                            <div class="valid-feedback">
-                              Otro numero no obligatorio.
-                            </div>
+                            <button type="button" class="btn btn-dark" (click)="seleccionarCelular()">+</button>
                           </div>
                         </div>
 
@@ -976,10 +1268,106 @@
       </div>
     </div>
   </div>
-</form>
 
-<script language="javascript">
-  function fAgrega() {
-    document.getElementById("Text2").value = document.getElementById("Text1").value;
-  }
-</script>
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Persona
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="card mb-3" style="max-width: 800px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4 my-auto">
+                      <img *ngIf="this.genero_detalle === 'HOMBRE'"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTXpzxQHiZuJqWbNBHTQ4d0xg_mCZfWvPP4m2e9R0DhpWUFmP7"
+                        class="card-img">
+                      <img *ngIf="this.genero_detalle === 'MUJER'"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcjnJjqtDcLFBhyb6t4COQ9R41BeP4m7of6vywM8wte94WcTEM"
+                        class="card-img">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title bg-dark p-3" style="text-align: center; color: white">
+                          {{ nombre_persona_detalle }}</h5>
+                        <h5 *ngIf="estado_civil_detalle === 'CASADO (A)'"><span style="color: blue">Apellido
+                            casada:</span> {{ apellido_casada_detalle }} </h5>
+
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-birthday-cake"></span>
+                                Fecha de nacimiento:</small></p>
+                            <p class="card-text bg-secondary p-1" style="color: white">{{ fecha_nacimiento_detalle }}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-restroom"></span>
+                                Genero:</small></p>
+                            <p class="card-text" style="color: black">{{ genero_detalle }}</p>
+                          </div>
+                          <div class="col-md-4">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-question"></span> Estado
+                                civil:</small></p>
+                            <p class="card-text" style="color: black">{{ estado_civil_detalle }}</p>
+                          </div>
+                          <div class="col-md-4">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-church"></span>
+                                Religion:</small></p>
+                            <p class="card-text" style="color: black">{{ religion_detalle }}</p>
+                          </div>
+                        </div>
+
+                        <label class="col-sm-12 bg-primary py-2" style="color:white;"></label>
+
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p class="card-text bg-info p-3" style="color: white"><span class="fa fa-envelope"></span>
+                              Correos electronicos:
+                              {{ correos_detalle }}</p>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p class="card-text bg-info p-3" style="color: white"><span class="fa fa-mobile"></span>
+                              Celulares:
+                              {{ celulares_detalle }}</p>
+                          </div>
+                        </div>
+
+                        <label class="col-sm-12 bg-primary py-2" style="color:white;"></label>
+
+                        <div class="row" hidden>
+                          <div class="col-md-12">
+                            <p class="card-text" style="color: black">Información de residendia:</p>
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-church"></span>
+                                {{ colonia_detalle }}</small></p>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

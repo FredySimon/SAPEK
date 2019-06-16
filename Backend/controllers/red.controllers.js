@@ -10,7 +10,6 @@ redCtrl.createRed = async (req, res) => {
     const red = new Red({
         nombre_red: req.body.nombre_red,
         carrera: req.body.carrera,
-        nombre_carrera: req.body.nombre_carrera,
         fecha_inicio: req.body.fecha_inicio,
         fecha_final: req.body.fecha_final,   
     });
@@ -37,9 +36,13 @@ redCtrl.editRed = async (req, res) => {
     const red = {
         nombre_red: req.body.nombre_red,
         carrera: req.body.carrera,
-        nombre_carrera: req.body.nombre_carrera,
         fecha_inicio: req.body.fecha_inicio,
         fecha_final: req.body.fecha_final, 
+
+        jornada: req.body.jornada,
+        seccion: req.body.seccion,
+        grado: req.body.grado,
+        cursos: req.body.cursos
     };
     await Red.findByIdAndUpdate(id, {$set: red}, {new: true});
     res.json({status: 'Red actualizada.'})

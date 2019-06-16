@@ -1,13 +1,13 @@
 export class AsignacionCarreras {
 
-    constructor (   _id='', jornada='', seccion='', grado='', carrera='', nombre_carrera='',  codigo_carrera='', instructor='', nombre_instructor='', instructor1=null, nombre_instructor1='', instructor2=null, nombre_instructor2=''){
+    constructor (   _id='', jornada='', seccion='', grado='', nombre_carrera='',  instructor='', nombre_instructor='', instructor1=null, nombre_instructor1='', instructor2=null, nombre_instructor2=''){
                         this._id = _id;
                         this.jornada = jornada;
                         this.seccion = seccion;
                         this.grado = grado;
-                        this.carrera = carrera;
+
                         this.nombre_carrera = nombre_carrera;
-                        this.codigo_carrera = codigo_carrera;
+
                         this.instructor = instructor;
                         this.nombre_instructor = nombre_instructor;
                         this.instructor1 = instructor1;
@@ -21,9 +21,9 @@ export class AsignacionCarreras {
                     jornada: string;
                     seccion: string;
                     grado: string;
-                    carrera: string;
+
                     nombre_carrera: string;
-                    codigo_carrera: string;
+
                     instructor: string;
                     nombre_instructor: string;
                     instructor1: string;

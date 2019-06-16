@@ -1,60 +1,70 @@
- <nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar fixed-top transparente ">
-  <a class="navbar-brand float-right" style="color: white;">SISTEMA DE ADMINISTRACION DE PROCESOS EDUCATIVOS</a>
+<ejs-sidebar id="default-sidebar" #sidebar [type]='type' (created)="onCreated($event)" style="visibility: hidden" [target]='target'>
+
+    <div class="center-align">
+        <button ej-button (click)="closeClick()" class="close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <br>
+
+    <div class="col-sm-12">
+        <form style="background-color: black" class="py-2 px-4">
+          <h2 style="size: 200px; font-family: 'Orbitron', sans-serif;">Modulos:</h2>
+        </form>
+    </div>
+    
+    <div class="col-sm-12" style="font-family: 'Orbitron', sans-serif;">
+        <form action="" style="background-color: white">
+            <!-- <div class="row ">
+                <div class="col-4">
+                  <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">fgdf</a>
+                  </div>
+                </div>
+                <div class="col-8">
+                  <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
+                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+                    <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">sdfsdf</div>
+                  </div>
+                </div>
+              </div> -->
+
+            <div class="list-group" >
+                <button type="button" class="list-group-item list-group-item-action" routerLink="persona" id="lista">
+                  Persona
+                </button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="familia" id="lista">Familia</button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="carrera"  id="lista">Carreras</button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="curso" id="lista">Cursos</button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="red" id="lista">Redes de estudio</button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="instructor" id="lista">Instructor</button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="asignacionJornada" id="lista">Asignacion jornada</button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="asignacionRed" id="lista">Asignacion cursos a red</button>
+                <button type="button" class="list-group-item list-group-item-action" routerLink="inscripcion" id="lista">Inscripción</button>
+              </div>
+        </form>
+    </div>
+
+</ejs-sidebar>
+ 
+ <nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar fixed-top transparente " id="head">
+    <button ejs-button id="toggle" type="button" #togglebtn cssClass="e-flat" iconCss="e-icons burg-icon" isToggle="true"
+    (click)="btnClick()"></button>
 
   <div class="container">
-
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="persona">Persona</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="familia">Familia</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="unidad">Unidades académicas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="carrera">Carreras</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="curso">Cursos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="red">Redes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="instructor">Instructor</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="asignacionJornada">Asignacion Jornada</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="asignacionRed">Asignacion Cursos A Red</a>
-        </li>
-      </ul>
-    </div>
-    <ul class="navbar-nav nav-flex-icons">
-      <li class="nav-item">
-        <a class="nav-link"><i class="fab fa-facebook-f"></i></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"><i class="fab fa-twitter"></i></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"><i class="fab fa-instagram"></i></a>
-      </li>
-    </ul>
   </div>
+
+  <h1 class="navbar-brand float-right px-5" style="color: white; size: 400px; background-color: black;">SISTEMA ADMINISTRATIVO</h1>
 </nav>
 
-<script>
-		ScrollReveal().reveal('.navbar',{duration: 2000, origin: 'bottom', distance: '300px'});
-  </script> 
+
+
+
 
    

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { CarreraService } from '../../services/carrera.service';
 import { NgForm } from '@angular/forms';
-import { Carrera } from 'src/app/models/carrera';
 import { ToastrService } from 'ngx-toastr';
+
+import { CarreraService } from '../../services/carrera.service';
+import { Carrera } from 'src/app/models/carrera';
 
 @Component({
   selector: 'app-carrera',
@@ -10,6 +11,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./carrera.component.css']
 })
 export class CarreraComponent implements OnInit {
+  nombre_carrera_detalle: string = ""
+  codigo_detalle: string = ""
+  inicio_detalle: string = ""
+  final_detalle: string = ""
 
   constructor(  private carreraService: CarreraService,
                 private toastr: ToastrService) { }
@@ -17,6 +22,8 @@ export class CarreraComponent implements OnInit {
   @ViewChild('btnClose') btnClose: ElementRef;
 
     private carreras: Carrera[];
+
+    filter_carrera=''
 
   ngOnInit() {
     this.getCarreras();
@@ -34,7 +41,6 @@ export class CarreraComponent implements OnInit {
             this.resetForm(form);
           })
       }else{
-        
         this.carreraService.postCarrea(form.value)
         .subscribe(res => {
           this.toastr.success('Accion realizada exitosamente', 'Carrera guardada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
@@ -57,6 +63,17 @@ export class CarreraComponent implements OnInit {
       this.toastr.info('Acción realizada exitosamente', 'Carreras obtenidas',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' })
       console.log(res);
     });
+  }
+
+  getCarrera(carrera: Carrera){
+    this.carreraService.getCarrera(carrera)
+    .subscribe(res => {
+      console.log(res)
+      this.nombre_carrera_detalle = carrera.nombre_carrera
+      this.codigo_detalle = carrera.codigo
+      this.inicio_detalle = carrera.inicio
+      this.final_detalle = carrera.final
+    })
   }
 
   editCarrera(carrera: Carrera){

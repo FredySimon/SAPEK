@@ -11,11 +11,8 @@ asignacionCarreraCtrl.createAsignacionC = async (req, res) => {
         jornada: req.body.jornada,
         seccion: req.body.seccion,
         grado: req.body.grado,
-        carrera_asignada:{
-            carrera: req.body.carrera,
-            nombre_carrera: req.body.nombre_carrera,
-            codigo_carrera: req.body.codigo_carrera
-        },
+
+        nombre_carrera: req.body.nombre_carrera,
 
         instructores:{
             instructorI:{

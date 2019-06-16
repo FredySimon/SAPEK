@@ -11,28 +11,21 @@ export class PersonaService {
   personas: Persona[];
   readonly URL_API = 'http://localhost:3000/api/personas'
 
-
   constructor(private http:HttpClient) { 
-    this.selectedPersona = new Persona();
-  }
+    this.selectedPersona = new Persona();}
 
   getPersonas(){
-    return this.http.get(this.URL_API);
-  }
+    return this.http.get(this.URL_API);}
 
   getPersona(persona: Persona){
-    return this.http.get(this.URL_API + `/${persona._id}`);
-  }
+    return this.http.get(this.URL_API + `/${persona._id}`);}
 
   postPersona(persona: Persona){
-    return this.http.post(this.URL_API, persona);
-  }
+    return this.http.post(this.URL_API, persona);}
 
   putPersona(persona: Persona){
-    return this.http.put(this.URL_API + `/${persona._id}`, persona);
-  }
+    return this.http.put(this.URL_API + `/${persona._id}`, persona);}
 
   deletePersona(_id: string){
-    return this.http.delete(this.URL_API + `/${_id}`); 
-  }
+    return this.http.delete(this.URL_API + `/${_id}`); }
 }

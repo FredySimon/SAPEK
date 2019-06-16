@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
-//Controllador
 const familiaCtrl = require('../controllers/familia.controllers');
 
 router.get('/', familiaCtrl.getFamilias);

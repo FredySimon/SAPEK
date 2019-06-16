@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FamiliaService } from '../../services/familia.service';
-import { NgForm } from '@angular/forms';
-import { Familia } from 'src/app/models/familia';
 import { ToastrService } from 'ngx-toastr';
+import { NgForm } from '@angular/forms';
+
+import { FamiliaService } from '../../services/familia.service';
+import { Familia } from 'src/app/models/familia';
 
 import { PersonaService } from '../../services/persona.service';
 import { Persona } from 'src/app/models/persona';
@@ -14,29 +15,28 @@ import { Persona } from 'src/app/models/persona';
 })
 export class FamiliaComponent implements OnInit {
 
-  mostrarHijo2: Boolean = false;
-  mostrarHijo3: Boolean = false;
-  mostrarHijo4: Boolean = false;
-  mostrarHijo5: Boolean = false;
+  nombre_familia_detalle: string = ""
+  hijos_detalle = []
+  encargado_detalle: string = ""
+  madre_detalle: string = ""
+  padre_detalle:string = ""
+
+  hijosArray = []
+  hijoInput: string = "";
 
   constructor(  private familiaService: FamiliaService,
                 private personaService: PersonaService,
-                private toastr: ToastrService) { }
+                private toastr: ToastrService) { 
+                  this.hijosArray = []
+                }
 
   @ViewChild('btnClose') btnClose: ElementRef;
 
   private familias: Familia[];
-
   private personas: Persona[];
   
-  filterEncargado = '';
-  filterPadre='';
-  filterMadre='';
-  filterHijo1='';
-  filterHijo2='';
-  filterHijo3='';
-  filterHijo4='';
-  filterHijo5='';
+  filterHijos='';
+  filter_familia='';
 
   ngOnInit() {
     this.getFamilias();
@@ -46,23 +46,33 @@ export class FamiliaComponent implements OnInit {
   addFamilia(form: NgForm){
     if(form.valid){
       if(form.value._id){
-        this.familiaService.putFamilia(form.value)
-        .subscribe(res => {
-          this.toastr.success('Accion realizada exitosamente', 'Familia actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
-          this.getFamilias();
-          console.log(res);
-          this.btnClose.nativeElement.click();
-          this.resetForm(form);
-        })
-      }else{
-        this.familiaService.postFamilia(form.value)
-        .subscribe(res => {
-          this.toastr.success('Accion realizada exitosamente', 'Familia guardada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
-            console.log(res);
+        if(this.familiaService.selectedFamilia.hijos.length > 0 ){
+          this.familiaService.putFamilia(form.value)
+          .subscribe(res => {
+            this.toastr.success('Accion realizada exitosamente', 'Familia actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
             this.getFamilias();
+            console.log(res);
             this.btnClose.nativeElement.click();
             this.resetForm(form);
-        })
+          })
+        } else {
+          this.toastr.error('Para crear familia se necesita mínimo a un hijo.')
+        }
+        
+      }else{
+        if(this.familiaService.selectedFamilia.hijos.length > 0 ){
+          this.familiaService.postFamilia(form.value)
+          .subscribe(res => {
+            this.toastr.success('Accion realizada exitosamente', 'Familia guardada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
+              console.log(res);
+              this.getFamilias();
+              this.btnClose.nativeElement.click();
+              this.resetForm(form);
+          })
+        } else {
+          this.toastr.error('Para crear familia se necesita mínimo a un hijo.')
+        }
+        
       }
     }else {
       console.log('Formulario no valido');
@@ -80,8 +90,21 @@ export class FamiliaComponent implements OnInit {
     })
   }
 
+  getFamilia(familia: Familia){
+    this.familiaService.getFamilia(familia)
+    .subscribe(res => {
+      console.log(res)
+      this.nombre_familia_detalle = familia.nombre_familia
+      this.hijos_detalle = familia.hijos
+      this.encargado_detalle = familia.encargado
+      this.padre_detalle = familia.padre
+      this.madre_detalle = familia.madre
+    })
+  }
+
   editFamilia(familia: Familia){
     this.familiaService.selectedFamilia = familia;
+    this.hijosArray = familia.hijos;
   }
 
   deleteFamilia(_id: string){
@@ -110,100 +133,41 @@ export class FamiliaComponent implements OnInit {
     })
   }
 
-  seleccionarHijo1(persona: Persona){
-    let idHijo:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.hijo1 = idHijo;
-    this.familiaService.selectedFamilia.nombreHijo1 = apellido + '_' +nombre;   
+  pasarHijo(persona: Persona){
+    this.hijoInput = persona.primer_nombre+ ' ' + persona.segundo_nombre + ' ' + persona.primer_apellido + ' ' + persona.segundo_apellido
+
+    this.familiaService.selectedFamilia.nombre_familia = persona.primer_apellido + ' - ' + persona.segundo_apellido
   }
 
-  seleccionarHijo2(persona: Persona){
-    let idHijo:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.hijo2 = idHijo;   
-    this.familiaService.selectedFamilia.nombreHijo2 = apellido + '_' +nombre;   
+  seleccionarHijo(){
+    if(this.hijoInput !== ""){
+      if(this.hijosArray.length < 5){
+        if(this.hijosArray.indexOf(this.hijoInput) > -1){
+          this.toastr.error('Esta persona ya fué escogida.')
+        } else {
+          this.hijosArray.push(this.hijoInput)
+          this.familiaService.selectedFamilia.hijos.push(this.hijoInput)
+          this.toastr.success('Agregado')
+          this.hijoInput = ""
+          console.log(this.hijosArray)
+          console.log(this.familiaService.selectedFamilia.hijos)
+        }
+      }else{
+        this.toastr.error('Máximo 5 hijos.')
+      }
+    } else {
+      this.toastr.error('Ningún hijo seleccionado.')
+    }
   }
 
-  seleccionarHijo3(persona: Persona){
-    let idHijo:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.hijo3 = idHijo;  
-    this.familiaService.selectedFamilia.nombreHijo3 = apellido + '_' +nombre;  
-  }
+  quitarHijo(hijo: any){
+    const hijos = this.hijosArray.indexOf(hijo)
+    const hijs = this.familiaService.selectedFamilia.hijos.indexOf(hijo)
 
-  seleccionarHijo4(persona: Persona){
-    let idHijo:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.hijo4 = idHijo;  
-    this.familiaService.selectedFamilia.nombreHijo4 = apellido + '_' +nombre;   
-  }
-
-  seleccionarHijo5(persona: Persona){
-    let idHijo:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.hijo5 = idHijo;  
-    this.familiaService.selectedFamilia.nombreHijo5 = apellido + '_' +nombre;  
-  }
-
-  seleccionarEncargado(persona: Persona){
-    let idEncargado:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.encargado = idEncargado;  
-    this.familiaService.selectedFamilia.nombreEncargado =  apellido + '_' +nombre;
-  }
-
-  seleccionarPadre(persona: Persona){
-    let idPadre:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.padre = idPadre;  
-    this.familiaService.selectedFamilia.nombrePadre =  apellido + '_' +nombre; 
-  }
-
-  seleccionarMadre(persona: Persona){
-    let idMadre:string =persona._id;
-    let nombre:string = persona.primer_nombre;
-    let apellido:string = persona.primer_apellido;
-    this.familiaService.selectedFamilia.madre = idMadre;   
-    this.familiaService.selectedFamilia.nombreMadre = apellido + '_' +nombre;
-  }
-
-  mostrarHijoII(){
-    this.mostrarHijo2 = true;
-  }
-
-  ocultarHijoII(){
-    this.mostrarHijo2 = false;
-  }
-
-  mostrarHijoIII(){
-    this.mostrarHijo3 = true;
-  }
-
-  ocultarHijoIII(){
-    this.mostrarHijo3 = false;
-  }
-
-  mostrarHijoIV(){
-    this.mostrarHijo4 = true;
-  }
-
-  ocultarHijoIV(){
-    this.mostrarHijo4 = false;
-  }
-
-  mostrarHijoV(){
-    this.mostrarHijo5 = true;
-  }
-
-  ocultarHijoV(){
-    this.mostrarHijo5 = false;
-  }
-  
+    if(hijos>= 0 && hijs >= 0){
+      this.hijosArray.splice(hijos, 1)
+      this.familiaService.selectedFamilia.hijos.splice(hijs, 1)
+      this.toastr.warning('Persona removida.')
+    }
+  }  
 }

@@ -1,17 +1,11 @@
 export class AsignacionRed {
-    constructor(_id='', red='', nombre_red='', fecha_inicio='', fecha_final='', cursos=[]){
+    constructor(_id = '', red_de_estudio = '', cursos = []) {
         this._id = _id;
-        this.red = red;
-        this.nombre_red = nombre_red;
-        this.fecha_inicio = fecha_inicio;
-        this.fecha_final = fecha_final;
+        this.red_de_estudio = red_de_estudio;
         this.cursos = cursos;
     }
 
     _id: string;
-    red: string;
-    nombre_red: string;
-    fecha_inicio: string;
-    fecha_final: string;
+    red_de_estudio: string;
     cursos: Array<any>;
 }

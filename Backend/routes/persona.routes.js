@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
-//Controllador
 const personaCtrl = require('../controllers/persona.controllers');
 
 router.get('/', personaCtrl.getPersonas);

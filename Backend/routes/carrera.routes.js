@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
-//Controllador
 const carreraCtrl = require('../controllers/carrera.controllers');
 
 router.get('/', carreraCtrl.getCarreras);

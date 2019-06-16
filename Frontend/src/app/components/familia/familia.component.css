@@ -16,11 +16,23 @@ h4 {
 	border-radius: 5px;
 	padding: 10px;
 	margin: 0 auto;
-	width: 1400px;
+	width: 1800px;
 	background-color: white;
+	align-content: center;
 } 
 
 input{
+	width: 100%;
+	border: 2px solid #aaa;
+	border-radius: 4px;
+	margin: 8px 0;
+	outline: none;
+	padding: 8px;
+	box-sizing: border-box;
+	transition: 0.3s;
+  }
+
+  select{
 	width: 100%;
 	border: 2px solid #aaa;
 	border-radius: 4px;
@@ -35,8 +47,17 @@ input{
 	border-color: dodgerBlue;
 	box-shadow: 0 0 20px 0 dodgerBlue;
   }
+
+  select:focus {
+	border-color: dodgerBlue;
+	box-shadow: 0 0 20px 0 dodgerBlue;
+  }
   
   .inputWithIcon input {
+	padding-left: 50px;
+  }
+
+  .inputWithIcon select {
 	padding-left: 50px;
   }
   
@@ -60,14 +81,14 @@ input{
   .inputWithIcon.inputIconBg i {
 	background-color: #aaa;
 	color: #fff;
-	padding: 2px 4px;
+	padding: 3px 4px;
 	border-radius: 4px 0 0 4px;
   }
   
   .inputWithIcon.inputIconBg :focus + i {
 	color: #fff;
 	background-color: dodgerBlue;
-	}
+  }
 
 	.agregar:focus { 
 		background-color: blue;

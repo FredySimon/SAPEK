@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
-//Controllador
 const cursoCtrl = require('../controllers/curso.controllers');
 
 router.get('/', cursoCtrl.getCursos);

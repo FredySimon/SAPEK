@@ -6,11 +6,7 @@ const AsigancionCarreraSchema = new Schema ({
     seccion: { type: String, required: true},
     grado: { type: String, required: true},
 
-    carrera_asignada: {
-        carrera: {type: Schema.ObjectId, ref: "carrera", required: true},
-        nombre_carrera: { type: String, required: true},
-        codigo_carrera: { type: String, required: true},
-    },
+    nombre_carrera: { type: String, required: true},
 
     instructores:{
         instructorI: {

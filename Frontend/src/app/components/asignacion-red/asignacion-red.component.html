@@ -5,22 +5,28 @@
     <i class="fas fa-plus-circle"></i>--- Asignar Cursos
   </button>
 
+  <div class="form-group row mt-3">
+    <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+      <input type="text" class="form-control" name="filter_red_de_estudio" placeholder="Buscar red de estudio"
+        [(ngModel)]="filter_red_de_estudio">
+      <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+    </div>
+  </div>
+
   <table class="table mt-5">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Red De Estudio</th>
         <th scope="col">Cursos</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let asignacionRed of asignacionRedService.asignacionesRed; index as i">
-        <th scope="row">{{i+1}}</th>
+      <tr *ngFor="let asignacionRed of asignacionRedService.asignacionesRed | asignacionRed:filter_red_de_estudio">
         <td>
-          <p> {{ asignacionRed.redDeEstucio.nombre_red }} </p>
-          <p> {{ asignacionRed.redDeEstucio.fecha_inicio }} <span style="color: red;"> A </span>
-            {{ asignacionRed.redDeEstucio.fecha_final }}</p>
+          <p> {{ asignacionRed.red_de_estudio }} </p>
+          <!-- <p> {{ asignacionRed.redDeEstucio.fecha_inicio }} <span style="color: red;"> A </span>
+            {{ asignacionRed.redDeEstucio.fecha_final }}</p> -->
         </td>
         <td>
           {{ asignacionRed.cursos }}
@@ -30,6 +36,10 @@
               class="fas fa-edit"></i></a>
 
           <a (click)="deleteASignacionRed(asignacionRed._id)"><i class="fas fa-trash-alt"></i></a>
+
+          <a (click)="getAsignacionRed(asignacionRed)" data-toggle="modal" data-target="#detalle"><i
+              class="fas fa-eye"></i></a>
+
         </td>
       </tr>
     </tbody>
@@ -66,51 +76,41 @@
                         <label class="col-sm-1"></label>
                         <label class="col-sm-12 bg-primary p-2" style="color:white;"></label>
 
-                        <div class="form-group row mt-3" hidden>
-                          <div class="inputWithIcon inputIconBg col-sm-12">
-                            <input type="text" class="form-control" name="red" #red="ngModel"
-                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.red" required>
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Red de Estudio:</label>
+                          <div name="red_de_estudio" class="inputWithIcon inputIconBg col-sm-6">
+                            <select class="custom-select mr-sm-2" id="red_de_estudio" name="red_de_estudio"
+                              id="red_de_estudio" #red_de_estudio="ngModel"
+                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.red_de_estudio" required>
+                              <option value="" disabled></option>
+                              <option *ngFor="let red of redService.redes">{{ red.nombre_red }}</option>
+
+                            </select>
+                            <i class="fas fa-network-wired  fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Red de Estudio obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
                           </div>
                         </div>
-
-                        <div class="form-group row mt-3" hidden>
-                          <div class="inputWithIcon inputIconBg col-sm-12">
-                            <input type="text" class="form-control" name="nombre_red" #nombre_red="ngModel"
-                              [(ngModel)]="asignacionRedService.selectedAsignacionRed.nombre_red" required>
-                          </div>
-                        </div>
-
-                        <div class="form-group row mt-3" hidden>
+                        
+                        <!-- 
+                        <div class="form-group row mt-3" >
                           <div class="inputWithIcon inputIconBg col-sm-12">
                             <input type="text" class="form-control" name="fecha_inicio" #fecha_inicio="ngModel"
                               [(ngModel)]="asignacionRedService.selectedAsignacionRed.fecha_inicio" required>
                           </div>
                         </div>
 
-                        <div class="form-group row mt-3" hidden>
+                        <div class="form-group row mt-3" >
                           <div class="inputWithIcon inputIconBg col-sm-12">
                             <input type="text" class="form-control" name="fecha_final" #fecha_final="ngModel"
                               [(ngModel)]="asignacionRedService.selectedAsignacionRed.fecha_final" required>
                           </div>
-                        </div>
-
-                        <div class="form-group row mt-3">
-                          <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Red De Estudio:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="text" class="form-control" name="filterRed" placeholder="Buscar red de estudio"
-                              [(ngModel)]="filterRed">
-                            <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
-
-                            <ul class="list-group">
-                              <li class="list-group-item list-group-item-primary"
-                                *ngFor="let red of redService.redes | red:filterRed">
-                                {{ red.nombre_red }}
-                                <button type="button" (click)="seleccionarRed(red)"
-                                  class="agregar fas fa-user-plus"></button>
-                            </ul>
-                          </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row mt-3">
                           <label class="col-sm-1"></label>
@@ -141,13 +141,12 @@
                         <div class="form-group row mt-3">
                           <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Asignar Curso:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
+                          <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="text" class="form-control" [(ngModel)]="cursoInput" name="curso" readonly>
-                            <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+                            <i class="fas fa-book fa-2x mx-3" aria-hidden="true"></i>
 
-                            <button type="button" class="btn mb-2"
-                              tooltip="Remover."
-                              *ngFor="let curso of cursoArray" placement="top" style="background: gray; color: white" (click)="quitarCurso(curso)">
+                            <button type="button" class="btn mb-2" tooltip="Remover." *ngFor="let curso of cursoArray"
+                              placement="top" style="background: gray; color: white" (click)="quitarCurso(curso)">
                               {{curso}}
                             </button>
 
@@ -169,6 +168,49 @@
                     </form>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Asignacion
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4 my-auto">
+                      <img src="https://cdn.pixabay.com/photo/2016/09/16/09/20/books-1673578_960_720.png"
+                        class="card-img">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title bg-dark p-3" style="color: white; text-align: center;">{{ redDetalle }} :</h5>
+                        <p class="card-text pt-3"><small class="text-muted">cursos:</small></p>
+                        <p class="card-text bg-primary p-3" style="color: white">{{ cursoDetalle }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
