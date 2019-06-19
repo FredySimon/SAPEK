@@ -1,8 +1,9 @@
+'use strict'
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const UsuarioSchema = new Schema({
-    nombre: { type: String, required: true },
+    nombre: { type: String, required: true, unique: true },
     password: { type: String, required: true},
     rol : {type: String, required: true}
 });

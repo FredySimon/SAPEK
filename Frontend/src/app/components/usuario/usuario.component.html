@@ -18,6 +18,7 @@
       <tr>
         <th scope="col">Nombre</th>
         <th scope="col">Rol</th>
+        <th scope="col">Contraseña</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -28,6 +29,9 @@
         </td>
         <td align="center">
           <h6>{{ usuario.rol }}</h6>
+        </td>
+        <td align="center">
+          <h6>{{ usuario.password }}</h6>
         </td>
         <td align="center" style="vertical-align:middle;">
           <a (click)="editUsuario(usuario)" data-toggle="modal" data-target="#usuario"><i class="fas fa-edit"></i></a>
@@ -59,6 +63,7 @@
               <div class="modal-body">
                 <div class="card">
                   <div class="card-content">
+
                     <form autocomplete="off" class="was-validated" #usuarioForm="ngForm"
                       (ngSubmit)="addUsuario(usuarioForm)">
                       <h4></h4>
@@ -75,7 +80,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="nombre" #nombre="ngModel"
                               [(ngModel)]="usuarioService.selectedUsuario.nombre" required
-                              pattern="[a-z áéíóúñ A-Z ÁÉÍÓÚÑ]+">
+                              pattern="[a-záéíóúñA-ZÁÉÍÓÚÑ0-9-]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Nombre obligatorio.
@@ -90,12 +95,12 @@
                           <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Contraseña:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="password" class="form-control" name="password" #password="ngModel"
+                            <input type="password" class="form-control" name="password" id="password" #password="ngModel"
                               [(ngModel)]="usuarioService.selectedUsuario.password" required
-                              pattern="[a-z áéíóúñ A-Z ÁÉÍÓÚÑ 0-9 .,-/*-+!]+">
-                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+                              pattern="[a-z áéíóúñ A-Z ÁÉÍÓÚÑ 0-9 .,-/*-+!]+" pattern=".{8,}">
+                            <i class="fas fa-eye fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
-                              Contraseña obligatorio.
+                              Contraseña 8 caracteres obligatorio.
                             </div>
                             <div class="valid-feedback">
                               Hecho.
@@ -156,41 +161,49 @@
                 <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                  </div>
+              </div>
 
-                  <div class="modal-body">
+              <div class="modal-body">
 
-                      <div class="card mb-3" style="max-width: 800px;">
-                          <div class="row no-gutters">
-                            <div class="col-md-4 my-auto">
-                              <img *ngIf="this.rol_detalle === 'COORDINADOR'" src="https://files-storage.easygenerator.com/image/a3dc026a-7506-40d8-90cc-a9d7d08b9050.png" class="card-img">
-                              <img *ngIf="this.rol_detalle === 'DIRECTOR/SUBDIRECTOR'" src="https://banner2.kisspng.com/20180713/taq/kisspng-bakan-business-representative-director-man-at-desk-5b48bebcb78111.9271268215314940767517.jpg" class="card-img">
-                              <img *ngIf="this.rol_detalle === 'SECRETARIA'" src="https://previews.123rf.com/images/naum100/naum1001611/naum100161100024/68570081-oficinista-o-mujer-de-negocios-trabajando-en-computadora-ilustraci%C3%B3n-de-vector-stock-de-dibujos-animado.jpg" class="card-img">
-                              <img *ngIf="this.rol_detalle === 'ADMINISTRADOR'" src="https://png.pngtree.com/element_our/png_detail/20181114/administration-flat-icon-png_238394.jpg" class="card-img">
-                             </div>
-                            <div class="col-md-8">
-                              <div class="card-body">
-                                <h5 class="card-title bg-dark p-3" style="text-align: center; color: white">
-                                  {{ nombre_detalle }}</h5>
-        
-                                <div class="row">
-                                  <div class="col-md-12">
-                                    <p class="card-text"><small class="text-muted"><span class="fa fa-birthday-cake"></span>
-                                        Rol del sistema:</small></p>
-                                    <p class="card-text bg-secondary p-1" style="color: white">{{ rol_detalle }}
-                                    </p>
-                                  </div>
-                                </div>
-        
-                              </div>
-                            </div>
+                <div class="card mb-3" style="max-width: 800px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4 my-auto">
+                      <img *ngIf="this.rol_detalle === 'COORDINADOR'"
+                        src="https://files-storage.easygenerator.com/image/a3dc026a-7506-40d8-90cc-a9d7d08b9050.png"
+                        class="card-img">
+                      <img *ngIf="this.rol_detalle === 'DIRECTOR/SUBDIRECTOR'"
+                        src="https://banner2.kisspng.com/20180713/taq/kisspng-bakan-business-representative-director-man-at-desk-5b48bebcb78111.9271268215314940767517.jpg"
+                        class="card-img">
+                      <img *ngIf="this.rol_detalle === 'SECRETARIA'"
+                        src="https://previews.123rf.com/images/naum100/naum1001611/naum100161100024/68570081-oficinista-o-mujer-de-negocios-trabajando-en-computadora-ilustraci%C3%B3n-de-vector-stock-de-dibujos-animado.jpg"
+                        class="card-img">
+                      <img *ngIf="this.rol_detalle === 'ADMINISTRADOR'"
+                        src="https://png.pngtree.com/element_our/png_detail/20181114/administration-flat-icon-png_238394.jpg"
+                        class="card-img">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title bg-dark p-3" style="text-align: center; color: white">
+                          {{ nombre_detalle }}</h5>
+
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-birthday-cake"></span>
+                                Rol del sistema:</small></p>
+                            <p class="card-text bg-secondary p-1" style="color: white">{{ rol_detalle }}
+                            </p>
                           </div>
                         </div>
+
                       </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
 </form>

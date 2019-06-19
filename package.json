@@ -4,7 +4,7 @@
   "description": "Sistema de Administración de Procesos educativos: Este es una página web diseñada para la administración de procesos, para atender necesidades como control de notas, gestión de cursos y profesores, etc.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon Backend/index.js"
+    "start": "nodemon Backend/index.js"
   },
   "author": "IN6BV",
   "license": "ISC",
@@ -12,7 +12,8 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "mongoose": "^5.5.4",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "bcrypt-nodejs": "^0.0.3"
   },
   "devDependencies": {
     "nodemon": "^1.18.11"

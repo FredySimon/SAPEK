@@ -1,19 +1,34 @@
+'use strict'
 const Usuario = require('../models/usuario');
 const usuarioCtrl = {};
+const bcrypt = require('bcrypt-nodejs');
 
 usuarioCtrl.getUsuarios  = async (req, res) => {
     const usuarios = await Usuario.find();
     res.json(usuarios);
 };
 
-usuarioCtrl.createUsuario = async (req, res) => {
+usuarioCtrl.createUsuario = (req, res) => {
     const usuario = new Usuario({
         nombre: req.body.nombre,
         password: req.body.password,
         rol: req.body.rol
     });
-    await usuario.save();
-    res.json({'status': 'Usuario Guardado.'});
+    Usuario.findOne({nombre: usuario.nombre.toLowerCase()}, (err, isset) => {
+        if(err){
+            res.json({status: 'Error, el usuario ya existe.'});
+        } else {
+            if(!isset){
+                bcrypt.hash(req.body.password, null, null, function(err, hash){
+                    usuario.password = hash;
+
+                     usuario.save((stored) => {
+                        res.status(200).send({usuario: stored})
+                    })
+                })
+            }
+        }
+    })
 }
 
 usuarioCtrl.getUsuario = async (req, res) => {
@@ -21,15 +36,19 @@ usuarioCtrl.getUsuario = async (req, res) => {
     res.json(usuario);
 };
 
-usuarioCtrl.editUsuario = async (req, res) => {
+usuarioCtrl.editUsuario = (req, res) => {
     const { id } = req.params;
     const usuario = {
         nombre: req.body.nombre,
         password: req.body.password,
         rol: req.body.rol
     }
-    await Usuario.findByIdAndUpdate(id, {$set: usuario}, {new: true});
-    res.json({ status : 'Usuario actualizado.'})
+    bcrypt.hash(req.body.password, null, null, function(hash){
+        usuario.password = hash;
+
+        Usuario.findByIdAndUpdate(id, {$set: usuario});
+        res.json({ status : 'Usuario actualizado.'})
+    }) 
 };
 
 usuarioCtrl.deleteUsuario = async (req, res) => {
