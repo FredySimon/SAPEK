@@ -1,3 +1,196 @@
-<p>
-  usuario works!
-</p>
+<label class="mt-5"></label>
+<form class="forma mt-5">
+
+  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#usuario">
+    <i class="fas fa-plus-circle"></i>--- Nuevo Usuario
+  </button>
+
+  <div class="form-group row mt-3">
+    <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+      <input type="text" class="form-control" name="filter_usuario" placeholder="Buscar usuario"
+        [(ngModel)]="filter_usuario">
+      <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <table class="table mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Rol</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarioService.usuarios | usuario:filter_usuario">
+        <td align="center">
+          <h6>{{ usuario.nombre }}</h6>
+        </td>
+        <td align="center">
+          <h6>{{ usuario.rol }}</h6>
+        </td>
+        <td align="center" style="vertical-align:middle;">
+          <a (click)="editUsuario(usuario)" data-toggle="modal" data-target="#usuario"><i class="fas fa-edit"></i></a>
+
+          <a (click)="deleteUsuario(usuario._id)"><i class="fas fa-trash-alt"></i></a>
+
+          <a (click)="getUsuario(usuario)" data-toggle="modal" data-target="#detalle"><i class="fas fa-eye"></i></a>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ !this.usuarioService.selectedUsuario._id ? 'Nuevo Usuario' : 'Actualizar Usuario'}}</h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-content">
+                    <form autocomplete="off" class="was-validated" #usuarioForm="ngForm"
+                      (ngSubmit)="addUsuario(usuarioForm)">
+                      <h4></h4>
+
+                      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="usuarioService.selectedUsuario._id">
+
+                      <div class="card">
+                        <label class="col-sm-1"></label>
+                        <label class="bg-primary p-2" style="color:white;"></label>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Nombre:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" name="nombre" #nombre="ngModel"
+                              [(ngModel)]="usuarioService.selectedUsuario.nombre" required
+                              pattern="[a-z áéíóúñ A-Z ÁÉÍÓÚÑ]+">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Nombre obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Contraseña:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="password" class="form-control" name="password" #password="ngModel"
+                              [(ngModel)]="usuarioService.selectedUsuario.password" required
+                              pattern="[a-z áéíóúñ A-Z ÁÉÍÓÚÑ 0-9 .,-/*-+!]+">
+                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Contraseña obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mt-3">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Rol:</label>
+                          <div name="rol" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="rol" id="rol"
+                              #rol="ngModel" [(ngModel)]="usuarioService.selectedUsuario.rol" required>
+                              <option *ngFor="let rol of roles">{{rol}}</option>
+                            </select>
+                            <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Rol obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row center">
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
+
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Usuario
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                  </div>
+
+                  <div class="modal-body">
+
+                      <div class="card mb-3" style="max-width: 800px;">
+                          <div class="row no-gutters">
+                            <div class="col-md-4 my-auto">
+                              <img *ngIf="this.rol_detalle === 'COORDINADOR'" src="https://files-storage.easygenerator.com/image/a3dc026a-7506-40d8-90cc-a9d7d08b9050.png" class="card-img">
+                              <img *ngIf="this.rol_detalle === 'DIRECTOR/SUBDIRECTOR'" src="https://banner2.kisspng.com/20180713/taq/kisspng-bakan-business-representative-director-man-at-desk-5b48bebcb78111.9271268215314940767517.jpg" class="card-img">
+                              <img *ngIf="this.rol_detalle === 'SECRETARIA'" src="https://previews.123rf.com/images/naum100/naum1001611/naum100161100024/68570081-oficinista-o-mujer-de-negocios-trabajando-en-computadora-ilustraci%C3%B3n-de-vector-stock-de-dibujos-animado.jpg" class="card-img">
+                              <img *ngIf="this.rol_detalle === 'ADMINISTRADOR'" src="https://png.pngtree.com/element_our/png_detail/20181114/administration-flat-icon-png_238394.jpg" class="card-img">
+                             </div>
+                            <div class="col-md-8">
+                              <div class="card-body">
+                                <h5 class="card-title bg-dark p-3" style="text-align: center; color: white">
+                                  {{ nombre_detalle }}</h5>
+        
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <p class="card-text"><small class="text-muted"><span class="fa fa-birthday-cake"></span>
+                                        Rol del sistema:</small></p>
+                                    <p class="card-text bg-secondary p-1" style="color: white">{{ rol_detalle }}
+                                    </p>
+                                  </div>
+                                </div>
+        
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</form>

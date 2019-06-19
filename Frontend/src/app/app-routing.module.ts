@@ -13,6 +13,7 @@ import { RedComponent } from './components/red/red.component';
 import { AsignacionCarrerasComponent } from './components/asignacion-carreras/asignacion-carreras.component';
 import { AsignacionRedComponent } from './components/asignacion-red/asignacion-red.component';
 import { InscripcionComponent } from './components/inscripcion/inscripcion.component';
+import { UsuarioComponent } from './components/usuario/usuario.component';
 
 const routes: Routes = [
   { path: '', component: PersonaComponent},
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'asignacionJornada', component: AsignacionCarrerasComponent},
   { path: 'asignacionRed', component: AsignacionRedComponent},
   { path: 'inscripcion', component: InscripcionComponent},
+  { path: 'usuario', component: UsuarioComponent},
   { path: '**', component: NotFoundComponent},
   
 ];
