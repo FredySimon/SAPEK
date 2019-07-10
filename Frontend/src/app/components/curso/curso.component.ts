@@ -11,12 +11,19 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CursoComponent implements OnInit {
 
+  codigo_curso_detalle:string = ""
+  nombre_curso_detalle:string = ""
+  inicio_detalle: string = ""
+  final_detalle: string = ""
+
   constructor(  private cursoService: CursoService,
                 private toastr: ToastrService) { }
 
                 @ViewChild('btnClose') btnClose: ElementRef;
 
                 private cursos: Curso[];
+
+                filter_curso = '';
 
   ngOnInit() {
     this.getCursos();
@@ -56,6 +63,16 @@ export class CursoComponent implements OnInit {
       this.toastr.info('Acción realizada exitosamente', 'Cursos obtenidos',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' })
       console.log(res);
     });
+  }
+
+  getCurso(curso: Curso){
+this.cursoService.getCurso(curso)
+.subscribe(res => {
+  this.codigo_curso_detalle = curso.codigo_curso
+  this.nombre_curso_detalle = curso.nombre_curso
+  this.inicio_detalle = curso.inicio
+  this.final_detalle = curso.final
+})
   }
 
   editCurso(curso: Curso){

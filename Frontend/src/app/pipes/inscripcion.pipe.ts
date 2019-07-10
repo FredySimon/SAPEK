@@ -11,13 +11,13 @@ export class InscripcionPipe implements PipeTransform {
     for (const post of value) {
       if(post.estudiante.toLowerCase().indexOf(arg.toLowerCase()) > -1){
         resultPosts.push(post);
-      } else if (post.unidad_academica.toLowerCase().indexOf(arg.toLowerCase()) > -1){
-      resultPosts.push(post);
       } else if (post.jornada.toLowerCase().indexOf(arg.toLowerCase()) > -1){
-        resultPosts.push(post);
-      } else if (post.cuota_mensual.indexOf(arg) > -1){
+       resultPosts.push(post);
+       } else if (post.cuota_mensual.indexOf(arg) > -1){
         resultPosts.push(post)
-      }
+      } else if (post.unidad_academica.toLowerCase().indexOf(arg.toLowerCase()) > -1){
+        resultPosts.push(post);
+        }
     };
     return resultPosts
   }

@@ -1,70 +1,108 @@
-<ejs-sidebar id="default-sidebar" #sidebar [type]='type' (created)="onCreated($event)" style="visibility: hidden" [target]='target'>
+<ejs-sidebar id="default-sidebar" #sidebar [type]='type' (created)="onCreated($event)" style="visibility: hidden"
+  [target]='target'>
 
-    <div class="center-align">
-        <button ej-button (click)="closeClick()" class="close"><span aria-hidden="true">&times;</span></button>
-    </div>
-    <br>
+  <div class="center-align">
+    <button ej-button (click)="closeClick()" class="close"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <br>
 
-    <div class="col-sm-12">
-        <form style="background-color: black" class="py-2 px-4">
-          <h2 style="size: 200px; font-family: 'Orbitron', sans-serif;">Modulos:</h2>
-        </form>
-    </div>
-    
-    <div class="col-sm-12" style="font-family: 'Orbitron', sans-serif;">
-        <form action="" style="background-color: white">
-            <!-- <div class="row ">
-                <div class="col-4">
-                  <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">fgdf</a>
-                  </div>
-                </div>
-                <div class="col-8">
-                  <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
-                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-                    <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">sdfsdf</div>
-                  </div>
-                </div>
-              </div> -->
+  <div class="col-sm-12">
+    <form style="background-color: black" class="py-2 px-4">
+      <h2 style="size: 200px; font-family: 'Orbitron', sans-serif;">Modulos:</h2>
+    </form>
+  </div>
 
-            <div class="list-group" >
-                <button type="button" class="list-group-item list-group-item-action" routerLink="persona">
-                  Persona
-                </button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="familia">Familia</button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="carrera">Carreras</button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="curso">Cursos</button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="red">Redes de estudio</button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="instructor">Instructor</button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="asignacionJornada">Asignacion jornada</button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="inscripcion">Inscripción</button>
-                <button type="button" class="list-group-item list-group-item-action" routerLink="usuario">Usuarios</button>
-              </div>
-        </form>
-    </div>
+  <div class="col-sm-12" style="font-family: 'Orbitron', sans-serif;">
+    <form action="" style="background-color: white">
+
+      <div class="list-group">
+          <button type="button" class="list-group-item list-group-item-action" routerLink="asignacionJornada">Asignacion
+              jornada</button>
+              <button type="button" class="list-group-item list-group-item-action" routerLink="carrera">Carreras</button>
+        <button type="button" class="list-group-item list-group-item-action" routerLink="curso">Cursos</button>
+        <button type="button" class="list-group-item list-group-item-action" routerLink="familia">Familia</button>
+        <button type="button" class="list-group-item list-group-item-action"
+          routerLink="inscripcion">Inscripción</button>
+          <button type="button" class="list-group-item list-group-item-action" routerLink="instructor">Instructor</button>
+        <button type="button" class="list-group-item list-group-item-action" routerLink="persona">
+          Persona
+        </button>
+        <button type="button" class="list-group-item list-group-item-action" routerLink="red">Redes de estudio</button>
+        <button type="button" class="list-group-item list-group-item-action" routerLink="unidad">Unidad</button>
+        <button type="button" class="list-group-item list-group-item-action" routerLink="usuario">Usuarios</button>
+      </div>
+    </form>
+  </div>
 
 </ejs-sidebar>
- 
- <nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar fixed-top transparente " id="head">
-    <button ejs-button id="toggle" type="button" #togglebtn cssClass="e-flat" iconCss="e-icons burg-icon" isToggle="true"
+
+<nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar fixed-top transparente" id="head">
+  <button ejs-button id="toggle" type="button" #togglebtn cssClass="e-flat" iconCss="e-icons burg-icon" isToggle="true"
     (click)="btnClick()"></button>
 
   <div class="container">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     </button>
+
   </div>
 
-  <h1 class="navbar-brand float-right px-5" style="color: white; size: 400px; background-color: black;">SISTEMA ADMINISTRATIVO</h1>
+  <h1 class="navbar-brand float-right px-5" style="color: white; size: 400px; background-color: black;">SISTEMA
+    ADMINISTRATIVO</h1>
 </nav>
 
 
+<button style="margin-top:100px; margin-left: 100px;" type="submit" class="btn btn-outline-success botonNuevo float-left" data-toggle="modal" data-target="#login">
+    <i class="fas fa-sign-in-alt"></i> --- Ingresa a tu cuenta
+  </button>
 
 
+  <div class="container">
+      <div class="row">
+        <div class="col s12">
+  
+          <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div style="padding-right: 50px;" class="modal-dialog" role="document">
+               
+              <div class="modal-content1 ">
+                  <button style="color: white" type="button" class="close mt-2 mr-2" #btnClose data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  <div class="modal-dialog modal-lg text-center">
+                      <div class="col-sm-8 main-section">
+                          <div class="modal-content">
+                              <div class="col-12 user-img">
+                                  <img src="http://www.myiconfinder.com/uploads/iconsets/256-256-5d8cab7b01ffef290b73909d06d92705.png" th:src="https://image.flaticon.com/icons/png/512/17/17004.png}"/>
+                              </div>
+                              <form autocomplete="off" class="col-12" #loginForm="ngForm" (ngSubmit)="loginUsuario(loginForm)">
 
-   
+                                  <div class="inputs" id="user-group">
+                                      <input type="text" class="form-control" placeholder="Nombre usuario" name="nombre" #nombre="ngModel"
+                                      [(ngModel)]="usuarioService.selectedUsuario.nombre" required />
+                                  </div>
+                                  <div class="inputs" id="contrasena-group">
+                                      <input type="password" class="form-control" name="password"
+                                      #password="ngModel" [(ngModel)]="usuarioService.selectedUsuario.password"
+                                      required pattern=".{8,}"
+                                      style="font-size: 25pt; font-weight: bold; color: black"/>
+                                  </div>
+                                  <div hidden class="inputs" id="user-group">
+                                      <input type="text" class="form-control"  name="gettoken" #gettoken="ngModel"
+                                      [(ngModel)]="usuarioService.selectedUsuario.gettoken" required />
+                                  </div>
+
+                                 <button type="submit" class="btn btn-outline-white"><i class="fas fa-sign-in-alt"></i>  Ingresar </button>
+                              </form>
+
+                              
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

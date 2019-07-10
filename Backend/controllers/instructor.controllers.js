@@ -10,7 +10,6 @@ instructorCtrl.createInstructor = async (req, res) =>{
     const instructor = new Instructor({
         codigo_profesor: req.body.codigo_profesor,
         persona: req.body.persona,
-        nombre_persona: req.body.nombre_persona,
         profesion: req.body.profesion,
     });
         await instructor.save();
@@ -28,7 +27,6 @@ instructorCtrl.editInstructor = async (req, res) => {
     const instructor = {
         codigo_profesor: req.body.codigo_profesor,
         persona: req.body.persona,
-        nombre_persona: req.body.nombre_persona,
         profesion: req.body.profesion,
     };
     await Instructor.findByIdAndUpdate(id, {$set: instructor}, {new:true});

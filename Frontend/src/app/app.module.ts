@@ -26,19 +26,28 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { CarreraPipe } from './pipes/carrera.pipe';
 import { RedPipe } from './pipes/red.pipe';
-import { AsignacionRedComponent } from './components/asignacion-red/asignacion-red.component';
+
 import { SortableModule } from 'ngx-bootstrap/sortable';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SidebarModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { InscripcionComponent } from './components/inscripcion/inscripcion.component';
-import { AsignacionRedPipe } from './pipes/asignacion-red.pipe';
+
 import { InscripcionPipe } from './pipes/inscripcion.pipe';
 import { PersonaPipe } from './pipes/persona.pipe';
 import { AsignacionCarrerasPipe } from './pipes/asignacion-carreras.pipe';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioPipe } from './pipes/usuario.pipe';
 import { FamiliaPipe } from './pipes/familia.pipe';
+import { ModalModule } from 'ngx-bootstrap/modal';
+
+import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
+import { AsignacionCursosPipe } from './pipes/asignacion-cursos.pipe';
+import { AsignarInstructorPipe } from './pipes/asignar-instructor.pipe';
+import { AsignarCursoPipe } from './pipes/asignar-curso.pipe';
+import { UnidadPipe } from './pipes/unidad.pipe';
+import { HomeComponent } from './components/home/home.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [
@@ -58,15 +67,18 @@ import { FamiliaPipe } from './pipes/familia.pipe';
     InstructorPipe,
     CarreraPipe,
     RedPipe,
-    AsignacionRedComponent,
     InscripcionComponent,
-    AsignacionRedPipe,
     InscripcionPipe,
     PersonaPipe,
     AsignacionCarrerasPipe,
     UsuarioComponent,
     UsuarioPipe,
     FamiliaPipe,
+    AsignacionCursosPipe,
+    AsignarInstructorPipe,
+    AsignarCursoPipe,
+    UnidadPipe,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,7 +94,9 @@ import { FamiliaPipe } from './pipes/familia.pipe';
     TooltipModule.forRoot(),
     SidebarModule, 
     ButtonModule, 
-    RadioButtonModule, 
+    RadioButtonModule, ModalModule.forRoot(), 
+    PasswordStrengthMeterModule, 
+    CarouselModule.forRoot(),
     ],
   providers: [],
   bootstrap: [AppComponent]

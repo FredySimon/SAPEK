@@ -8,17 +8,34 @@ inscripcionCtrl.getInscripciones = async (req, res) => {
 
 inscripcionCtrl.createInscripcion = async (req, res) => {
     const inscripcion = new Inscripcion({
-        estudiante : req.body.estudiante,
-        unidad_academica : req.body.unidad_academica,
-        jornada : req.body.jornada,
-        cuota_mensual : req.body.cuota_mensual,
-        grado : req.body.grado,
-        carrera : req.body.carrera,
-        seccion : req.body.seccion,
-        curso : req.body.curso
+        estudiante: req.body.estudiante,
+        unidad_academica: req.body.unidad_academica,
+        jornada: req.body.jornada,
+        cuota_mensual: req.body.cuota_mensual,
+        grado: req.body.grado,
+        carrera: req.body.carrera,
+        seccion: req.body.seccion,
+        curso: req.body.curso
     });
-    await inscripcion.save();
-    res.json({'status' : 'Inscripcion realizada.'})
+
+    if (inscripcion.grado === 'PRIMERO') {
+        inscripcion.jornada = 'MATUTINA'
+        await inscripcion.save();
+        res.json({ 'status': 'Inscripcion realizada.' })
+    } else if (inscripcion.grado === 'SEGUNDO') {
+        inscripcion.jornada = 'MATUTINA'
+        await inscripcion.save();
+        res.json({ 'status': 'Inscripcion realizada.' })
+    } else if (inscripcion.grado === 'TERCERO') {
+        inscripcion.jornada = 'MATUTINA'
+        await inscripcion.save();
+        res.json({ 'status': 'Inscripcion realizada.' })
+    } else {
+        await inscripcion.save();
+        res.json({ 'status': 'Inscripcion realizada.' })
+    }
+
+
 }
 
 inscripcionCtrl.getInscripcion = async (req, res) => {
@@ -29,22 +46,38 @@ inscripcionCtrl.getInscripcion = async (req, res) => {
 inscripcionCtrl.editInscripcion = async (req, res) => {
     const { id } = req.params;
     const inscripcion = {
-        estudiante : req.body.estudiante,
-        unidad_academica : req.body.unidad_academica,
-        jornada : req.body.jornada,
-        cuota_mensual : req.body.cuota_mensual,
-        grado : req.body.grado,
-        carrera : req.body.carrera,
-        seccion : req.body.seccion,
-        curso : req.body.curso
+        estudiante: req.body.estudiante,
+        unidad_academica: req.body.unidad_academica,
+        jornada: req.body.jornada,
+        cuota_mensual: req.body.cuota_mensual,
+        grado: req.body.grado,
+        carrera: req.body.carrera,
+        seccion: req.body.seccion,
+        curso: req.body.curso
     };
-    await Inscripcion.findByIdAndUpdate(id, {$set: inscripcion}, {new: true});
-    res.json({status: 'Inscripción modificada.'})
+
+    if (inscripcion.grado === 'PRIMERO') {
+        inscripcion.jornada = 'MATUTINA'
+        await Inscripcion.findByIdAndUpdate(id, { $set: inscripcion }, { new: true });
+    res.json({ status: 'Inscripción modificada.' })
+    } else if (inscripcion.grado === 'SEGUNDO') {
+        inscripcion.jornada = 'MATUTINA'
+        await Inscripcion.findByIdAndUpdate(id, { $set: inscripcion }, { new: true });
+        res.json({ status: 'Inscripción modificada.' })
+    } else if (inscripcion.grado === 'TERCERO') {
+        inscripcion.jornada = 'MATUTINA'
+        await Inscripcion.findByIdAndUpdate(id, { $set: inscripcion }, { new: true });
+    res.json({ status: 'Inscripción modificada.' })
+    } else {
+        await Inscripcion.findByIdAndUpdate(id, { $set: inscripcion }, { new: true });
+        res.json({ status: 'Inscripción modificada.' })
+    }
+    
 };
 
 inscripcionCtrl.deleteInscripcion = async (req, res) => {
     await Inscripcion.findByIdAndRemove(req.params.id);
-    res.json({status: 'Inscripción eliminada.'})
+    res.json({ status: 'Inscripción eliminada.' })
 };
 
 module.exports = inscripcionCtrl;

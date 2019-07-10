@@ -10,6 +10,7 @@ export class UsuarioService {
   selectedUsuario: Usuario;
   usuarios: Usuario[];
   readonly URL_API = 'http://localhost:3000/api/usuarios'
+  readonly Login = 'http://localhost:3000/api/usuarios/login'
 
   constructor(private http:HttpClient) {
     this.selectedUsuario = new Usuario();
@@ -25,6 +26,10 @@ export class UsuarioService {
 
    postUsuario(usuario: Usuario){
      return this.http.post(this.URL_API, usuario);
+   }
+
+   loginUsuario(usuario: Usuario){
+     return this.http.post(this.Login,  usuario);
    }
 
    putUsuario(usuario: Usuario){

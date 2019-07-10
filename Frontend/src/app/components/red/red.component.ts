@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { RedService } from 'src/app/services/red.service';
 import { NgForm } from '@angular/forms';
-import { Red } from 'src/app/models/red';
 import { ToastrService } from 'ngx-toastr';
+
+import { RedService } from 'src/app/services/red.service';
+import { Red } from 'src/app/models/red';
 
 import { CarreraService } from '../../services/carrera.service';
 import { Carrera } from 'src/app/models/carrera';
@@ -12,7 +13,6 @@ import { AsignacionCarreras } from 'src/app/models/asignacion-carreras';
 
 import { CursoService } from '../../services/curso.service';
 import { Curso } from 'src/app/models/curso';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-red',
@@ -21,6 +21,13 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class RedComponent implements OnInit {
 
+  nombre_red_detalle:string = ""
+  carrera_detalle:string = ""
+  inicio_detalle:string = ""
+  final_detalle:string = ""
+  asignacion_detalle: string = ""
+  cursos_detalle = []
+
   cursoArray = [];
   cursoInput: string = "";
 
@@ -28,7 +35,9 @@ export class RedComponent implements OnInit {
                 private carreraService: CarreraService,
                 private asignacionCarrerasService: AsignacionCarrerasService,
                 private cursoService: CursoService,
-                private toastr: ToastrService) { }
+                private toastr: ToastrService) { 
+                  this.cursoArray = []
+                }
 
                 @ViewChild('btnClose') btnClose: ElementRef;
 
@@ -37,9 +46,8 @@ export class RedComponent implements OnInit {
                 private asignacionesCarreras: AsignacionCarreras[];
                 private cursos: Curso[]
 
-                filterCarrera = '';
-                filter_asignacion_carreras ='';
-                filterCurso = '';
+                filter_red = '';
+                filter_curso = '';
 
   ngOnInit() {
     this.getRedes();
@@ -48,17 +56,27 @@ export class RedComponent implements OnInit {
     this.getCursos();
   }
 
+  onChange(carrera: Carrera) {
+    this.redService.selectedRed.nombre_red = carrera.nombre_carrera
+    this.redService.selectedRed.carrera = carrera.nombre_carrera
+}
+
   addRed(form: NgForm){
     if(form.valid){
       if(form.value._id){
-        this.redService.putRed(form.value)
-        .subscribe (res => {
-          this.toastr.success('Accion realizada exitosamente', 'Red actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
-          this.getRedes();
-          console.log(res);
-          this.btnClose.nativeElement.click();
-          this.resetForm(form);
-        })
+        if(this.redService.selectedRed.cursos.length > 0){
+          this.redService.putRed(form.value)
+          .subscribe (res => {
+            this.toastr.success('Accion realizada exitosamente', 'Red actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
+            this.getRedes();
+            console.log(res);
+            this.btnClose.nativeElement.click();
+            this.resetForm(form);
+            this.cursoArray = [];
+          })
+        } else {
+          this.toastr.error('Para editar red necesita cursos.')
+        }      
       }else{
         this.redService.postRed(form.value)
         .subscribe(res => {
@@ -84,8 +102,22 @@ export class RedComponent implements OnInit {
     })
   }
 
+  getRed(red: Red){
+    this.redService.getRed(red)
+    .subscribe(res => {
+      console.log(res)
+      this.nombre_red_detalle = red.nombre_red
+      this.carrera_detalle = red.carrera
+      this.inicio_detalle = red.fecha_inicio
+      this.final_detalle = red.fecha_final
+      this.asignacion_detalle = red.asignacion
+      this.cursos_detalle = red.cursos
+    })
+  }
+
   editRed(red: Red){
     this.redService.selectedRed = red;
+    this.cursoArray = red.cursos
   }
 
   deleteRed(_id: string){
@@ -122,16 +154,6 @@ export class RedComponent implements OnInit {
     })
   }
 
-  seleccionarAsignacionCarreras(asignacionCarreras: AsignacionCarreras){
-    let jornada:string = asignacionCarreras.jornada
-    let seccion:string = asignacionCarreras.seccion
-    let grado:string = asignacionCarreras.grado
-
-    this.redService.selectedRed.jornada = jornada
-    this.redService.selectedRed.seccion = seccion
-    this.redService.selectedRed.grado = grado
-  }
-
   getCursos() {
     this.cursoService.getCursos()
       .subscribe(res => {
@@ -151,11 +173,9 @@ export class RedComponent implements OnInit {
           this.toastr.error('Curso duplicado')
         } else {
           this.cursoArray.push(this.cursoInput)
-          this.redService.selectedRed.cursos.push(this.cursoInput);
           this.toastr.success('Agregado')
           this.cursoInput = ""
           console.log(this.cursoArray)
-          console.log(this.redService.selectedRed.cursos)
         }
 
       } else {

@@ -1,14 +1,21 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
 
-    <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#instructor">
+    <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal" data-target="#instructor">
         <i class="fas fa-plus-circle"></i>--- Nuevo Instructor
       </button>
+
+      <div class="form-group row mt-3">
+        <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+          <input type="text" class="form-control" name="filterInstructor" placeholder="Buscar usuario"
+            [(ngModel)]="filterInstructor">
+          <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+        </div>
+      </div> 
 
       <table class="table mt-5">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Código</th>
               <th scope="col">Persona</th>
               <th scope="col">Profesión</th>
@@ -16,16 +23,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let instructor of instructorService.instructores; index as i">
-              <th scope="row">{{i+1}}</th>
-              <td>{{ instructor.codigo_profesor }}</td>
-              <td>{{ instructor.nombre_persona }}</td>
-              <td>{{ instructor.profesion }}</td>
-              <td>
+            <tr class="bg-light" *ngFor="let instructor of instructorService.instructores | instructor:filterInstructor">             
+              <td align="center"><h6>{{ instructor.codigo_profesor }}</h6></td>
+              <td align="center"><h6>{{ instructor.persona }}</h6></td>
+              <td align="center"><h6>{{ instructor.profesion }}</h6></td>
+              <td align="center">
                 <a (click)="editInstructor(instructor)" data-toggle="modal" data-target="#instructor"><i
                     class="fas fa-edit"></i></a>
 
                 <a (click)="deleteInstructor(instructor._id)"><i class="fas fa-trash-alt"></i></a>
+
+                <a (click)="getInstructor(instructor)" data-toggle="modal" data-target="#detalle"><i class="fas fa-eye"></i></a>
               </td>
             </tr>
           </tbody>
@@ -76,53 +84,41 @@
                                 </div>
                               </div>
                               <div class="col-sm-1 py-1 px-1">
-                                <button type="button" class="btn btn-dark" (click)="generarCodigo()" >+</button>
+                                <button type="button" class="btn btn-outline-dark" (click)="generarCodigo()" ><i class="fas fa-plus-circle" aria-hidden="true"></i></button>
                               </div>
                             </div>
     
-                            <div class="form-group row mt-3" hidden>
-                              <div class="inputWithIcon inputIconBg col-sm-12">
-                                <input type="hidden" class="form-control" name="persona" #persona="ngModel"
+                            <div class="form-group row mt-3">
+                              <label class="col-sm-1"></label>
+                              <label class="col-sm-3 col-form-label py-3">Instructor:</label>
+                              <div name="persona" class="inputWithIcon inputIconBg col-sm-7">
+                                <select class="custom-select mr-sm-2" id="persona" name="persona" #persona="ngModel"
                                   [(ngModel)]="instructorService.selectedInstructor.persona" required>
-                              </div>
-                            </div> 
-
-                            <div class="form-group row mt-3" hidden>
-                                <div class="inputWithIcon inputIconBg col-sm-12">
-                                  <input type="hidden" class="form-control" name="nombre_persona" #nombre_persona="ngModel"
-                                    [(ngModel)]="instructorService.selectedInstructor.nombre_persona" required>
+                                  <option value="" disabled></option>
+                                  <option *ngFor="let persona of personaService.personas">{{ persona.primer_nombre }}
+                                    {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                                    {{ persona.segundo_apellido }} </option>
+      
+                                </select>
+                                <i class="fas fa-chalkboard-teacher fa-2x mx-2" aria-hidden="true"></i>
+                                <div class="invalid-feedback">
+                                  Persona obligatorio.
                                 </div>
-                              </div> 
-    
-                        <div class="form-group row mt-3">
-                            <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Persona:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
-                              <input type="text" class="form-control" name="filterPersona" placeholder="Buscar persona"
-                              [(ngModel)]="filterPersona" >
-                              <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
-    
-                              <ul class="list-group">
-                                  <li class="list-group-item list-group-item-primary"
-                                    *ngFor="let persona of personaService.personas | filter:filterPersona">
-                                    {{ persona.primer_nombre }} {{ persona.primer_apellido }}
-                                    <button type="button" (click)="seleccionarPersona(persona)" class="agregar fas fa-user-plus"></button>
-                                </ul>
-                          </div>
-                        </div> 
+                                <div class="valid-feedback">
+                                  Hecho.
+                                </div>
+                              </div>
+                            </div>
     
                           <div class="form-group row mt-3 ">
                               <label class="col-sm-1"></label>
                               <label class="col-sm-3 col-form-label">Profesión:</label>
                               <div class="inputWithIcon inputIconBg col-sm-7">
                                 <input type="text" class="form-control" name="profesion" #profesion="ngModel"
-                                  [(ngModel)]="instructorService.selectedInstructor.profesion" required pattern="[A-Z ]+">
+                                  [(ngModel)]="instructorService.selectedInstructor.profesion" required pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                                 <i class="fas fa-user-tie fa-2x mx-3" aria-hidden="true"></i>
                                 <div class="invalid-feedback">
                                   Profesión obligatorio.
-                                </div>
-                                <div class="invalid-feedback">
-                                  Todo en mayusculas.
                                 </div>
                                 <div class="valid-feedback">
                                   Hecho.
@@ -146,4 +142,57 @@
       </div>
     </div>
   </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Instructor
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+
+                <div class="card mb-3" style="max-width: 800px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4 my-auto">
+                      <img src="https://previews.123rf.com/images/dxinerz/dxinerz1603/dxinerz160303832/54169986-profesor-de-edad-profesor-de-la-imagen-del-icono-del-vector-tambi%C3%A9n-se-puede-utilizar-para-la-educaci%C3%B3n-a.jpg"
+                        class="card-img">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title bg-dark p-3" style="text-align: center; color: white">
+                          {{ persona_detalle }}</h5>
+                        <h5><span style="color: blue">Código:</span> {{ codigo_profesor_detalle }} </h5>
+
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-user-tie"></span>
+                                Profesión:</small></p>
+                            <p class="card-text bg-secondary p-1" style="color: white">{{ profesion_detalle }}
+                            </p>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </form>

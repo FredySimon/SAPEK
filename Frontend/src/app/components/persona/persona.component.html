@@ -1,7 +1,7 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
 
-  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#persona">
+  <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal" data-target="#persona">
     <i class="fas fa-plus-circle"></i>--- Nueva Persona
   </button>
 
@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let persona of personaService.personas | persona:filter_persona">
+      <tr class="bg-light" *ngFor="let persona of personaService.personas | persona:filter_persona">
         <td align="center" style="vertical-align:middle;">
           <h6>{{ persona.primer_nombre }} {{ persona.primer_apellido }}</h6>
         </td>
@@ -141,13 +141,10 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="primer_nombre" #primer_nombre="ngModel"
                               [(ngModel)]="personaService.selectedPersona.primer_nombre" required
-                              pattern="[A-ZÁÉÍÓÚÑ]+">
+                              pattern="[A-Za-záéíóúñÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Primer nombre obligatorio.
-                            </div>
-                            <div class="invalid-feedback">
-                              Todo en mayusculas.
                             </div>
                             <div class="valid-feedback">
                               Hecho.
@@ -161,11 +158,8 @@
                           <label class="col-sm-3 col-form-label">Segundo Nombre:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="segundo_nombre" #segundo_nombre="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.segundo_nombre" pattern="[A-ZÁÉÍÓÚÑ]+">
+                              [(ngModel)]="personaService.selectedPersona.segundo_nombre"  pattern="[A-Za-záéíóúñÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback">
-                              Todo en mayusculas.
-                            </div>
                             <div class="valid-feedback">
                               Hecho.
                             </div>
@@ -181,13 +175,10 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="primer_apellido" #primer_apellido="ngModel"
                               [(ngModel)]="personaService.selectedPersona.primer_apellido" required
-                              pattern="[A-ZÁÉÍÓÚÑ]+">
+                              pattern="[A-Za-záéíóúñÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Primer apellido obligatorio.
-                            </div>
-                            <div class="invalid-feedback">
-                              Todo en mayusculas.
                             </div>
                             <div class="valid-feedback">
                               Hecho.
@@ -200,11 +191,8 @@
                           <label class="col-sm-3 col-form-label">Segundo apellido:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="segundo_apellido" #segundo_apellido="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.segundo_apellido" pattern="[A-ZÁÉÍÓÚÑ]+">
+                              [(ngModel)]="personaService.selectedPersona.segundo_apellido"  pattern="[A-Za-záéíóúñÁÉÍÓÚÑ]+">
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback">
-                              Todo en mayusculas.
-                            </div>
                             <div class="valid-feedback">
                               Hecho.
                             </div>
@@ -221,11 +209,8 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="apellido_conyugal"
                               #apellido_conyugal="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.apellido_conyugal" pattern="[A-ZÁÉÍÓÚÑ]+">
+                              [(ngModel)]="personaService.selectedPersona.apellido_conyugal"  pattern="[A-Za-záéíóúñÁÉÍÓÚÑ]+">
                             <i class="fas fa-ring fa-2x mx-3" aria-hidden="true"></i>
-                            <div class="invalid-feedback">
-                              Todo en mayusculas.
-                            </div>
                             <div class="valid-feedback">
                               Hecho.
                             </div>
@@ -761,7 +746,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="avenida" #avenida="ngModel"
                               [(ngModel)]="personaService.selectedPersona.avenida"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+" #avenida (keyup)="0">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+" #avenida (keyup)="0">
                             <i class="fas fa-road fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -780,7 +765,7 @@
                           <label class="col-sm-3 col-form-label">Calle:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="calle" #calle="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.calle" pattern="[A-Z 0-9 '']+" #calle
+                              [(ngModel)]="personaService.selectedPersona.calle" pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+" #calle
                               (keyup)="0">
                             <i class="fas fa-road fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
@@ -815,10 +800,10 @@
                         <div class="col-sm-12 py-3">
                           <div class="container">
                             <label class="col-sm-1"></label>
-                            <button class="col-sm-4 btn btn-dark" type="button" (click)="mostrar1()">Más</button>
+                            <button class="col-sm-4 btn btn-outline-dark" type="button" (click)="mostrar1()">Más</button>
                             <label class="col-sm-1"></label>
                             <label class="col-sm-1"></label>
-                            <button class="col-sm-4 btn btn-dark" type="button" (click)="ocultar1()">Menos</button>
+                            <button class="col-sm-4 btn btn-outline-dark" type="button" (click)="ocultar1()">Menos</button>
                             <label class="col-sm-1"></label>
                           </div>
                         </div>
@@ -829,7 +814,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="colonia" #colonia="ngModel"
                               [(ngModel)]="personaService.selectedPersona.colonia"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+" #colonia (keyup)="0">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+" #colonia (keyup)="0">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -849,7 +834,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="boulevard" #boulevard="ngModel"
                               [(ngModel)]="personaService.selectedPersona.boulevard"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -868,7 +853,7 @@
                           <label class="col-sm-3 col-form-label">Lote:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="lote" #lote="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.lote" pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              [(ngModel)]="personaService.selectedPersona.lote" pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -888,7 +873,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="residenciales" #residenciales="ngModel"
                               [(ngModel)]="personaService.selectedPersona.residenciales"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -908,7 +893,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="diagonal" #diagonal="ngModel"
                               [(ngModel)]="personaService.selectedPersona.diagonal"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -928,7 +913,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="calzada" #calzada="ngModel"
                               [(ngModel)]="personaService.selectedPersona.calzada"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -947,7 +932,7 @@
                           <label class="col-sm-3 col-form-label">Ruta:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="ruta" #ruta="ngModel"
-                              [(ngModel)]="personaService.selectedPersona.ruta" pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              [(ngModel)]="personaService.selectedPersona.ruta" pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -964,10 +949,10 @@
                         <div class="col-sm-12 py-3" *ngIf="mostrarMas1">
                           <div class="container">
                             <label class="col-sm-1"></label>
-                            <button class="col-sm-4 btn btn-primary" type="button" (click)="mostrar2()">Más</button>
+                            <button class="col-sm-4 btn btn-outline-primary" type="button" (click)="mostrar2()">Más</button>
                             <label class="col-sm-1"></label>
                             <label class="col-sm-1"></label>
-                            <button class="col-sm-4 btn btn-primary" type="button" (click)="ocultar2()">Menos</button>
+                            <button class="col-sm-4 btn btn-outline-primary" type="button" (click)="ocultar2()">Menos</button>
                             <label class="col-sm-1"></label>
                           </div>
                         </div>
@@ -978,7 +963,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="manzana" #manzana="ngModel"
                               [(ngModel)]="personaService.selectedPersona.manzana"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -998,7 +983,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="cuadra" #cuadra="ngModel"
                               [(ngModel)]="personaService.selectedPersona.cuadra"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1018,7 +1003,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="sector" #sector="ngModel"
                               [(ngModel)]="personaService.selectedPersona.sector"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1038,7 +1023,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="edificio" #edificio="ngModel"
                               [(ngModel)]="personaService.selectedPersona.edificio"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1058,7 +1043,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="nivel" #nivel="ngModel"
                               [(ngModel)]="personaService.selectedPersona.nivel"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1075,10 +1060,10 @@
                         <div class="col-sm-12 py-3" *ngIf="mostrarMas2">
                           <div class="container">
                             <label class="col-sm-1"></label>
-                            <button class="col-sm-4 btn btn-info" type="button" (click)="mostrar3()">Más</button>
+                            <button class="col-sm-4 btn btn-outline-info" type="button" (click)="mostrar3()">Más</button>
                             <label class="col-sm-1"></label>
                             <label class="col-sm-1"></label>
-                            <button class="col-sm-4 btn btn-info" type="button" (click)="ocultar3()">Menos</button>
+                            <button class="col-sm-4 btn btn-outline-info" type="button" (click)="ocultar3()">Menos</button>
                             <label class="col-sm-1"></label>
                           </div>
                         </div>
@@ -1089,7 +1074,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="apartamento" #apartamento="ngModel"
                               [(ngModel)]="personaService.selectedPersona.apartamento"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1109,7 +1094,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="kilometro" #kilometro="ngModel"
                               [(ngModel)]="personaService.selectedPersona.kilometro"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1129,7 +1114,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="carretera" #carretera="ngModel"
                               [(ngModel)]="personaService.selectedPersona.carretera"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1149,7 +1134,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="aldea" #aldea="ngModel"
                               [(ngModel)]="personaService.selectedPersona.aldea"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1169,7 +1154,7 @@
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="otra_direccion" #otra_direccion="ngModel"
                               [(ngModel)]="personaService.selectedPersona.otra_direccion"
-                              pattern="[A-Z 0-9 ÁÉÍÓÚÑ /#''()¡!¿?-]+">
+                              pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
                             <i class="fas fa-map-marker-alt fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Todo en mayusculas.
@@ -1217,7 +1202,7 @@
 
                           </div>
                           <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="seleccionarCorreo()">+</button>
+                            <button type="button" class="btn btn-outline-dark" (click)="seleccionarCorreo()"><i class="fas fa-plus-circle" aria-hidden="true"></i></button>
                           </div>
                         </div>
 
@@ -1234,7 +1219,7 @@
                           <label class="col-sm-3 col-form-label">Celulares:</label>
                           <div class="inputWithIcon inputIconBg col-sm-6">
                             <input type="number" name="celularInput" [(ngModel)]="celularInput">
-                            <i class="fas fa-at fa-2x mx-3" aria-hidden="true"></i>
+                            <i class="fas fa-phone-volume fa-2x mx-3" aria-hidden="true"></i>
 
                             <button type="button" class="btn mb-2" tooltip="Remover."
                               *ngFor="let celular of celularArray" placement="top"
@@ -1244,7 +1229,7 @@
 
                           </div>
                           <div class="col-sm-1 py-1 px-1">
-                            <button type="button" class="btn btn-dark" (click)="seleccionarCelular()">+</button>
+                            <button type="button" class="btn btn-outline-dark" (click)="seleccionarCelular()"><i class="fas fa-plus-circle" aria-hidden="true"></i></button>
                           </div>
                         </div>
 
@@ -1301,7 +1286,7 @@
                       <div class="card-body">
                         <h5 class="card-title bg-dark p-3" style="text-align: center; color: white">
                           {{ nombre_persona_detalle }}</h5>
-                        <h5 *ngIf="estado_civil_detalle === 'CASADO (A)'"><span style="color: blue">Apellido
+                        <h5 *ngIf="estado_civil_detalle === 'CASADO (A)' && genero_detalle === 'MUJER'"><span style="color: blue">Apellido
                             casada:</span> {{ apellido_casada_detalle }} </h5>
 
                         <div class="row">

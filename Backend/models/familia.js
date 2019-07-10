@@ -5,9 +5,9 @@ const FamiliaSchema = new Schema ({
     nombre_familia: { type: String, required: true},
     hijos: { type: Array, required: true },
 
-    encargado: { type: String, required: true, uppercase : true},
-    padre: { type: String, required: false, uppercase : true},
-    madre: { type: String, required: false, uppercase : true},
+    encargado: { type: String, required: true},
+    padre: { type: String, required: false},
+    madre: { type: String, required: false},
 });
 
 module.exports = mongoose.model('Familia', FamiliaSchema);

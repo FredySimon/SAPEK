@@ -1,8 +1,8 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
 
-  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#carrera">
-    <i class="fas fa-plus-circle"></i>--- Nueva Carrera
+  <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal" data-target="#carrera">
+    <i class="fas fa-plus-circle"></i> --- Nueva Carrera
   </button>
 
   <div class="form-group row mt-3">
@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let carrera of carreraService.carreras | carrera:filter_carrera">
+      <tr class="bg-light" *ngFor="let carrera of carreraService.carreras | carrera:filter_carrera">
         <td align="center">
           <h6>{{ carrera.nombre_carrera }}</h6>
         </td>
@@ -77,13 +77,10 @@
                           <label class="col-sm-3 col-form-label">Nombre Carrera:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="nombre_carrera" #nombre_carrera="ngModel"
-                              [(ngModel)]="carreraService.selectedCarrera.nombre_carrera" required pattern="[A-Z 0-9]+">
-                            <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                              [(ngModel)]="carreraService.selectedCarrera.nombre_carrera" required  pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
+                            <i class="fas fa-network-wired fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Nombre carrera obligatorio.
-                            </div>
-                            <div class="invalid-feedback">
-                              Todo en mayusculas.
                             </div>
                             <div class="valid-feedback">
                               Hecho.
@@ -207,7 +204,7 @@
                                 style="color: red">A</span> {{ final_detalle }} </p>
                           </div>
                           <div class="col-md-12">
-                            <p class="card-text"><small class="text-muted"><span class="fa fa-restroom"></span>
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-calendar-check"></span>
                                 Tiempo de vida de carrera:</small></p>
                           </div>
                         </div>

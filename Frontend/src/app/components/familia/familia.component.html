@@ -1,7 +1,8 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
 
-  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#familia">
+  <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal"
+    data-target="#familia">
     <i class="fas fa-plus-circle"></i>--- Nueva Familia
   </button>
 
@@ -25,7 +26,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let familia of familiaService.familias | familia:filter_familia">
+      <tr class="bg-light" *ngFor="let familia of familiaService.familias | familia:filter_familia">
         <td align="center">
           <h6>{{ familia.nombre_familia }}</h6>
         </td>
@@ -42,7 +43,7 @@
           <h6>{{ familia.madre }}</h6>
         </td>
         <td align="center">
-          <!-- <a (click)="editFamilia(familia)" data-toggle="modal" data-target="#familia"><i class="fas fa-edit"></i></a> -->
+          <a (click)="editFamilia(familia)" data-toggle="modal" data-target="#familia"><i class="fas fa-edit"></i></a> 
 
           <a (click)="deleteFamilia(familia._id)"><i class="fas fa-trash-alt"></i></a>
 
@@ -97,16 +98,16 @@
                         <div class="inputWithIcon inputIconBg col-sm-7">
                           <input type="text" class="form-control" name="filterHijos" placeholder="Buscar hijo"
                             [(ngModel)]="filterHijos">
-                          <i class="fas fa-user-graduate fa-2x mx-3" aria-hidden="true"></i>
+                          <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
 
-                          <ul class="list-group">
-                            <li class="list-group-item list-group-item-primary"
-                              *ngFor="let persona of personaService.personas | filter:filterHijos">
-                              {{ persona.primer_nombre }} {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
-                              {{ persona.segundo_apellido }}
-                              <button type="button" (click)="pasarHijo(persona)"
-                                class="agregar fas fa-user-check"></button> </li>
-                          </ul>
+                          <div class="list-group">
+                            <button *ngFor="let persona of personaService.personas | filter:filterHijos" type="button"
+                              class="list-group-item list-group-item-action agregar fas fa-child"
+                              (click)="pasarHijo(persona)"> --- {{ persona.primer_nombre }} {{ persona.segundo_nombre }}
+                              {{ persona.primer_apellido }}
+                              {{ persona.segundo_apellido }}</button>
+                          </div>
+
                         </div>
                       </div>
 
@@ -122,16 +123,16 @@
                         <label class="col-sm-3 col-form-label">Hijos:</label>
                         <div class="inputWithIcon inputIconBg col-sm-6">
                           <input type="text" class="form-control" [(ngModel)]="hijoInput" name="hijo" readonly>
-                          <i class="fas fa-book fa-2x mx-3" aria-hidden="true"></i>
+                          <i class="fas fa-child fa-2x mx-3" aria-hidden="true"></i>
 
                           <button type="button" class="btn mb-2" tooltip="Remover." *ngFor="let hijo of hijosArray"
-                            placement="top" style="background: gray; color: white" (click)="quitarHijo(hijo)">
-                            {{hijo}}
+                            placement="top" style="background: gray; color: white" (click)="quitarHijo(hijo)">{{hijo}}
                           </button>
 
                         </div>
                         <div class="col-sm-1 py-1 px-1">
-                          <button type="button" class="btn btn-dark" (click)="seleccionarHijo()">+</button>
+                          <button type="button" class="btn btn-outline-dark" (click)="seleccionarHijo()"><i
+                              class="fas fa-plus-circle" aria-hidden="true"></i></button>
                         </div>
                       </div>
 
@@ -147,7 +148,7 @@
                               {{ persona.segundo_apellido }} </option>
 
                           </select>
-                          <i class="fas fa-network-wired  fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Carrera obligatorio.
                           </div>
@@ -169,7 +170,7 @@
                               {{ persona.segundo_apellido }} </option>
 
                           </select>
-                          <i class="fas fa-network-wired  fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-user-tie  fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Carrera obligatorio.
                           </div>
@@ -191,7 +192,7 @@
                               {{ persona.segundo_apellido }} </option>
 
                           </select>
-                          <i class="fas fa-network-wired  fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-female  fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Carrera obligatorio.
                           </div>
@@ -257,12 +258,12 @@
                             <p class="card-text" style="color: black">{{ padre_detalle }}</p>
                           </div>
                           <div class="col-md-12">
-                            <p class="card-text"><small class="text-muted"><span class="fa fa-question"></span>
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-user-tie"></span>
                                 Padre:</small></p>
                             <p class="card-text" style="color: black">{{ madre_detalle }}</p>
                           </div>
                           <div class="col-md-12">
-                            <p class="card-text"><small class="text-muted"><span class="fa fa-church"></span>
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-female"></span>
                                 Madre:</small></p>
                           </div>
                         </div>
@@ -271,7 +272,7 @@
 
                         <div class="row">
                           <div class="col-md-12">
-                            <p class="card-text bg-danger p-3" style="color: white"><span class="fa fa-envelope"></span>
+                            <p class="card-text bg-danger p-3" style="color: white"><span class="fa fa-users"></span>
                               Hijos de la familia:
                               {{ hijos_detalle }}</p>
                           </div>

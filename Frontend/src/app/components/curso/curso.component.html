@@ -2,28 +2,38 @@
 <form class="forma mt-5">
 
   <!-- Button trigger modal -->
-  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#curso">
+  <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal" data-target="#curso">
     <i class="fas fa-plus-circle"></i>--- Nuevo Curso
   </button>
+
+  <div class="form-group row mt-3">
+    <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+      <input type="text" class="form-control" name="filter_curso" placeholder="Buscar usuario"
+        [(ngModel)]="filter_curso">
+      <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+    </div>
+  </div>
 
   <table class="table mt-5">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Código Curso</th>
         <th scope="col">Nombre Curso</th>
+        <th scope="col">Código Curso</th>
+        <th scope="col">Tiempo de vida</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let curso of cursoService.cursos; index as i">
-        <th scope="row">{{i+1}}</th>
-        <td>{{ curso.codigo_curso }}</td>
-        <td>{{ curso.nombre_curso }}</td>
-        <td>
+      <tr class="bg-light" *ngFor="let curso of cursoService.cursos | curso:filter_curso">
+        <td align="center"><h6>{{ curso.nombre_curso }}</h6></td>
+        <td align="center"><h6>{{ curso.codigo_curso }}</h6></td>
+        <td align="center"><h6>{{ curso.inicio }} - {{ curso.final }}</h6></td>
+        <td align="center">
           <a (click)="editCurso(curso)" data-toggle="modal" data-target="#curso"><i class="fas fa-edit"></i></a>
 
           <a (click)="deleteCurso(curso._id)"><i class="fas fa-trash-alt"></i></a>
+
+          <a (click)="getCurso(curso)" data-toggle="modal" data-target="#detalle"><i class="fas fa-eye"></i></a>
         </td>
       </tr>
     </tbody>
@@ -59,6 +69,22 @@
                         <label class="bg-primary p-2" style="color:white;">No sepermiten registros duplicados</label>
 
                         <div class="form-group row mt-3 ">
+                          <label class="col-sm-1"></label>
+                        <label class="col-sm-3 col-form-label">Nombre Curso:</label>
+                        <div class="inputWithIcon inputIconBg col-sm-7">
+                          <input type="text" class="form-control" name="nombre_curso" #nombre_curso="ngModel"
+                            [(ngModel)]="cursoService.selectedCurso.nombre_curso" required pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
+                          <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                          <div class="invalid-feedback">
+                            Primer nombre obligatorio.
+                          </div>
+                          <div class="valid-feedback">
+                            Hecho.
+                          </div>
+                        </div>
+                      </div>
+
+                        <div class="form-group row mt-3 ">
                             <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Código Curso:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
@@ -79,17 +105,32 @@
                         </div>
 
                         <div class="form-group row mt-3 ">
-                            <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Nombre Curso:</label>
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Fecha Inicio:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="text" class="form-control" name="nombre_curso" #nombre_curso="ngModel"
-                              [(ngModel)]="cursoService.selectedCurso.nombre_curso" required pattern="[A-Z 0-9]+">
-                            <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }" name="inicio"
+                              #inicio="ngModel" [(ngModel)]="cursoService.selectedCurso.inicio" required>
+                            <i class="fas fa-calendar-check fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
-                              Primer nombre obligatorio.
+                              Tiempo obligatorio.
                             </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="form-group row mt-3 ">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label">Fecha Final:</label>
+                          <div class="inputWithIcon inputIconBg col-sm-7">
+                            <input type="text" class="form-control" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }" name="final"
+                              #final="ngModel" [(ngModel)]="cursoService.selectedCurso.final" required>
+                            <i class="fas fa-calendar-times fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
-                              Todo en mayusculas.
+                              Tiempo obligatorio.
                             </div>
                             <div class="valid-feedback">
                               Hecho.
@@ -104,6 +145,68 @@
                           </div>
                       
                     </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Curso
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="card mb-3" style="max-width: 800px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4 my-auto">
+                      <img
+                        src="http://www.vldarquitectos.com/informesgalicia/wp-content/uploads/2016/01/icono-normativa.png"
+                        class="card-img px-1">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <div class="p-3 clearfix">
+                          <div class="bg-dark col-md-9 float-left card-title d-inline-block border border-dark">
+                              <h3 style="color: white">{{ nombre_curso_detalle }}</h3>
+                          </div>
+
+                            <div class="card-title d-inline-block bg-white col-md-3 float-right border border-dark" >
+                                <h3 class="text-center" style="color: black;"> {{ codigo_curso_detalle }}</h3>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p class="card-text" style="color: black">{{ inicio_detalle }} <span
+                                style="color: red">A</span> {{ final_detalle }} </p>
+                          </div>
+                          <div class="col-md-12">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-calendar-check"></span>
+                                Tiempo de vida de curso:</small></p>
+                          </div>
+                        </div>
+
+                        <label class="col-sm-12 bg-primary py-2" style="color:white;"></label>
+
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

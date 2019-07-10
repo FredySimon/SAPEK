@@ -25,7 +25,6 @@ redCtrl.createRed = async (req, res) => {
 })
 }
 
-
 redCtrl.getRed = async (req, res) => {
     const red = await Red.findById(req.params.id);
     res.json(red)
@@ -39,9 +38,7 @@ redCtrl.editRed = async (req, res) => {
         fecha_inicio: req.body.fecha_inicio,
         fecha_final: req.body.fecha_final, 
 
-        jornada: req.body.jornada,
-        seccion: req.body.seccion,
-        grado: req.body.grado,
+        asignacion:req.body.asignacion,
         cursos: req.body.cursos
     };
     await Red.findByIdAndUpdate(id, {$set: red}, {new: true});

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AsignacionCarrerasService } from '../../services/asignacion-carreras.service';
 import { NgForm } from '@angular/forms';
-import { AsignacionCarreras } from 'src/app/models/asignacion-carreras';
 import { ToastrService } from 'ngx-toastr';
+
+import { AsignacionCarrerasService } from '../../services/asignacion-carreras.service';
+import { AsignacionCarreras } from 'src/app/models/asignacion-carreras';
 
 import { AsignacionCursosService } from '../../services/asignacion-cursos.service';
 import { AsignacionCursos} from 'src/app/models/asignacion-cursos';
@@ -16,7 +17,6 @@ import { Carrera } from 'src/app/models/carrera';
 import { InstructorService } from '../../services/instructor.service';
 import { Intructor } from 'src/app/models/intructor';
 
-
 @Component({
   selector: 'app-asignacion-carreras',
   templateUrl: './asignacion-carreras.component.html',
@@ -24,21 +24,34 @@ import { Intructor } from 'src/app/models/intructor';
 })
 export class AsignacionCarrerasComponent implements OnInit {
 
+  detalle_grado_jornada:string = ''
+  detalle_grado_seccion:string = ""
+  detalle_grado_grado:string = ""
+  detalle_grado_carrera:string = ""
+  detalle_grado_instructores = []
+
+  detalle_curso_jornada: string = ""
+  detalle_curso_curso: string = ""
+  detalle_curso_instructores = []
+
   asignarCarrera: Boolean = false;
   asignarCurso: Boolean = false;
 
-  mostrarInstructor2: Boolean = false;
-  mostrarInstructor3: Boolean = false;
+  instructoresArrayCarrera = [];
+  instructorInputCarrera: string = "";
 
-  mostrarInstructorDos: Boolean = false;
-  mostrarInstructorTres: Boolean = false;
+  instructoresArrayCurso = [];
+  instructorInputCurso: string = "";
 
   constructor(  private asignacionCarrerasService: AsignacionCarrerasService,
                 private carreraService: CarreraService, 
                 private instructorService: InstructorService,
                 private asignacionCursosService: AsignacionCursosService,
                 private cursoService: CursoService,
-                private toastr: ToastrService) { }
+                private toastr: ToastrService) { 
+                  this.instructoresArrayCarrera = [];
+                  this.instructoresArrayCurso = [];
+                }
 
                 @ViewChild('btnClose') btnClose: ElementRef;
 
@@ -48,14 +61,10 @@ export class AsignacionCarrerasComponent implements OnInit {
                 private asignacionesCursos: AsignacionCursos[];
                 private cursos: Curso[];
 
-                filterCarrera = '';
-                filterInstructor = '';
-                filterInstructor1 = '';
-                filterInstructor2= '';
-                filterCurso = '';
-                filterInstructorI = '';
-                filterInstructorII = '';
-                filterInstructorIII = '';
+                filter_instructor_carrera = '';
+                filter_instructor_curso = '';
+                filter_asignacion_carreras = '';
+                filter_asignacion_cursos = '';
 
   ngOnInit() {
     this.getAsignacionesCarreras();
@@ -66,26 +75,37 @@ export class AsignacionCarrerasComponent implements OnInit {
   }
 
   addAsignacionCarreras(form : NgForm){
-
     if(form.valid ){
       if(form.value._id){
-        this.asignacionCarrerasService.putAsignacionCarreras(form.value)
-        .subscribe(res => {
-          this.toastr.success('Accion realizada exitosamente', 'Asignacion actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
-          this.getAsignacionesCarreras();
-          console.log(res);
-          this.btnClose.nativeElement.click();
-          this.resetForm(form);
-        })
+        if(this.asignacionCarrerasService.selectedAsignacionCarreras.instructores.length > 0 ){
+          this.asignacionCarrerasService.putAsignacionCarreras(form.value)
+          .subscribe(res => {
+            this.toastr.success('Accion realizada exitosamente', 'Asignacion actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
+            this.getAsignacionesCarreras();
+            console.log(res);
+            this.btnClose.nativeElement.click();
+            this.resetForm(form);
+            this.instructoresArrayCarrera = []
+          })
+        } else {
+          this.toastr.error('Mínimo un instructor.')
+        }
+        
       }else {
-        this.asignacionCarrerasService.postAsignacionCarreras(form.value)
-        .subscribe(res => {
-          this.toastr.success('Accion realizada exitosamente', 'Asignacion guardada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
-          this.getAsignacionesCarreras();
-          console.log(res);
-          this.btnClose.nativeElement.click();
-          this.resetForm(form);
-        })
+        if(this.asignacionCarrerasService.selectedAsignacionCarreras.instructores.length > 0 ){
+          this.asignacionCarrerasService.postAsignacionCarreras(form.value)
+          .subscribe(res => {
+            this.toastr.success('Accion realizada exitosamente', 'Asignacion guardada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
+            this.getAsignacionesCarreras();
+            console.log(res);
+            this.btnClose.nativeElement.click();
+            this.resetForm(form);
+            this.instructoresArrayCarrera = []
+          })
+        } else {
+          this.toastr.error('Mínimo un instructor.')
+        }
+        
       }
     }else{
       console.log('Formulario no valido');
@@ -96,16 +116,21 @@ export class AsignacionCarrerasComponent implements OnInit {
   addAsignacionCursos(form : NgForm){
     if(form.valid){
       if(form.value._id){
-        this.asignacionCursosService.putAsignacionCursos(form.value)
-        .subscribe(res => {
-          this.toastr.success('Accion realizada exitosamente', 'Asignacion actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
-          this.getAsignacionesCursos();
-          console.log(res);
-          this.btnClose.nativeElement.click();
-          this.resetForm(form);
-        })
+        if(this.asignacionCursosService.selectedAsignacionCursos.instructores.length > 0){
+          this.asignacionCursosService.putAsignacionCursos(form.value)
+          .subscribe(res => {
+            this.toastr.success('Accion realizada exitosamente', 'Asignacion actualizada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
+            this.getAsignacionesCursos();
+            console.log(res);
+            this.btnClose.nativeElement.click();
+            this.resetForm(form);
+          })
+        }else {
+          this.toastr.error('Mínimo un instructor.')
+        }  
       }else {
-        this.asignacionCursosService.postAsignacionCursos(form.value)
+        if(this.asignacionCursosService.selectedAsignacionCursos.instructores.length > 0){
+          this.asignacionCursosService.postAsignacionCursos(form.value)
         .subscribe(res => {
           this.toastr.success('Accion realizada exitosamente', 'Asignacion guardada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
           this.getAsignacionesCursos();
@@ -113,6 +138,9 @@ export class AsignacionCarrerasComponent implements OnInit {
           this.btnClose.nativeElement.click();
           this.resetForm(form);
         })
+        } else {
+          this.toastr.error('Mínimo un instructor.')
+        }      
       }
     }else{
       console.log('Formulario no valido');
@@ -138,12 +166,34 @@ export class AsignacionCarrerasComponent implements OnInit {
     })
   }
 
+  getAsignacionCarrera(asignacionCarreras: AsignacionCarreras){
+    this.asignacionCarrerasService.getAsignacionCarreras(asignacionCarreras)
+      .subscribe(res => {
+        this.detalle_grado_jornada = asignacionCarreras.jornada
+        this.detalle_grado_seccion = asignacionCarreras.seccion
+        this.detalle_grado_grado = asignacionCarreras.grado
+        this.detalle_grado_carrera = asignacionCarreras.carrera
+        this.detalle_grado_instructores = asignacionCarreras.instructores
+      }) 
+  }
+
+  getASignacionCurso(asignacionCursos: AsignacionCursos){
+    this.asignacionCursosService.getAsignacionCursos(asignacionCursos)
+    .subscribe(res => {
+      this.detalle_curso_jornada = asignacionCursos.jornada
+      this.detalle_curso_curso = asignacionCursos.curso
+      this.detalle_curso_instructores = asignacionCursos.instructores
+    })
+  }
+
   editAsignacionCarreras(asignacionCarreras: AsignacionCarreras){
     this.asignacionCarrerasService.selectedAsignacionCarreras = asignacionCarreras;
+    this.instructoresArrayCarrera = asignacionCarreras.instructores
   }
 
   editAsignacionCursos(asignacionCursos: AsignacionCursos){
     this.asignacionCursosService.selectedAsignacionCursos = asignacionCursos;
+    this.instructoresArrayCurso = asignacionCursos.instructores
   }
 
   deleteAsignacionCarreras(_id: string){
@@ -192,96 +242,12 @@ export class AsignacionCarrerasComponent implements OnInit {
     })
   }
 
-  seleccionarCurso(curso: Curso){
-    let idCurso:string = curso._id;
-    let nombre_curso:string = curso.nombre_curso;
-    let codigo_curso:string = curso.codigo_curso;
-    this.asignacionCursosService.selectedAsignacionCursos.curso = idCurso;
-    this.asignacionCursosService.selectedAsignacionCursos.nombre_curso = nombre_curso;
-    this.asignacionCursosService.selectedAsignacionCursos.codigo_curso = codigo_curso;
-  }
-
   getInstructores(){
     this.instructorService.getInstructores()
     .subscribe(res =>{
       this.instructorService.instructores = res as Intructor[]
       console.log(res);
     })
-  }
-
-  seleccionarInstructor(instructor: Intructor){
-    let idInstructor:string = instructor._id;
-    let nombre_instructor:string = instructor.nombre_persona;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.instructor = idInstructor;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.nombre_instructor = nombre_instructor;
-  }
-
-  seleccionarInstructor1(instructor: Intructor){
-    let idInstructor:string = instructor._id;
-    let nombre_instructor:string = instructor.nombre_persona;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.instructor1 = idInstructor;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.nombre_instructor1 = nombre_instructor;
-    console.log(nombre_instructor)
-  }
-
-  seleccionarInstructor2(instructor: Intructor){
-    let idInstructor:string = instructor._id;
-    let nombre_instructor:string = instructor.nombre_persona;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.instructor2 = idInstructor;
-    this.asignacionCarrerasService.selectedAsignacionCarreras.nombre_instructor2 = nombre_instructor;
-  }
-
-  seleccionarInstructorI(instructor: Intructor){
-    let idInstructor:string = instructor._id;
-    let nombre_instructor:string = instructor.nombre_persona;
-    this.asignacionCursosService.selectedAsignacionCursos.instructor = idInstructor;
-    this.asignacionCursosService.selectedAsignacionCursos.nombre_instructor = nombre_instructor;
-  }
-
-  seleccionarInstructorII(instructor: Intructor){
-    let idInstructor:string = instructor._id;
-    let nombre_instructor:string = instructor.nombre_persona;
-    this.asignacionCursosService.selectedAsignacionCursos.instructor1 = idInstructor;
-    this.asignacionCursosService.selectedAsignacionCursos.nombre_instructor1 = nombre_instructor;
-  }
-
-  seleccionarInstructorIII(instructor: Intructor){
-    let idInstructor:string = instructor._id;
-    let nombre_instructor:string = instructor.nombre_persona;
-    this.asignacionCursosService.selectedAsignacionCursos.instructor2 = idInstructor;
-    this.asignacionCursosService.selectedAsignacionCursos.nombre_instructor2 = nombre_instructor;
-  }
-
-  mostrarInstructorII(){
-    this.mostrarInstructor2 = true;
-  }
-
-  ocultarInstructorII(){
-    this.mostrarInstructor2 = false;
-  }
-
-  mostrarInstructorIII(){
-    this.mostrarInstructor3 = true;
-  }
-
-  ocultarInstructorIII(){
-    this.mostrarInstructor3 = false;
-  }
-
-  mostrarInstruc2(){
-    this.mostrarInstructorDos = true;
-  }
-
-  ocultarInstruc2(){
-    this.mostrarInstructorDos = false;
-  }
-
-  mostrarInstruc3(){
-    this.mostrarInstructorTres = true;
-  }
-
-  ocultarInstruc3(){
-    this.mostrarInstructorTres = false;
   }
 
   moCarrera(){
@@ -301,6 +267,76 @@ export class AsignacionCarrerasComponent implements OnInit {
     } else {
       this.asignarCurso = true
       this.asignarCarrera = false
+    }
+  }
+
+  pasarInstructorCarrera(instructor: Intructor){
+    this.instructorInputCarrera = instructor.persona
+  }
+
+  pasarInstructorCurso(instructor: Intructor){
+    this.instructorInputCurso = instructor.persona
+  }
+
+  seleccionarInstructorCarrera(){
+    if(this.instructorInputCarrera !== ""){
+      if (this.instructoresArrayCarrera.length < 3){
+        if (this.instructoresArrayCarrera.indexOf(this.instructorInputCarrera) > -1){
+          this.toastr.error('Instructor duplicado')
+        } else {
+          this.asignacionCarrerasService.selectedAsignacionCarreras.instructores.push(this.instructorInputCarrera)
+          this.instructoresArrayCarrera = this.asignacionCarrerasService.selectedAsignacionCarreras.instructores
+          this.toastr.success('Agregado')
+          this.instructorInputCarrera = ""
+          console.log(this.instructoresArrayCarrera)
+          console.log(this.asignacionCarrerasService.selectedAsignacionCarreras.instructores)
+        }
+      } else {
+        this.toastr.error('Máximo 3 instructores.')
+      }
+    } else {
+      this.toastr.error('Escoja un instructor.')
+    }
+  }
+
+  seleccionarInstructorCurso(){
+    if(this.instructorInputCurso !== ""){
+      if(this.instructoresArrayCurso.length < 3){
+        if(this.instructoresArrayCurso.indexOf(this.instructorInputCurso) > -1){
+          this.toastr.error('Instructor duplicado')
+        }else {
+          this.asignacionCursosService.selectedAsignacionCursos.instructores.push(this.instructorInputCurso)
+          this.instructoresArrayCurso = this.asignacionCursosService.selectedAsignacionCursos.instructores
+          this.toastr.success('Agregado')
+          this.instructorInputCurso = ""
+        }
+      } else {
+        this.toastr.error('Máximo 3 instructores.')
+      }
+    } else {
+      this.toastr.error('Escoja un instructor.')
+    }
+  }
+
+  quitarInstructorCarrera(instructor: any){
+    const instructores = this.instructoresArrayCarrera.indexOf(instructor);
+    const instructors = this.asignacionCarrerasService.selectedAsignacionCarreras.instructores.indexOf(instructor)
+
+    if(instructores >= 0 && instructors >= 0){
+      this.instructoresArrayCarrera.splice(instructores, 1)
+      this.asignacionCarrerasService.selectedAsignacionCarreras.instructores.splice(instructors, 1)
+      this.toastr.warning('Instructor removido')
+    }
+  }
+
+  quitarInstructorcurso(instructor: any){
+    const instructores = this.instructoresArrayCurso.indexOf(instructor)
+    const instructors = this.asignacionCursosService.selectedAsignacionCursos.instructores.indexOf(instructor)
+
+    if(instructores >= 0 && instructors >= 0){
+      this.instructoresArrayCurso.splice(instructores, 1)
+      this.asignacionCursosService.selectedAsignacionCursos.instructores.splice(instructors, 1)
+      this.toastr.warning('Instructor removido.')
     }
   }
 }

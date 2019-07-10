@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from 'src/app/models/usuario';
 
+import { PersonaService } from '../../services/persona.service';
+import { Persona } from 'src/app/models/persona';
+
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
@@ -16,24 +19,31 @@ export class UsuarioComponent implements OnInit {
   passwrod_detalle:string = ""
   rol_detalle:string = ""
 
+  persona:boolean = false;
+  mostrar: Boolean = false;
+
   roles = [
     'ADMINISTRADOR',
-    'DIRECTOR/SUBDIRECTOR',
+    'DIRECTOR',
+    'SUBDIRECTOR',
     'COORDINADOR',
     'SECRETARIA'
   ]
 
   constructor(  private usuarioService: UsuarioService,
+                private personaService: PersonaService,
                 private toastr: ToastrService) { }
 
                 @ViewChild('btnClose') btnClose: ElementRef;
 
                 private usuarios: Usuario[];
+                private personas: Persona[];
 
                 filter_usuario = '';
 
   ngOnInit() {
     this.getUsuarios();
+    this.getPersonas();
   }
 
   addUsuario(form: NgForm){
@@ -73,6 +83,13 @@ export class UsuarioComponent implements OnInit {
     })
   }
 
+  getPersonas(){
+    this.personaService.getPersonas()
+    .subscribe(res => {
+      this.personaService.personas = res as Persona[]
+    })
+  }
+
   getUsuario(usuario: Usuario){
     this.usuarioService.getUsuario(usuario)
     .subscribe(res => {
@@ -101,6 +118,22 @@ export class UsuarioComponent implements OnInit {
       form.reset();
       this.usuarioService.selectedUsuario = new Usuario();
     }
+  }
+
+  mostrarContrase() {
+    this.mostrar = true;
+  }
+
+  ocultarContrase() {
+    this.mostrar = false;
+  }
+
+  usuarioPorPersona(){
+    this.persona = true
+  }
+
+  usuarioPorEmail(){
+    this.persona = false
   }
 
 }

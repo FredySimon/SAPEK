@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const PersonaSchema = new Schema({
-    genero: { type: String, required: true, uppercase : true },
-    estado_civil: { type: String, required: true, uppercase : true },
+    genero: { type: String, required: true },
+    estado_civil: { type: String, required: true },
 
     primer_nombre: { type: String, required: true, uppercase : true },
     segundo_nombre: { type: String, required: false, uppercase : true },
@@ -11,17 +11,17 @@ const PersonaSchema = new Schema({
     segundo_apellido: { type: String, required: false, uppercase : true },
     apellido_conyugal: { type: String, required: false, uppercase : true },
     fecha_nacimiento: { type: Date, required: true },
-    religion: { type: String, required: true, uppercase : true },
+    religion: { type: String, required: true },
 
     correos: { type: Array, required: true },
 
     direccion: {
-        departamento: { type: String, required: true, uppercase : true },
-        municipio: { type: String, required: true, uppercase : true },
+        departamento: { type: String, required: true },
+        municipio: { type: String, required: true },
         zona: { type: Number, required: true },
         avenida: { type: String, required: false, uppercase : true },
         calle: { type: String, required: false, uppercase : true },
-        noCasa: { type: String, required: false, uppercase : true },
+        noCasa: { type: String, required: false },
 
         colonia: { type: String, required: false, uppercase : true },
         boulevard: { type: String, required: false, uppercase : true },

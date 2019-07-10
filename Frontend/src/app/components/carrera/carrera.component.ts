@@ -16,8 +16,11 @@ export class CarreraComponent implements OnInit {
   inicio_detalle: string = ""
   final_detalle: string = ""
 
+  carrerasArray = []
+
   constructor(  private carreraService: CarreraService,
-                private toastr: ToastrService) { }
+                private toastr: ToastrService) { 
+                }
 
   @ViewChild('btnClose') btnClose: ElementRef;
 
@@ -27,6 +30,7 @@ export class CarreraComponent implements OnInit {
 
   ngOnInit() {
     this.getCarreras();
+    this.carrerasArray = this.carreras
   }
 
   addCarrera(form : NgForm){
@@ -40,15 +44,15 @@ export class CarreraComponent implements OnInit {
             this.btnClose.nativeElement.click();
             this.resetForm(form);
           })
-      }else{
-        this.carreraService.postCarrea(form.value)
+      }else{    
+          this.carreraService.postCarrea(form.value)
         .subscribe(res => {
           this.toastr.success('Accion realizada exitosamente', 'Carrera guardada.',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' });
           this.getCarreras();
             console.log(res);
             this.btnClose.nativeElement.click();
             this.resetForm(form);
-        })
+        })              
       } 
     }else {
       console.log('Formulario no valido');

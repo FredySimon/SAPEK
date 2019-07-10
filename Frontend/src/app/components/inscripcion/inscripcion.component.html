@@ -1,19 +1,19 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
 
-  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#inscripcion">
+  <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal" data-target="#inscripcion">
     <i class="fas fa-plus-circle"></i>--- Nueva Inscripción
   </button>
 
-  <div class="form-group row mt-3">
+   <div class="form-group row mt-3">
       <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
-          <input type="text" class="form-control" name="filter_inscripcion" placeholder="Buscar red de estudio"
+          <input type="text" class="form-control" name="filter_inscripcion" placeholder="Buscar inscripción"
           [(ngModel)]="filter_inscripcion" >
           <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
       </div>
-    </div> 
+    </div>  
 
-  <table widht="1490px" class="table mt-5 col-sm-12">
+  <table class="table mt-5">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Estudiante</th>
@@ -29,16 +29,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let inscripcion of inscripcionService.inscripciones | inscripcion:filter_inscripcion">
-        <td>{{ inscripcion.estudiante }}</td>
-        <td>{{ inscripcion.unidad_academica }}</td>
-        <td>{{ inscripcion.cuota_mensual }}</td>
-        <td>{{ inscripcion.jornada }}</td>
-        <td>{{ inscripcion.grado }}</td>
-        <td>{{ inscripcion.carrera }}</td>
-        <td>{{ inscripcion.seccion }}</td>
-        <td>{{ inscripcion.curso }}</td> 
-        <td>
+      <tr class="bg-light" *ngFor="let inscripcion of inscripcionService.inscripciones | inscripcion:filter_inscripcion">
+        <td align="center"><h6>{{ inscripcion.estudiante }}</h6></td>
+
+         <td align="center"><h6>{{ inscripcion.unidad_academica }}</h6></td>
+
+        <td align="center"><h6>{{ inscripcion.cuota_mensual }}</h6></td>
+
+        <td align="center"><h6>{{ inscripcion.jornada }}</h6> </td>
+
+        <td align="center"><h6>{{ inscripcion.grado }}</h6></td>
+        <td align="center"><h6>{{ inscripcion.carrera }}</h6></td>
+        <td align="center"><h6>{{ inscripcion.seccion }}</h6></td>
+        <td align="center"><h6>{{ inscripcion.curso }}</h6></td>  
+        <td align="center">
           <a (click)="editInscripcion(inscripcion)" data-toggle="modal" data-target="#inscripcion"><i
               class="fas fa-edit"></i></a>
 
@@ -76,7 +80,8 @@
                       <input type="hidden" name="_id" #_id="ngModel"
                         [(ngModel)]="inscripcionService.selectedInscripcion._id">
 
-                      <label class="col-sm-12 bg-primary p-2" style="color:white; text-align: center;"></label>
+                      <label *ngIf="!this.inscripcionService.selectedInscripcion._id" class="col-sm-12 bg-primary p-2" style="color:white; text-align: center;"></label>
+                      <label *ngIf="this.inscripcionService.selectedInscripcion._id" class="col-sm-12 bg-primary p-2" style="color:white; text-align: center;">Resetear Formulario si va a cambiar de unidad académica.</label>
 
                       <div class="form-group row mt-3">
                         <label class="col-sm-1"></label>
@@ -90,7 +95,7 @@
                               {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
                               {{ persona.segundo_apellido }}</option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-street-view fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Estudiante obligatorio.
                           </div>
@@ -110,7 +115,7 @@
                             <option value="" disabled></option>
                             <option *ngFor="let unidad of unidadService.unidades">{{ unidad.nombre_unidad }} </option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-school fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Unidad Academica obligatorio.
                           </div>
@@ -127,7 +132,7 @@
                           <input type="text" class="form-control" name="cuota_mensual" #cuota_mensual="ngModel"
                             [(ngModel)]="inscripcionService.selectedInscripcion.cuota_mensual" required
                             pattern="[0-9]+">
-                          <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
+                          <i class="fas fa-money-check-alt fa-2x mx-3" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Cuota Mensual obligatorio.
                           </div>
@@ -141,7 +146,7 @@
                       </div>
 
                       <div class="form-group row mt-3"
-                        *ngIf="inscripcionService.selectedInscripcion.unidad_academica !== '' && inscripcionService.selectedInscripcion.unidad_academica == 'CENTRO EDUCATIVO TECNICO LABORAL KINAL'">
+                        *ngIf="inscripcionService.selectedInscripcion.unidad_academica !== '' && inscripcionService.selectedInscripcion.unidad_academica == 'CENTRO EDUCATIVO TÉCNICO LABORAL KINAL'">
                         <label class="col-sm-1"></label>
                         <label class="col-sm-3 col-form-label py-3">Grado:</label>
                         <div name="grado" class="inputWithIcon inputIconBg col-sm-7">
@@ -155,7 +160,7 @@
                             <option>QUINTO</option>
                             <option>SEXTO</option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-th fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Grado obligatorio.
                           </div>
@@ -176,7 +181,7 @@
                             <option>MATUTINA</option>
                             <option>VESPERTINA</option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-sun fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Jornada obligatorio.
                           </div>
@@ -197,7 +202,7 @@
                             <option>MATUTINA</option>
                             <option>VESPERTINA</option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-sun fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Jornada obligatorio.
                           </div>
@@ -218,7 +223,7 @@
                             <option>MATUTINA</option>
                             <option>VESPERTINA</option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-sun fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Jornada obligatorio.
                           </div>
@@ -240,7 +245,7 @@
                             <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }}
                             </option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-network-wired fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Carrera obligatorio.
                           </div>
@@ -262,7 +267,7 @@
                             <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }}
                             </option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-network-wired fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Carrera obligatorio.
                           </div>
@@ -284,7 +289,7 @@
                             <option *ngFor="let carrera of carreraService.carreras">{{ carrera.nombre_carrera }}
                             </option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-network-wired fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Carrera obligatorio.
                           </div>
@@ -294,7 +299,7 @@
                         </div>
                       </div>
 
-                      <div class="form-group row mt-3" *ngIf="inscripcionService.selectedInscripcion.unidad_academica === 'CENTRO EDUCATIVO TECNICO LABORAL KINAL'">
+                      <div class="form-group row mt-3" *ngIf="inscripcionService.selectedInscripcion.unidad_academica === 'CENTRO EDUCATIVO TÉCNICO LABORAL KINAL'">
                         <label class="col-sm-1"></label>
                         <label class="col-sm-3 col-form-label py-3">Sección:</label>
                         <div name="seccion" class="inputWithIcon inputIconBg col-sm-7">
@@ -310,7 +315,7 @@
                             <option>G</option>
                             <option>H</option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-object-group fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Genero obligatorio.
                           </div>
@@ -321,7 +326,7 @@
                       </div>
 
                       <div class="form-group row mt-3"
-                        *ngIf="inscripcionService.selectedInscripcion.unidad_academica !== '' && inscripcionService.selectedInscripcion.unidad_academica == 'ESCUELA TECNICA SUPERIOR'">
+                        *ngIf="inscripcionService.selectedInscripcion.unidad_academica !== '' && inscripcionService.selectedInscripcion.unidad_academica == 'ESCUELA TÉCNICA SUPERIOR'">
                         <label class="col-sm-1"></label>
                         <label class="col-sm-3 col-form-label py-3">Curso:</label>
                         <div name="curso" class="inputWithIcon inputIconBg col-sm-7">
@@ -330,7 +335,7 @@
                             <option value="" disabled></option>
                             <option *ngFor="let curso of cursoService.cursos">{{ curso.nombre_curso }} </option>
                           </select>
-                          <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                          <i class="fas fa-book fa-2x mx-2" aria-hidden="true"></i>
                           <div class="invalid-feedback">
                             Curso obligatorio.
                           </div>
@@ -340,12 +345,45 @@
                         </div>
                       </div>
 
-                      <div class="form-group row center">
+                      <div class="form-group row mt-3"  *ngIf="inscripcionService.selectedInscripcion.unidad_academica !== '' && inscripcionService.selectedInscripcion.unidad_academica == 'ESCUELA TÉCNICA SUPERIOR'">
+                          <label class="col-sm-1"></label>
+                          <label class="col-sm-3 col-form-label py-3">Jornada:</label>
+                          <div name="jornada" class="inputWithIcon inputIconBg col-sm-7">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelectPref" name="jornada"
+                              id="jornada" #jornada="ngModel" [(ngModel)]="inscripcionService.selectedInscripcion.jornada"
+                              required>
+                              <option value="" disabled></option>
+                              <option>MATUTINA</option>
+                              <option>VESPERTINA</option>
+                            </select>
+                            <i class="fas fa-sun fa-2x mx-2" aria-hidden="true"></i>
+                            <div class="invalid-feedback">
+                              Jornada obligatorio.
+                            </div>
+                            <div class="valid-feedback">
+                              Hecho.
+                            </div>
+                          </div>
+                        </div>
+
+                      <div class="form-group row center" *ngIf="!this.inscripcionService.selectedInscripcion._id">
                         <label class="col-sm-2"></label>
                         <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
                             class="fas fa-save"></i>
                           <p></p>
                         </button>
+                      </div>
+
+                      <div class="form-group row center" *ngIf="this.inscripcionService.selectedInscripcion._id">
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark col-sm-4">Guardar <i
+                          class="fas fa-save"></i>
+                        <p></p>
+                      </button>
+                      <button type="button" style="background-color: gray;" class="btn col-sm-4" (click)="resetearFormulario(inscripcionForm)">Resetear <i
+                        class="fas fa-trash-restore-alt"></i>
+                      <p></p>
+                    </button>
                       </div>
                     </form>
                   </div>
@@ -364,7 +402,7 @@
 
         <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">
@@ -376,15 +414,15 @@
               </div>
               <div class="modal-body">
 
-                <div class="card mb-3" style="max-width: 540px;">
+                <div class="card mb-3" style="max-width: 800px;">
                   <div class="row no-gutters">
                     <div class="col-md-4 my-auto">
-                      <img src="https://i2.wp.com/graformar.com.ar/wp-content/uploads/inscripcion.png?fit=256%2C256"
+                      <img src="data:image/png;base64,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"
                         class="card-img">
                     </div>
                     <div class="col-md-8">
                       <div class="card-body">
-                        <h5 class="card-title">{{ estudiante_detalle }} :</h5>
+                        <h5 class="card-title bg-dark p-3" style="text-align: center; color: white">{{ estudiante_detalle }} :</h5>
 
                         <p class="card-text"><small class="text-muted">Unidad academica:</small></p>
                         <p class="card-text bg-secondary p-2" style="color: white">{{ unidad_academca_detalle }}</p>
@@ -393,6 +431,9 @@
                           <div class="col-md-6">
                               <p class="card-text"><small class="text-muted">Jornada:</small></p>
                               <p class="card-text" style="color: blue">{{ jornada_detalle }}</p>
+                              <p class="card-text" *ngIf="this.grado_detalle === 'TERCERO'" style="color: blue">MATUTINA</p>
+                            <p class="card-text" *ngIf="this.grado_detalle === 'PRIMERO'" style="color: blue">MATUTINA</p>
+                            <p class="card-text" *ngIf="this.grado_detalle === 'SEGUNDO'" style="color: blue">MATUTINA</p>
                           </div>
                           <div class="col-md-6">
                               <p class="card-text"><small class="text-muted">Cuota:</small></p>
@@ -402,23 +443,32 @@
 
                         <label class="col-sm-12 bg-primary py-2" style="color:white;"></label>
 
-                        <div class="row">
-                          <div class="col-md-6">
-                              <p class="card-text"><small class="text-muted">Grado:</small></p>
-                              <p class="card-text" style="color: black">{{ grado_detalle }}</p>
+                        <div *ngIf="!this.curso_detalle" class="row">
+                          <div class="col-md-4">
+                            <p class="card-text" ><small class="text-muted"><span class="fa fa-object-group"></span>
+                                Sección:</small></p>
+                            <p class="card-text" style="color: black">{{ seccion_detalle }}</p>
                           </div>
-                          <div class="col-md-6">
-                              <p class="card-text"><small class="text-muted">Carrera:</small></p>
-                              <p class="card-text" style="color: black">{{ carrera_detalle }}</p>
+
+                          <div class="col-md-4">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-th"></span> Grado:</small></p>
+                            <p class="card-text" style="color: black">{{ grado_detalle }}</p>
+                          </div>
+                          <div class="col-md-4">
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-network-wired"></span>
+                                Carrera:</small></p>
+                            <p class="card-text" style="color: black">{{ carrera_detalle }}</p>
+                            <p class="card-text" *ngIf="this.grado_detalle === 'TERCERO'" style="color: black">---</p>
+                            <p class="card-text" *ngIf="this.grado_detalle === 'PRIMERO'" style="color: black">---</p>
+                            <p class="card-text" *ngIf="this.grado_detalle === 'SEGUNDO'" style="color: black">---</p>
                           </div>
                         </div>
 
-                        <p class="card-text"><small class="text-muted">Sección:</small></p>
-                        <p class="card-text" style="color: black">{{ seccion_detalle }}</p>
-
-                        <p class="card-text"><small class="text-muted">Curso:</small></p>
-                        <p class="card-text" style="color: black">{{ curso_detalle }}</p>
-                        
+                        <div *ngIf="this.curso_detalle" class="container">
+                          <p class="card-text"><small class="text-muted">Curso:</small></p>
+                          <p class="card-text" style="color: black">{{ curso_detalle }}</p>
+                        </div>
+  
                       </div>
                     </div>
                   </div>

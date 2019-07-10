@@ -14,6 +14,10 @@ import { Persona } from 'src/app/models/persona';
 })
 export class InstructorComponent implements OnInit {
 
+  codigo_profesor_detalle: string = ""
+  persona_detalle: string = "" 
+  profesion_detalle: string = ""
+
   constructor(  private instructorService: InstructorService,
                 private personaService: PersonaService,
                 private toastr: ToastrService) { }
@@ -23,7 +27,7 @@ export class InstructorComponent implements OnInit {
 private instructor: Intructor[];
 private personas: Persona[];
 
-filterPersona = '';
+filterInstructor = '';
 
   ngOnInit() {
     this.getInstructores();
@@ -66,6 +70,15 @@ filterPersona = '';
       })
   }
 
+  getInstructor(instructor: Intructor){
+    this.instructorService.getInstructor(instructor)
+    .subscribe(res => {
+      this.codigo_profesor_detalle = instructor.codigo_profesor
+      this.persona_detalle = instructor.persona
+      this.profesion_detalle = instructor.profesion
+    })
+  }
+
   editInstructor(instructor: Intructor){
     this.instructorService.selectedInstructor = instructor;
   }
@@ -96,20 +109,11 @@ filterPersona = '';
     })
   }
 
-  seleccionarPersona(persona: Persona){
-    let idPersona:string = persona._id;
-    let nombre:string= persona.primer_nombre;
-    let apellido:string= persona.primer_apellido;
-    this.instructorService.selectedInstructor.persona = idPersona;
-    this.instructorService.selectedInstructor.nombre_persona = apellido + '_' + nombre;
-    this.toastr.success('Agregada')
-  }
-
   generarCodigo(){
    var A = Math.round(Math.random()*200)
    var B = ' - INS'
  
-console.log(A + B)
+ console.log(A + B)
     this.instructorService.selectedInstructor.codigo_profesor = A + B;
   }
 

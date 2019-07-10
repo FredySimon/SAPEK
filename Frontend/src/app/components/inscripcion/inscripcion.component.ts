@@ -131,6 +131,16 @@ export class InscripcionComponent implements OnInit {
     }
   }
 
+  resetearFormulario(form: NgForm){
+    this.inscripcionService.selectedInscripcion.unidad_academica = ""
+    this.inscripcionService.selectedInscripcion.cuota_mensual = ""
+    this.inscripcionService.selectedInscripcion.grado = ""
+    this.inscripcionService.selectedInscripcion.jornada = ""
+    this.inscripcionService.selectedInscripcion.carrera = ""
+    this.inscripcionService.selectedInscripcion.seccion = ""
+    this.inscripcionService.selectedInscripcion.curso = ""
+  }
+
   getPersonas(){
     this.personaService.getPersonas()
     .subscribe(res=> {

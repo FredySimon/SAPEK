@@ -12,28 +12,27 @@ asignacionCarreraCtrl.createAsignacionC = async (req, res) => {
         seccion: req.body.seccion,
         grado: req.body.grado,
 
-        nombre_carrera: req.body.nombre_carrera,
+        carrera: req.body.carrera,
 
-        instructores:{
-            instructorI:{
-                instructor: req.body.instructor,
-                nombre_instructor: req.body.nombre_instructor
-            },
-    
-            instructorII:{
-                instructor1: req.body.instructor1,
-                nombre_instructor1: req.body.nombre_instructor1
-            },
-    
-            instructorIII:{
-                instructor2: req.body.instructor2,
-            nombre_instructor2: req.body.nombre_instructor2
-            }
-        }
+        instructores: req.body.instructores,
     });
 
-        await asignacionC.save();
-        res.json({'status': 'Asignacion realizada.'}) 
+        if(asignacionC.grado === 'PRIMERO'){
+            asignacionC.jornada = 'MATUTINA'
+            await asignacionC.save();
+            res.json({'status': 'Asignacion realizada.'}) 
+        } else if(asignacionC.grado === 'SEGUNDO'){
+            asignacionC.jornada = 'MATUTINA'
+            await asignacionC.save();
+            res.json({'status': 'Asignacion realizada.'}) 
+        } else if(asignacionC.grado === 'TERCERO'){
+            asignacionC.jornada = 'MATUTINA'
+            await asignacionC.save();
+            res.json({'status': 'Asignacion realizada.'}) 
+        }else {
+            await asignacionC.save();
+            res.json({'status': 'Asignacion realizada.'}) 
+        }      
 }
 
 asignacionCarreraCtrl.getAsignacionC = async (req, res) => {
@@ -47,31 +46,28 @@ asignacionCarreraCtrl.editASignacionC = async (req, res) => {
         jornada: req.body.jornada,
         seccion: req.body.seccion,
         grado: req.body.grado,
-        carrera_asignada:{
-            carrera: req.body.carrera,
-            nombre_carrera: req.body.nombre_carrera,
-            codigo_carrera: req.body.codigo_carrera
-        },
-        
-        instructores:{
-            instructorI:{
-                instructor: req.body.instructor,
-                nombre_instructor: req.body.nombre_instructor
-            },
-    
-            instructorII:{
-                instructor1: req.body.instructor1,
-                nombre_instructor1: req.body.nombre_instructor1
-            },
-    
-            instructorIII:{
-                instructor2: req.body.instructor2,
-            nombre_instructor2: req.body.nombre_instructor2
-            }
-        }
+
+        carrera: req.body.carrera,
+
+        instructores: req.body.instructores,
     };
-    await AsignacionC.findByIdAndUpdate(id, {$set: asignacionC}, {new: true});
-    res.json({status: 'Asignación actualizada.'})
+
+    if(asignacionC.grado === 'PRIMERO'){
+        asignacionC.jornada = 'MATUTINA'
+        await AsignacionC.findByIdAndUpdate(id, {$set: asignacionC}, {new: true});
+        res.json({status: 'Asignación actualizada.'})
+    } else if(asignacionC.grado === 'SEGUNDO'){
+        asignacionC.jornada = 'MATUTINA'
+        await AsignacionC.findByIdAndUpdate(id, {$set: asignacionC}, {new: true});
+        res.json({status: 'Asignación actualizada.'})
+    } else if(asignacionC.grado === 'TERCERO'){
+        asignacionC.jornada = 'MATUTINA'
+        await AsignacionC.findByIdAndUpdate(id, {$set: asignacionC}, {new: true});
+        res.json({status: 'Asignación actualizada.'})
+    } else {
+        await AsignacionC.findByIdAndUpdate(id, {$set: asignacionC}, {new: true});
+        res.json({status: 'Asignación actualizada.'})
+    }
 }
 
 asignacionCarreraCtrl.deleteASignacionC = async (req, res) => {

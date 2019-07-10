@@ -23,11 +23,7 @@
     text-align: center;
 }
 
-.row {
-    display: inline-block;
-    padding: 10px;
-    margin: auto;
-}
+
 
 .header {
     width: 100%;
@@ -140,4 +136,113 @@ body {
 #lista:hover{
    background-color : gray;
    color: white;
+}
+
+.colorH {
+    background-color: rgba(12, 27, 243, 0.562)
+}
+
+.colorC {
+    background-color: rgba(59, 59, 63, 0.74)
+}
+
+.botonGuardar{
+	padding-left:150px;
+  padding-right:150px;
+}
+
+h4 {
+    text-align: center;
+}
+
+input{
+	width: 100%;
+	border: 2px solid #aaa;
+	border-radius: 4px;
+	margin: 8px 0;
+	outline: none;
+	padding: 8px;
+	box-sizing: border-box;
+	transition: 0.3s;
+	
+  }
+ 
+  input:focus {
+	border-color: dodgerBlue;
+	box-shadow: 0 0 20px 0 dodgerBlue;
+  }
+
+  .inputWithIcon input {
+	padding-left: 50px;
+  }
+
+  .inputWithIcon {
+	position: relative;
+  }
+  
+  .inputWithIcon i {
+	position: absolute;
+	left: 0;
+	top: 8px;
+	padding: 6px 5px;
+	color: #aaa;
+	transition: 0.3s;
+  }
+  
+  .inputWithIcon :focus + i {
+	color: dodgerBlue;
+  }
+  
+  .inputWithIcon.inputIconBg i {
+	background-color: #aaa;
+	color: #fff;
+	padding: 3px 4px;
+	border-radius: 4px 0 0 4px;
+  }
+  
+  .inputWithIcon.inputIconBg :focus + i {
+	color: #fff;
+	background-color: dodgerBlue;
+  }
+
+  .main-section{
+    margin:0 auto;
+    margin-top:25%;
+    padding: 0;
+    height: 80%;
+}
+
+.modal-content1{
+    background-color: black;
+    opacity: .85;
+    box-shadow: 0px 0px 3px white;
+    margin-top: 250px;
+}
+
+.modal-content{
+    background-color: #3b4652;
+    opacity: .85;
+    box-shadow: 0px 0px 3px white;
+}
+
+.user-img{
+    margin-top: -50px;
+    margin-bottom: 35px;
+}
+
+.user-img img{
+    width: 100xp;
+    height: 100px;
+    box-shadow: 0px 0px 3px #848484;
+    border-radius: 50%;
+}
+
+.inputs input{
+    height: 42px;
+    width: 270px;
+    font-size: 18px;
+    border:0;
+    padding-left: 54px;
+    border-radius: 5px;
+    
 }

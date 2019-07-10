@@ -10,6 +10,8 @@ cursoCtrl.createCurso = async (req, res) => {
     const curso = new Curso({
         codigo_curso: req.body.codigo_curso,
         nombre_curso: req.body.nombre_curso,
+        inicio: req.body.inicio,
+        final: req.body.final,
     });
 
     await curso.save();
@@ -26,6 +28,8 @@ cursoCtrl.editCurso = async (req, res) => {
     const curso = {
         codigo_curso: req.body.codigo_curso,
         nombre_curso: req.body.nombre_curso,
+        inicio: req.body.inicio,
+        final: req.body.final,
     };
     await Curso.findByIdAndUpdate(id, {$set: curso}, {new: true});
     res.json({status: 'Curso actualizado.'})

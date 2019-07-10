@@ -1,27 +1,35 @@
 <label class="mt-5"></label>
 <form class="forma mt-5">
-
-  <!-- Button trigger modal -->
-  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#unidad">
+  <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal" data-target="#unidad">
     <i class="fas fa-plus-circle"></i>--- Nueva Unidad Académica
   </button>
+
+  <div class="form-group row mt-3">
+    <div class="inputWithIcon inputIconBg col-sm-9 float-left mx-5">
+      <input type="text" class="form-control" name="filter_unidad" placeholder="Buscar unidad academica"
+        [(ngModel)]="filter_unidad">
+      <i class="fas fa-search-plus fa-2x mx-3" aria-hidden="true"></i>
+    </div>
+  </div>
 
   <table class="table mt-5">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre </th>
+        <th scope="col">Nombre Unidad Académica</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let unidad of unidadService.unidades; index as i">
-        <th scope="row">{{i+1}}</th>
-        <td>{{ unidad.nombre_unidad }}</td>
-        <td>
+      <tr class="bg-light" *ngFor="let unidad of unidadService.unidades | unidad:filter_unidad">
+        <td align="center">
+          <h6>{{ unidad.nombre_unidad }}</h6>
+        </td>
+        <td align="center">
           <a (click)="editUnidad(unidad)" data-toggle="modal" data-target="#unidad"><i class="fas fa-edit"></i></a>
 
           <a (click)="deleteUnidad(unidad._id)"><i class="fas fa-trash-alt"></i></a>
+
+          <a (click)="getUnidad(unidad)" data-toggle="modal" data-target="#detalle"><i class="fas fa-eye"></i></a>
         </td>
       </tr>
     </tbody>
@@ -38,7 +46,8 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">
-                  {{ !this.unidadService.selectedUnidad._id ? 'Nueva Unidad Academica' : 'Actualizar Unidad Academica'}}</h5>
+                  {{ !this.unidadService.selectedUnidad._id ? 'Nueva Unidad Academica' : 'Actualizar Unidad Academica'}}
+                </h5>
                 <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -56,12 +65,12 @@
                         <label class="bg-primary p-2" style="color:white;"></label>
 
                         <div class="form-group row mt-3 ">
-                            <label class="col-sm-1"></label>
+                          <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Nombre:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
                             <input type="text" class="form-control" name="nombre_unidad" #nombre_unidad="ngModel"
-                              [(ngModel)]="unidadService.selectedUnidad.nombre_unidad" required pattern="[A-Z 0-9]+">
-                            <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
+                              [(ngModel)]="unidadService.selectedUnidad.nombre_unidad" required pattern="[A-Z a-z áéíóúñ ÁÉÍÓÚÑ 0-9 /#''-]+">
+                            <i class="fas fa-signature fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Nombre obligatorio.
                             </div>
@@ -77,13 +86,52 @@
                       </div>
 
                       <div class="form-group row center">
-                          <label class="col-sm-2"></label>
-                                  <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i class="fas fa-save"></i><p></p></button>
-                          </div>
-                      
+                        <label class="col-sm-2"></label>
+                        <button type="submit" class="btn btn-dark botonGuardar col-sm-8">Guardar <i
+                            class="fas fa-save"></i>
+                          <p></p>
+                        </button>
+                      </div>
+
                     </form>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+
+        <div class="modal fade" id="detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Detalle de Unidad Académica
+                </h5>
+                <button type="button" class="close" #btnClose data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+
+                <div class="row">
+                  <div class="col-sm-3">
+                      <i class="fas fa-fire fa-9x" style="color: orange"></i>
+                  </div>
+                  <div class="col-sm-9">
+                      <p class="p-5 bg-dark" align="center" style="color: white">{{ nombre_unidad_detalle }}</p>
+                  </div>
+                </div>
+                
               </div>
             </div>
           </div>

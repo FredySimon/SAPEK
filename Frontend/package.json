@@ -21,13 +21,16 @@
     "@angular/router": "~7.2.0",
     "@syncfusion/ej2-angular-buttons": "^17.1.50",
     "@syncfusion/ej2-angular-navigations": "^17.1.49",
-    "bootstrap": "4.2.1",
+    "angular-password-strength-meter": "0.0.4",
+    "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
-    "ngx-bootstrap": "^4.1.1",
+    "ngx-bootstrap": "^4.3.0",
+    "ngx-show-hide-password": "^2.0.5",
     "ngx-toastr": "^10.0.2",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",

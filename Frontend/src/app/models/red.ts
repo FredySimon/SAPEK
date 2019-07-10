@@ -5,9 +5,8 @@ export class Red {
                     carrera='',
                     fecha_inicio='',
                     fecha_final='',
-                    jornada='',
-                    seccion='',
-                    grado='',
+
+                    asignacion='',
                     cursos = []
                     ){
                         this._id = _id;
@@ -16,9 +15,7 @@ export class Red {
                         this.fecha_inicio = fecha_inicio;
                         this.fecha_final = fecha_final;
 
-                        this.jornada = jornada;
-                        this.seccion = seccion;
-                        this.grado = grado;
+                        this.asignacion = asignacion;
                         this.cursos = cursos;
                     }
 
@@ -28,9 +25,7 @@ export class Red {
                     fecha_inicio: string;
                     fecha_final: string;
 
-                    jornada:string;
-                    seccion:string;
-                    grado:string;
+                    asignacion:string;
                     cursos: Array<any>;
 }
 

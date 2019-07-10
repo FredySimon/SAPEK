@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { UnidadService } from '../../services/unidad.service';
 import { NgForm } from '@angular/forms';
-import { Unidad } from 'src/app/models/unidad';
 import { ToastrService } from 'ngx-toastr';
+
+import { UnidadService } from '../../services/unidad.service';
+import { Unidad } from 'src/app/models/unidad';
 
 @Component({
   selector: 'app-unidad',
@@ -11,12 +12,16 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UnidadComponent implements OnInit {
 
+  nombre_unidad_detalle:string = ""
+
   constructor(  private unidadService: UnidadService,
                 private toastr: ToastrService) { }
 
   @ViewChild('btnClose') btnClose: ElementRef;
 
   private unidades: Unidad[]; 
+
+  filter_unidad = '';
 
   ngOnInit() {
     this.getUnidades();
@@ -55,6 +60,13 @@ export class UnidadComponent implements OnInit {
       this.unidadService.unidades = res as Unidad[]
       this.toastr.info('Acción realizada exitosamente', 'Unidades obtenidas',{positionClass: 'toast-bottom-left', tapToDismiss: true, progressBar: true, progressAnimation: 'increasing' })
       console.log(res);
+    })
+  }
+
+  getUnidad(unidad: Unidad){
+    this.unidadService.getUnidad(unidad)
+    .subscribe(res => {
+      this.nombre_unidad_detalle = unidad.nombre_unidad
     })
   }
 

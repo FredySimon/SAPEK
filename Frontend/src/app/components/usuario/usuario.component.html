@@ -1,7 +1,7 @@
 <label class="mt-5"></label>
-<form class="forma mt-5">
 
-  <button type="submit" class="btn btn-primary botonNuevo float-right" data-toggle="modal" data-target="#usuario">
+<form class="forma mt-5">
+  <button type="submit" class="btn btn-outline-primary botonNuevo float-right" data-toggle="modal" data-target="#usuario">
     <i class="fas fa-plus-circle"></i>--- Nuevo Usuario
   </button>
 
@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let usuario of usuarioService.usuarios | usuario:filter_usuario">
+      <tr class="bg-light" *ngFor="let usuario of usuarioService.usuarios | usuario:filter_usuario">
         <td align="center">
           <h6>{{ usuario.nombre }}</h6>
         </td>
@@ -34,7 +34,7 @@
           <h6>{{ usuario.password }}</h6>
         </td>
         <td align="center" style="vertical-align:middle;">
-          <a (click)="editUsuario(usuario)" data-toggle="modal" data-target="#usuario"><i class="fas fa-edit"></i></a>
+          <!-- <a (click)="editUsuario(usuario)" data-toggle="modal" data-target="#usuario"><i class="fas fa-edit"></i></a> -->
 
           <a (click)="deleteUsuario(usuario._id)"><i class="fas fa-trash-alt"></i></a>
 
@@ -74,13 +74,40 @@
                         <label class="col-sm-1"></label>
                         <label class="bg-primary p-2" style="color:white;"></label>
 
-                        <div class="form-group row mt-3">
+                        <div class="container">
+                            <button *ngIf="!persona" (click)="usuarioPorPersona()" type="button" class="btn btn-lg btn-block btn-outline-dark">Persona</button>
+                            <button  *ngIf="persona" (click)="usuarioPorEmail()" type="button" class="btn btn-lg btn-block btn-outline-dark">Email</button>
+                        </div>
+
+                         <div *ngIf="persona" class="form-group row mt-3">
+                            <label class="col-sm-1"></label>
+                            <label class="col-sm-3 col-form-label py-3">Persona:</label>
+                            <div class="inputWithIcon inputIconBg col-sm-7">
+                              <select class="custom-select mr-sm-2" id="nombre" name="nombre" #nombre="ngModel"
+                                [(ngModel)]="usuarioService.selectedUsuario.nombre" required>
+                                <option value="" disabled></option>
+                                <option *ngFor="let persona of personaService.personas">{{ persona.primer_nombre }}
+                                  {{ persona.segundo_nombre }} {{ persona.primer_apellido }}
+                                  {{ persona.segundo_apellido }} </option>
+    
+                              </select>
+                              <i class="fas fa-user-circle fa-2x mx-2" aria-hidden="true"></i>
+                              <div class="invalid-feedback">
+                                Persona obligatorio.
+                              </div>
+                              <div class="valid-feedback">
+                                Hecho.
+                              </div>
+                            </div>
+                          </div> 
+
+                         <div *ngIf="!persona" class="form-group row mt-3" >
                           <label class="col-sm-1"></label>
-                          <label class="col-sm-3 col-form-label">Nombre:</label>
+                          <label class="col-sm-3 col-form-label">Email:</label>
                           <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="text" class="form-control" name="nombre" #nombre="ngModel"
-                              [(ngModel)]="usuarioService.selectedUsuario.nombre" required
-                              pattern="[a-záéíóúñA-ZÁÉÍÓÚÑ0-9-]+">
+                            <input type="email" class="form-control" name="nombre" #nombre="ngModel"
+                              [(ngModel)]="usuarioService.selectedUsuario.nombre" 
+                              pattern="[a-záéíóúñA-ZÁÉÍÓÚÑ0-9-_@.]+" required>
                             <i class="fas fa-user-circle fa-2x mx-3" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Nombre obligatorio.
@@ -89,16 +116,18 @@
                               Hecho.
                             </div>
                           </div>
-                        </div>
+                        </div> 
 
-                        <div class="form-group row mt-3">
+                        <div *ngIf="!mostrar" class="form-group row mt-3">
                           <label class="col-sm-1"></label>
                           <label class="col-sm-3 col-form-label">Contraseña:</label>
-                          <div class="inputWithIcon inputIconBg col-sm-7">
-                            <input type="password" class="form-control" name="password" id="password" #password="ngModel"
-                              [(ngModel)]="usuarioService.selectedUsuario.password" required
-                              pattern="[a-z áéíóúñ A-Z ÁÉÍÓÚÑ 0-9 .,-/*-+!]+" pattern=".{8,}">
-                            <i class="fas fa-eye fa-2x mx-3" aria-hidden="true"></i>
+                          <div class="inputWithIcon inputIconBg col-sm-6">
+                            <input size="15" type="password" class="form-control input_pass" name="password"
+                              id="password" #password="ngModel" [(ngModel)]="usuarioService.selectedUsuario.password"
+                              required pattern=".{8,}"
+                              style="font-size: 15pt; font-weight: bold; color: black" >
+                            <i class="fas fa-unlock fa-2x mx-3" aria-hidden="true"></i>                            
+                            <password-strength-meter [password]="usuarioService.selectedUsuario.password"></password-strength-meter>
                             <div class="invalid-feedback">
                               Contraseña 8 caracteres obligatorio.
                             </div>
@@ -106,7 +135,32 @@
                               Hecho.
                             </div>
                           </div>
+                          <div class="col-sm-1 py-1 px-1">
+                              <button type="button" class="btn btn-outline-dark" (click)="mostrarContrase()"><i class="fas fa-eye"></i></button>
+                            </div>
                         </div>
+
+                        <div *ngIf="mostrar" class="form-group row mt-3">
+                            <label class="col-sm-1"></label>
+                            <label class="col-sm-3 col-form-label">Contraseña:</label>
+                            <div class="inputWithIcon inputIconBg col-sm-6">
+                              <input size="15" type="text" class="form-control input_pass" name="password"
+                                id="password" #password="ngModel" [(ngModel)]="usuarioService.selectedUsuario.password"
+                                required pattern=".{8,}"
+                                style="font-size: 15pt; color: black" >
+                              <i class="fas fa-unlock fa-2x mx-3" aria-hidden="true"></i>                            
+                              <password-strength-meter [password]="usuarioService.selectedUsuario.password"></password-strength-meter>
+                              <div class="invalid-feedback">
+                                Contraseña 8 caracteres obligatorio.
+                              </div>
+                              <div class="valid-feedback">
+                                Hecho.
+                              </div>
+                            </div>
+                            <div class="col-sm-1 py-1 px-1">
+                                <button type="button" class="btn btn-outline-dark" (click)="ocultarContrase()"><i class="fas fa-eye"></i></button>
+                              </div>
+                          </div>
 
                         <div class="form-group row mt-3">
                           <label class="col-sm-1"></label>
@@ -116,7 +170,7 @@
                               #rol="ngModel" [(ngModel)]="usuarioService.selectedUsuario.rol" required>
                               <option *ngFor="let rol of roles">{{rol}}</option>
                             </select>
-                            <i class="fas fa-restroom fa-2x mx-2" aria-hidden="true"></i>
+                            <i class="fas fa-user-tag fa-2x mx-2" aria-hidden="true"></i>
                             <div class="invalid-feedback">
                               Rol obligatorio.
                             </div>
@@ -171,7 +225,10 @@
                       <img *ngIf="this.rol_detalle === 'COORDINADOR'"
                         src="https://files-storage.easygenerator.com/image/a3dc026a-7506-40d8-90cc-a9d7d08b9050.png"
                         class="card-img">
-                      <img *ngIf="this.rol_detalle === 'DIRECTOR/SUBDIRECTOR'"
+                      <img *ngIf="this.rol_detalle === 'DIRECTOR'"
+                        src="https://banner2.kisspng.com/20180713/taq/kisspng-bakan-business-representative-director-man-at-desk-5b48bebcb78111.9271268215314940767517.jpg"
+                        class="card-img">
+                        <img *ngIf="this.rol_detalle === 'SUBDIRECTOR'"
                         src="https://banner2.kisspng.com/20180713/taq/kisspng-bakan-business-representative-director-man-at-desk-5b48bebcb78111.9271268215314940767517.jpg"
                         class="card-img">
                       <img *ngIf="this.rol_detalle === 'SECRETARIA'"
@@ -188,7 +245,7 @@
 
                         <div class="row">
                           <div class="col-md-12">
-                            <p class="card-text"><small class="text-muted"><span class="fa fa-birthday-cake"></span>
+                            <p class="card-text"><small class="text-muted"><span class="fa fa-user-tag"></span>
                                 Rol del sistema:</small></p>
                             <p class="card-text bg-secondary p-1" style="color: white">{{ rol_detalle }}
                             </p>

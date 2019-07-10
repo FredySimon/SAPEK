@@ -13,10 +13,6 @@ export class FamiliaPipe implements PipeTransform {
         resultPosts.push(post);
       } else if (post.encargado.toLowerCase().indexOf(arg.toLowerCase()) > -1){
         resultPosts.push(post);
-      }else if (post.padre.toLowerCase().indexOf(arg.toLowerCase()) > -1){
-        resultPosts.push(post);
-      }else if (post.madre.toLowerCase().indexOf(arg.toLowerCase()) > -1){
-        resultPosts.push(post);
       }
     };
     return resultPosts;

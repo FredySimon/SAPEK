@@ -9,28 +9,8 @@ asignacionCursosCtrl.getAsignacionesCursos = async (req, res) => {
 asignacionCursosCtrl.createAsignacionCurso = async (req, res) => {
     const asignacionCursos = new AsignacionCursos({
         jornada: req.body.jornada,
-        curso_asignado: {
-            curso: req.body.curso,
-            nombre_curso: req.body.nombre_curso,
-            codigo_curso: req.body.codigo_curso
-        },
-
-        instructores:{
-            instructorI:{
-                instructor: req.body.instructor,
-                nombre_instructor: req.body.nombre_instructor
-            },
-    
-            instructorII:{
-                instructor1: req.body.instructor1,
-                nombre_instructor1: req.body.nombre_instructor1
-            },
-    
-            instructorIII:{
-                instructor2: req.body.instructor2,
-            nombre_instructor2: req.body.nombre_instructor2
-            }
-        }
+        curso: req.body.curso,
+        instructores: req.body.instructores
     });
     await asignacionCursos.save();
     res.json({'status': 'Asignacion realizada'})
@@ -45,28 +25,8 @@ asignacionCursosCtrl.editSignacionCursos = async (req, res) => {
     const { id } = req.params;
     const asignacionCursos = {
         jornada: req.body.jornada,
-        curso_asignado: {
-            curso: req.body.curso,
-            nombre_curso: req.body.nombre_curso,
-            codigo_curso: req.body.codigo_curso
-        },
-
-        instructores:{
-            instructorI:{
-                instructor: req.body.instructor,
-                nombre_instructor: req.body.nombre_instructor
-            },
-    
-            instructorII:{
-                instructor1: req.body.instructor1,
-                nombre_instructor1: req.body.nombre_instructor1
-            },
-    
-            instructorIII:{
-                instructor2: req.body.instructor2,
-            nombre_instructor2: req.body.nombre_instructor2
-            }
-        }
+        curso: req.body.curso,
+        instructores: req.body.instructores
     };
     await AsignacionCursos.findByIdAndUpdate(id, {$set: asignacionCursos}, {new: true});
     res.json({status: 'Asignacion actualizada.'})

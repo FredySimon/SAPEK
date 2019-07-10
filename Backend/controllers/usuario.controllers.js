@@ -2,6 +2,7 @@
 const Usuario = require('../models/usuario');
 const usuarioCtrl = {};
 const bcrypt = require('bcrypt-nodejs');
+const jwt = require('../services/jwt.js')
 
 usuarioCtrl.getUsuarios  = async (req, res) => {
     const usuarios = await Usuario.find();
@@ -23,13 +24,42 @@ usuarioCtrl.createUsuario = (req, res) => {
                     usuario.password = hash;
 
                      usuario.save((stored) => {
-                        res.status(200).send({usuario: stored})
+                        res.status(200).send({usuario: usuario})
                     })
                 })
             }
         }
     })
 }
+
+usuarioCtrl.loginUsuario = (req, res) => {
+    var params = req.body;
+    var nombre = params.nombre;
+    var password = params.password;
+
+     Usuario.findOne({nombre: nombre.toLowerCase()}, (err, usuario) =>{
+        if(err){
+            res.json({status : 'Error al intentar iniciar sesión.'})
+         } else {
+         if(usuario){
+                bcrypt.compare(password, usuario.password, (err, check) =>{
+                    if(check){
+                        if(params.gettoken){
+                            res.status(200).send({token: jwt.createTokenUser(usuario)});
+                        } else {
+                            res.status(200).send({usuario : usuario})
+                        }
+                    } else {
+                        res.json({status : 'No se pudo iniciar correctamente.'})
+                    }
+                });
+            } else {
+               res.json({status : 'Usuario invalido'})
+               console.log(res)
+            }
+        }
+    })
+};
 
 usuarioCtrl.getUsuario = async (req, res) => {
     const usuario = await Usuario.findById(req.params.id);
@@ -43,10 +73,11 @@ usuarioCtrl.editUsuario = (req, res) => {
         password: req.body.password,
         rol: req.body.rol
     }
-    bcrypt.hash(req.body.password, null, null, function(hash){
+
+    bcrypt.hash(req.body.password, null, null, async function(hash){
         usuario.password = hash;
 
-        Usuario.findByIdAndUpdate(id, {$set: usuario});
+        await Usuario.findByIdAndUpdate(id, {$set: usuario});
         res.json({ status : 'Usuario actualizado.'})
     }) 
 };

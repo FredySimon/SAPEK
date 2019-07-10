@@ -54,6 +54,7 @@ export class FamiliaComponent implements OnInit {
             console.log(res);
             this.btnClose.nativeElement.click();
             this.resetForm(form);
+            this.hijosArray = []
           })
         } else {
           this.toastr.error('Para crear familia se necesita mínimo a un hijo.')
@@ -68,6 +69,7 @@ export class FamiliaComponent implements OnInit {
               this.getFamilias();
               this.btnClose.nativeElement.click();
               this.resetForm(form);
+              this.hijosArray = []
           })
         } else {
           this.toastr.error('Para crear familia se necesita mínimo a un hijo.')
@@ -146,7 +148,7 @@ export class FamiliaComponent implements OnInit {
           this.toastr.error('Esta persona ya fué escogida.')
         } else {
           this.hijosArray.push(this.hijoInput)
-          this.familiaService.selectedFamilia.hijos.push(this.hijoInput)
+          this.familiaService.selectedFamilia.hijos = this.hijosArray
           this.toastr.success('Agregado')
           this.hijoInput = ""
           console.log(this.hijosArray)
