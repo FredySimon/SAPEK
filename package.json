@@ -15,7 +15,7 @@
     "morgan": "^1.9.1",
     "bcrypt-nodejs": "^0.0.3",
     "jwt-simple": "^0.5.5",
-    "moment": "^2.24.0"
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "nodemon": "^1.18.11"
